@@ -1,6 +1,4 @@
-import { CircleCheck } from "lucide-react";
 import { audit } from "@/content/home";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
 import { AuditForm } from "@/components/forms/AuditForm";
@@ -11,7 +9,7 @@ export function AuditSection() {
     <section
       id="audit"
       aria-labelledby="audit-title"
-      className="relative overflow-clip py-24 md:py-36"
+      className="relative overflow-clip py-28 md:py-40"
     >
       <div
         aria-hidden="true"
@@ -19,49 +17,37 @@ export function AuditSection() {
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-[15%] bottom-0 h-[70vh] w-[70vh] rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.08),transparent)]"
+        className="pointer-events-none absolute left-1/2 top-[20%] h-[70vh] w-[90vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.07),transparent)]"
       />
-      <div className="container-x relative grid gap-14 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-5">
-          <Eyebrow tone="aube">{audit.eyebrow}</Eyebrow>
+      <div className="container-x relative">
+        <header className="mx-auto max-w-3xl text-center">
           <SplitHeading
             id="audit-title"
             text={audit.title}
-            className="mt-6 text-headline font-medium text-ivory"
+            className="text-headline font-medium text-ivory"
           />
-          <Reveal as="p" className="mt-6 text-lead text-mist" delay={0.1}>
+          <Reveal as="p" className="mx-auto mt-6 max-w-xl text-lead text-mist" delay={0.1}>
             {audit.subtitle}
           </Reveal>
+        </header>
 
-          <Reveal className="mt-12" delay={0.15}>
-            <h3 className="eyebrow text-dim">{audit.stepsTitle}</h3>
-            <ol className="mt-6 space-y-6">
-              {audit.steps.map((step, index) => (
-                <li key={step.title} className="flex gap-4">
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-white/12 font-mono text-xs text-ivory">
-                    {index + 1}
-                  </span>
-                  <div>
-                    <p className="font-medium text-ivory">{step.title}</p>
-                    <p className="mt-1 text-[0.95rem] leading-relaxed text-mist">{step.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
+        <Reveal
+          as="ol"
+          stagger={0.08}
+          className="mx-auto mt-12 flex max-w-3xl flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8"
+        >
+          {audit.steps.map((step, index) => (
+            <li key={step} className="flex items-center gap-3 text-[0.95rem] text-ivory/90">
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-full border border-white/15 text-[0.8rem] tabular-nums text-ivory">
+                {index + 1}
+              </span>
+              {step}
+            </li>
+          ))}
+        </Reveal>
 
-          <Reveal as="ul" className="mt-10 space-y-2.5" stagger={0.06}>
-            {audit.assurances.map((item) => (
-              <li key={item} className="flex items-center gap-2.5 text-[0.95rem] text-ivory/90">
-                <CircleCheck className="size-4 text-aqua" strokeWidth={2} aria-hidden="true" />
-                {item}
-              </li>
-            ))}
-          </Reveal>
-        </div>
-
-        <Reveal className="lg:col-span-7" y={40}>
-          <div className="surface border-aube relative rounded-[var(--radius-stage)] p-6 sm:p-10">
+        <Reveal className="mx-auto mt-12 max-w-3xl" y={40}>
+          <div className="surface border-aube relative rounded-[var(--radius-stage)] p-6 text-left sm:p-10">
             <AuditForm idPrefix="audit" />
           </div>
         </Reveal>

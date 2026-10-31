@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Inter_Tight, Instrument_Serif } from "next/font/google";
 import { site } from "@/content/site";
 import { organizationJsonLd, websiteJsonLd, JsonLd } from "@/lib/seo";
 import { Providers } from "@/components/providers/Providers";
@@ -22,14 +22,6 @@ const serif = Instrument_Serif({
   style: "italic",
   variable: "--font-instrument-serif",
   display: "swap",
-});
-
-// Police des libellés techniques : non critique, non préchargée.
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -68,11 +60,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="fr"
-      className={`${sans.variable} ${serif.variable} ${mono.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="fr" className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionBootScript }} />
       </head>

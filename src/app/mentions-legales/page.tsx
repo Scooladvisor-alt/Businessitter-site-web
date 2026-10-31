@@ -19,7 +19,7 @@ export default function LegalNoticePage() {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "Mentions légales", path: "/mentions-legales" }])} />
-      <LegalPage eyebrow="Informations" title={fr("Mentions légales")} updated={info.lastUpdated}>
+      <LegalPage title={fr("Mentions légales")} updated={info.lastUpdated}>
         <LegalSection title={fr("Éditeur du site")}>
           <p>{fr(`Le site ${site.domain} est édité par :`)}</p>
           <dl>

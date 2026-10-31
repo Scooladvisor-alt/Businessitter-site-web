@@ -26,7 +26,6 @@ export default function PrivacyPage() {
         ])}
       />
       <LegalPage
-        eyebrow="Informations"
         title={fr("Politique de confidentialité")}
         updated={info.lastUpdated}
         intro={

@@ -184,15 +184,9 @@ export function Header() {
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         onClick={() => close()}
-                        className="group flex items-center justify-between py-4 text-[clamp(1.75rem,7vw,2.5rem)] font-medium tracking-[-0.035em] text-ivory"
+                        className="group flex items-center justify-center py-4 text-[clamp(1.75rem,7vw,2.5rem)] font-medium tracking-[-0.035em] text-ivory"
                       >
                         <span>{item.label}</span>
-                        <span
-                          aria-hidden="true"
-                          className="font-mono text-xs tracking-[0.14em] text-dim"
-                        >
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
                       </Link>
                     </m.li>
                   );
@@ -212,7 +206,7 @@ export function Header() {
                 >
                   {cta.primary}
                 </ButtonLink>
-                <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-dim">
+                <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-dim">
                   {legalNav.map((item) => (
                     <li key={item.href}>
                       <Link href={item.href} onClick={() => close()} className="hover:text-ivory">

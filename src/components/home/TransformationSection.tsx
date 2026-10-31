@@ -1,47 +1,81 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import {
-  Bot,
-  CalendarCheck,
+  BellRing,
+  CalendarClock,
   Check,
-  Hourglass,
+  FileText,
+  Handshake,
   Keyboard,
-  PhoneIncoming,
-  PhoneMissed,
-  Repeat2,
-  Send,
-  Undo2,
+  Lightbulb,
+  Mail,
+  Users,
+  Wrench,
   type LucideIcon,
 } from "lucide-react";
 import { transformation } from "@/content/home";
-import { gsap, MEDIA, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { gsap, MEDIA, useGSAP } from "@/lib/gsap";
 import { observeOnce } from "@/lib/observe";
 import { cn } from "@/lib/cn";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SplitHeading } from "@/components/motion/SplitHeading";
-import { Reveal } from "@/components/motion/Reveal";
 
-const BEFORE_ICONS: LucideIcon[] = [
-  PhoneIncoming,
-  PhoneMissed,
-  Undo2,
-  CalendarCheck,
-  Keyboard,
-  Send,
+type SegmentKey = keyof typeof transformation.labels;
+type Segment = { key: SegmentKey; repetitive: boolean; before: number; after: number };
+
+const ICONS: Record<SegmentKey, LucideIcon> = {
+  mail: Mail,
+  input: Keyboard,
+  followup: BellRing,
+  quote: FileText,
+  schedule: CalendarClock,
+  clients: Handshake,
+  field: Wrench,
+  projects: Lightbulb,
+  team: Users,
+};
+
+const R = 0.55; // largeur résiduelle d'une tâche répétitive prise en charge
+
+/** Une semaine type (illustrative) : proportions avant / après. */
+const WEEK: Segment[][] = [
+  [
+    { key: "mail", repetitive: true, before: 3, after: R },
+    { key: "clients", repetitive: false, before: 2, after: 4 },
+    { key: "input", repetitive: true, before: 2, after: R },
+    { key: "projects", repetitive: false, before: 1.5, after: 3.2 },
+  ],
+  [
+    { key: "quote", repetitive: true, before: 2.5, after: R },
+    { key: "field", repetitive: false, before: 3, after: 5.2 },
+    { key: "followup", repetitive: true, before: 1.5, after: R },
+  ],
+  [
+    { key: "clients", repetitive: false, before: 1.5, after: 3 },
+    { key: "schedule", repetitive: true, before: 2, after: R },
+    { key: "mail", repetitive: true, before: 2, after: R },
+    { key: "projects", repetitive: false, before: 2, after: 4.2 },
+  ],
+  [
+    { key: "input", repetitive: true, before: 3, after: R },
+    { key: "field", repetitive: false, before: 2.5, after: 4.6 },
+    { key: "quote", repetitive: true, before: 1.5, after: R },
+  ],
+  [
+    { key: "team", repetitive: false, before: 1.5, after: 2.6 },
+    { key: "followup", repetitive: true, before: 2, after: R },
+    { key: "clients", repetitive: false, before: 2, after: 4.2 },
+    { key: "mail", repetitive: true, before: 1.5, after: R },
+  ],
 ];
-const AFTER_ICONS: LucideIcon[] = [PhoneIncoming, Bot, CalendarCheck, Check, Repeat2, Send];
-/** Centre vertical des pastilles d'étape (taille 36 px). */
-const NODE_CENTER = 18;
 
-type LaneKind = "before" | "after";
-
+/**
+ * Séquence 5 — La transformation. Une semaine de travail : au défilement,
+ * les tâches répétitives se réduisent (prises en charge) et le temps
+ * consacré à l'essentiel s'élargit. Illustration sans chiffres.
+ */
 export function TransformationSection() {
   const root = useRef<HTMLElement>(null);
-  const [view, setView] = useState<LaneKind>("before");
-  const toggleId = useId();
-  const interacted = useRef(false);
-  const autoAdvance = useRef<() => void>(() => {});
 
   useGSAP(
     () => {
@@ -49,176 +83,46 @@ export function TransformationSection() {
       if (!section) return;
       const mm = gsap.matchMedia();
 
-      // — Ordinateur : les deux parcours avancent ensemble au défilement —
-      mm.add({ desktop: MEDIA.desktop, motion: MEDIA.motion }, (context) => {
-        const { desktop, motion } = context.conditions as { desktop: boolean; motion: boolean };
-        if (!desktop || !motion) return;
+      mm.add(MEDIA.motion, (context) => {
         const q = gsap.utils.selector(section);
-        const track = q("[data-compare-track]")[0] as HTMLElement | undefined;
-        if (!track) return;
-        // La hauteur de défilement est réservée en CSS (html.motion) ; la
-        // timeline n'est construite qu'à l'approche de la séquence.
-        const setup = context.add("setupDesktop", () => {
-          const before = q('[data-lane="before"] [data-step]');
-          const after = q('[data-lane="after"] [data-step]');
-          const waits = q("[data-wait]");
+        const board = q("[data-week]")[0] as HTMLElement | undefined;
+        if (!board) return;
+        const segments = q("[data-seg]") as HTMLElement[];
+        const before = (el: Element) => Number((el as HTMLElement).dataset.before ?? 1);
+        const after = (el: Element) => Number((el as HTMLElement).dataset.after ?? 1);
 
+        // État « avant », posé explicitement.
+        segments.forEach((segment) => gsap.set(segment, { flexGrow: before(segment) }));
+        gsap.set(q("[data-warm]"), { opacity: 1 });
+        gsap.set(q("[data-cool]"), { opacity: 0 });
+        gsap.set(q("[data-rep-label]"), { opacity: 1 });
+        gsap.set(q("[data-check]"), { opacity: 0, scale: 0.6 });
+        gsap.set(q("[data-val-glow]"), { opacity: 0.4 });
+
+        const setup = context.add("setupWeek", () => {
           const tl = gsap.timeline({
-            defaults: { ease: "power2.out" },
-            scrollTrigger: {
-              trigger: track,
-              start: "top top",
-              end: "bottom bottom",
-              scrub: 0.7,
-            },
+            defaults: { ease: "none" },
+            scrollTrigger: { trigger: board, start: "top 82%", end: "center 42%", scrub: 0.6 },
           });
-
-          // Parcours assisté : fluide et continu.
-          const segments = q('[data-lane="after"] [data-seg]');
-          const orb = q("[data-after-orb]");
-          tl.fromTo(
-            q("[data-after-bar]"),
-            { scaleX: 0 },
-            { scaleX: 1, duration: 4.6, ease: "none" },
-            0.2,
-          ).fromTo(orb, { y: 0, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 0.2);
-          after.forEach((step, i) => {
-            const at = 0.2 + i * 0.86;
-            tl.fromTo(step, { opacity: 0.12, x: 16 }, { opacity: 1, x: 0, duration: 0.5 }, at);
-            const node = step.querySelector("[data-node]");
-            if (node)
-              tl.fromTo(
-                node,
-                { scale: 0.6 },
-                { scale: 1, duration: 0.4, ease: "back.out(2.2)" },
-                at + 0.05,
-              );
-            const segment = segments[i];
-            if (segment) {
-              tl.fromTo(segment, { scaleY: 0 }, { scaleY: 1, duration: 0.86, ease: "none" }, at).to(
-                orb,
-                {
-                  y: () => (after[i + 1] as HTMLElement | undefined)?.offsetTop ?? 0,
-                  duration: 0.86,
-                  ease: "none",
-                },
-                at,
-              );
-            }
+          q("[data-row]").forEach((row, index) => {
+            const at = index * 0.06;
+            const rowSegments = gsap.utils.toArray<HTMLElement>("[data-seg]", row);
+            rowSegments.forEach((segment) =>
+              tl.to(segment, { flexGrow: after(segment), duration: 1, ease: "power2.inOut" }, at),
+            );
+            tl.to(row.querySelectorAll("[data-rep-label]"), { opacity: 0, duration: 0.35 }, at)
+              .to(row.querySelectorAll("[data-warm]"), { opacity: 0, duration: 0.7 }, at + 0.25)
+              .to(row.querySelectorAll("[data-cool]"), { opacity: 1, duration: 0.7 }, at + 0.25)
+              .to(
+                row.querySelectorAll("[data-check]"),
+                { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" },
+                at + 0.65,
+              )
+              .to(row.querySelectorAll("[data-val-glow]"), { opacity: 1, duration: 0.8 }, at + 0.2);
           });
-          tl.fromTo(
-            q('[data-summary="after"]'),
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.6 },
-            4.8,
-          ).fromTo(q("[data-after-glow]"), { opacity: 0 }, { opacity: 1, duration: 1 }, 4.6);
-
-          // Parcours actuel : attentes, retours en arrière, ressaisies.
-          tl.fromTo(
-            q("[data-before-bar]"),
-            { scaleX: 0 },
-            { scaleX: 1, duration: 7.4, ease: "none" },
-            0.2,
-          );
-          before.forEach((step, i) => {
-            const at = 0.2 + i * 1.3;
-            const wait = waits[i - 1];
-            if (wait) tl.fromTo(wait, { opacity: 0 }, { opacity: 1, duration: 0.35 }, at - 0.55);
-            tl.fromTo(step, { opacity: 0.12, x: -16 }, { opacity: 1, x: 0, duration: 0.5 }, at);
-            if (i === 1) {
-              tl.to(
-                step,
-                { keyframes: { x: [0, -6, 6, -4, 3, 0] }, duration: 0.6, ease: "none" },
-                at + 0.5,
-              );
-            }
-          });
-          tl.fromTo(
-            q("[data-loop]"),
-            { strokeDashoffset: 1 },
-            { strokeDashoffset: 0, duration: 0.8 },
-            0.2 + 2 * 1.3 + 0.3,
-          )
-            .fromTo(
-              q('[data-summary="before"]'),
-              { opacity: 0, y: 16 },
-              { opacity: 1, y: 0, duration: 0.6 },
-              7.5,
-            )
-            .to({}, { duration: 0.6 });
-          const progress = tl.scrollTrigger?.progress ?? 0;
-          tl.progress(1, true).progress(progress, true);
         }) as () => void;
-        const stop = observeOnce(track, setup, "0px 0px 100% 0px");
-        return () => stop();
-      });
 
-      // — Mobile : chaque parcours se déroule lorsqu'il est affiché —
-      mm.add({ mobile: MEDIA.mobile, motion: MEDIA.motion }, (context) => {
-        const { mobile, motion } = context.conditions as { mobile: boolean; motion: boolean };
-        if (!mobile || !motion) return;
-        const compare = section.querySelector("[data-compare]");
-        if (!compare) return;
-        const setup = context.add("setupMobile", () =>
-          (["before", "after"] as const).forEach((kind) => {
-            const lane = section.querySelector<HTMLElement>(`[data-lane="${kind}"]`);
-            if (!lane) return;
-            const q = gsap.utils.selector(lane);
-            const tl = gsap.timeline({
-              paused: true,
-              onComplete: () => {
-                // Après « Aujourd'hui », la version assistée s'affiche d'elle-même.
-                if (kind === "before") gsap.delayedCall(1.4, () => autoAdvance.current());
-              },
-            });
-            tl.fromTo(
-              q("[data-step]"),
-              { opacity: 0, x: kind === "before" ? -14 : 14 },
-              {
-                opacity: 1,
-                x: 0,
-                duration: 0.5,
-                stagger: kind === "before" ? 0.55 : 0.3,
-              },
-            );
-            if (kind === "before") {
-              tl.fromTo(
-                q("[data-wait]"),
-                { opacity: 0 },
-                { opacity: 1, duration: 0.3, stagger: 0.55 },
-                0.2,
-              ).fromTo(
-                q("[data-loop]"),
-                { strokeDashoffset: 1 },
-                { strokeDashoffset: 0, duration: 0.6 },
-                1.2,
-              );
-            } else {
-              tl.fromTo(
-                q("[data-seg]"),
-                { scaleY: 0 },
-                { scaleY: 1, duration: 0.3, stagger: 0.3, ease: "none" },
-                0.15,
-              );
-            }
-            tl.fromTo(
-              q("[data-summary]"),
-              { opacity: 0, y: 12 },
-              { opacity: 1, y: 0, duration: 0.5 },
-              ">-0.1",
-            );
-            lane.addEventListener("lane:show", () => tl.restart());
-            if (kind === "before") {
-              ScrollTrigger.create({
-                trigger: compare,
-                start: "top 70%",
-                once: true,
-                onEnter: () => tl.play(0),
-              });
-            }
-          }),
-        ) as () => void;
-        return observeOnce(compare, setup, "0px 0px 100% 0px");
+        return observeOnce(board, setup, "0px 0px 100% 0px");
       });
 
       return () => mm.revert();
@@ -226,286 +130,117 @@ export function TransformationSection() {
     { scope: root },
   );
 
-  const select = (kind: LaneKind, byUser = true) => {
-    if (byUser) interacted.current = true;
-    setView(kind);
-    const lane = root.current?.querySelector(`[data-lane="${kind}"]`);
-    window.requestAnimationFrame(() => lane?.dispatchEvent(new Event("lane:show")));
-  };
-
-  useEffect(() => {
-    autoAdvance.current = () => {
-      if (!interacted.current) select("after", false);
-    };
-  });
+  const labels = transformation.labels;
 
   return (
     <section
       ref={root}
       id="transformation"
       aria-labelledby="transformation-title"
-      className="relative py-24 md:pt-36 lg:pb-0"
+      className="relative py-28 md:py-40"
     >
       <div className="container-x">
-        <header className="max-w-4xl">
-          <Eyebrow tone="aube">{transformation.eyebrow}</Eyebrow>
+        <header className="mx-auto max-w-3xl text-center">
           <SplitHeading
             id="transformation-title"
             text={transformation.title}
-            className="mt-6 text-headline font-medium text-ivory"
+            className="text-headline font-medium text-ivory"
           />
-          <Reveal as="p" className="mt-6 max-w-2xl text-lead text-mist" delay={0.15}>
-            {transformation.subtitle}
-          </Reveal>
         </header>
-      </div>
 
-      <div data-compare-track className="relative">
         <div
-          data-compare
-          className="relative lg:flex lg:h-[100svh] lg:items-center lg:pt-[var(--header-height)]"
+          data-week
+          className="surface relative mx-auto mt-14 max-w-5xl rounded-[var(--radius-stage)] p-4 sm:p-8 md:mt-20"
         >
-          <div className="container-x">
-            <div
-              role="group"
-              aria-label={transformation.tabsLabel}
-              className="mt-10 grid grid-cols-2 gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1 lg:hidden"
-            >
-              {(["before", "after"] as const).map((kind) => (
-                <button
-                  key={kind}
-                  type="button"
-                  aria-pressed={view === kind}
-                  aria-controls={`${toggleId}-${kind}`}
-                  onClick={() => select(kind)}
-                  className={cn(
-                    "min-h-11 rounded-full px-4 text-sm font-medium transition-colors duration-300",
-                    view === kind
-                      ? kind === "after"
-                        ? "bg-ivory text-ink-950"
-                        : "bg-ember/90 text-ink-950"
-                      : "text-mist hover:text-ivory",
-                  )}
-                >
-                  {transformation[kind].label}
-                </button>
-              ))}
-            </div>
+          <p className="sr-only">{transformation.description}</p>
+          <ol aria-hidden="true" className="space-y-2 sm:space-y-3">
+            {WEEK.map((row, rowIndex) => (
+              <li key={rowIndex} data-row className="flex items-center gap-2.5 sm:gap-4">
+                <span className="w-8 shrink-0 text-right text-[0.78rem] text-dim sm:w-10 sm:text-[0.85rem]">
+                  {transformation.days[rowIndex]}
+                </span>
+                <div className="flex h-11 min-w-0 flex-1 gap-1.5 sm:h-14 sm:gap-2">
+                  {row.map((segment, index) => {
+                    const Icon = ICONS[segment.key];
+                    return (
+                      <div
+                        key={`${segment.key}-${index}`}
+                        data-seg
+                        data-before={segment.before}
+                        data-after={segment.after}
+                        style={{ flexGrow: segment.after, flexBasis: 0 }}
+                        className={cn(
+                          "relative flex min-w-0 items-center justify-center overflow-hidden rounded-xl border",
+                          segment.repetitive ? "border-white/10" : "border-white/12",
+                        )}
+                      >
+                        {segment.repetitive ? (
+                          <>
+                            <span
+                              data-warm
+                              className="absolute inset-0 bg-ember/[0.13] opacity-0 shadow-[inset_0_0_0_1px_rgb(255_143_104/0.3)]"
+                            />
+                            <span
+                              data-cool
+                              className="absolute inset-0 bg-aqua/[0.12] shadow-[inset_0_0_0_1px_rgb(132_228_217/0.35)]"
+                            />
+                            <span
+                              data-rep-label
+                              className="relative flex min-w-0 items-center gap-2 px-2 text-[0.8rem] text-amber opacity-0"
+                            >
+                              <Icon className="size-3.5 shrink-0" strokeWidth={1.8} />
+                              <span className="hidden truncate sm:inline">
+                                {labels[segment.key]}
+                              </span>
+                            </span>
+                            <span
+                              data-check
+                              className="absolute inset-0 flex items-center justify-center text-aqua"
+                            >
+                              <Check className="size-3.5" strokeWidth={2.4} />
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <span
+                              data-val-glow
+                              className="absolute inset-0 bg-[linear-gradient(120deg,rgb(255_255_255/0.08),rgb(255_255_255/0.03))]"
+                            />
+                            <span className="relative flex min-w-0 items-center gap-2 px-2 text-[0.82rem] text-ivory">
+                              <Icon className="size-3.5 shrink-0" strokeWidth={1.8} />
+                              <span className="hidden truncate sm:inline">
+                                {labels[segment.key]}
+                              </span>
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </li>
+            ))}
+          </ol>
 
-            <div className="surface relative mt-6 overflow-hidden rounded-[var(--radius-stage)] lg:mt-0 lg:grid lg:grid-cols-2">
-              <div
-                data-after-glow
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-20 top-1/2 hidden h-[120%] w-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(134_230_218/0.12),transparent)] lg:block"
-              />
-              <Lane kind="before" id={`${toggleId}-before`} hidden={view !== "before"} />
-              <Lane kind="after" id={`${toggleId}-after`} hidden={view !== "after"} />
-            </div>
-
-            <p className="mt-5 text-center text-sm text-dim">{transformation.note}</p>
-          </div>
+          <ul
+            aria-hidden="true"
+            className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[0.82rem] text-mist sm:mt-8"
+          >
+            <li className="flex items-center gap-2">
+              <span className="size-2.5 rounded-sm bg-ember/50" />
+              {transformation.legend.repetitive}
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="size-2.5 rounded-sm bg-aqua/60" />
+              {transformation.legend.automated}
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="size-2.5 rounded-sm bg-ivory/40" />
+              {transformation.legend.valuable}
+            </li>
+          </ul>
         </div>
       </div>
     </section>
-  );
-}
-
-function Lane({ kind, id, hidden }: { kind: LaneKind; id: string; hidden: boolean }) {
-  const lane = transformation[kind];
-  const before = kind === "before";
-  const titleId = `${id}-title`;
-
-  return (
-    <div
-      id={id}
-      data-lane={kind}
-      role="group"
-      aria-labelledby={titleId}
-      className={cn(
-        "relative p-5 sm:p-8 lg:block lg:p-10",
-        before ? "lg:border-r lg:border-white/[0.07]" : "",
-        hidden ? "max-lg:hidden" : "",
-      )}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3
-            id={titleId}
-            className={cn(
-              "text-[1.35rem] font-medium tracking-[-0.025em]",
-              before ? "text-ivory" : "text-ivory",
-            )}
-          >
-            {lane.label}
-          </h3>
-          <p
-            className={cn(
-              "mt-1 font-mono text-[0.7rem] uppercase tracking-[0.14em]",
-              before ? "text-ember" : "text-aqua",
-            )}
-          >
-            {lane.caption}
-          </p>
-        </div>
-        <span
-          aria-hidden="true"
-          className="mt-2 hidden h-1 w-24 overflow-hidden rounded-full bg-white/[0.07] lg:block"
-        >
-          <span
-            data-before-bar={before ? "" : undefined}
-            data-after-bar={before ? undefined : ""}
-            className={cn(
-              "block h-full origin-left rounded-full",
-              before ? "bg-ember/80" : "bg-[linear-gradient(90deg,#ffc88f,#86e6da)]",
-            )}
-          />
-        </span>
-      </div>
-
-      <LaneSteps kind={kind} />
-
-      <p
-        data-summary={kind}
-        className={cn(
-          "mt-6 rounded-2xl border px-4 py-3 text-[0.9rem] leading-relaxed",
-          before
-            ? "border-ember/20 bg-ember/[0.06] text-mist"
-            : "border-aqua/25 bg-aqua/[0.07] text-ivory",
-        )}
-      >
-        {lane.summary}
-      </p>
-    </div>
-  );
-}
-
-function LaneSteps({ kind }: { kind: LaneKind }) {
-  const lane = transformation[kind];
-  const before = kind === "before";
-  const icons = before ? BEFORE_ICONS : AFTER_ICONS;
-  const listRef = useRef<HTMLOListElement>(null);
-  const loopRef = useRef<SVGSVGElement>(null);
-
-  // Boucle « le client rappelle » : de l'étape 3 vers l'étape 1.
-  useLayoutEffect(() => {
-    if (!before) return;
-    const list = listRef.current;
-    const loop = loopRef.current;
-    if (!list || !loop) return;
-    const place = () => {
-      const items = list.querySelectorAll<HTMLElement>("[data-step]");
-      const first = items[0];
-      const third = items[2];
-      if (!first || !third) return;
-      loop.style.top = `${first.offsetTop + NODE_CENTER}px`;
-      loop.style.height = `${third.offsetTop - first.offsetTop}px`;
-    };
-    place();
-    const observer = new ResizeObserver(place);
-    observer.observe(list);
-    return () => observer.disconnect();
-  }, [before]);
-
-  return (
-    <div className="relative mt-8">
-      {!before ? (
-        <span
-          data-after-orb
-          aria-hidden="true"
-          className="absolute left-[13px] z-20 hidden size-[9px] rounded-full bg-ivory shadow-[0_0_16px_5px_rgb(134_230_218/0.75)] lg:block"
-          style={{ top: NODE_CENTER - 4.5 }}
-        />
-      ) : (
-        <svg
-          ref={loopRef}
-          aria-hidden="true"
-          className="pointer-events-none absolute -left-7 hidden w-6 overflow-visible text-ember/70 sm:block"
-          viewBox="0 0 40 100"
-          preserveAspectRatio="none"
-        >
-          <path
-            data-loop
-            d="M40 100 C 0 100, 0 0, 40 0"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.4"
-            strokeDasharray="1"
-            pathLength={1}
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-      )}
-
-      <ol ref={listRef} className="relative">
-        {lane.steps.map((step, i) => {
-          const Icon = icons[i] ?? Check;
-          const friction = before && step.tag;
-          const last = i === lane.steps.length - 1;
-          return (
-            <li
-              key={step.text}
-              data-step
-              className="relative flex items-start gap-4 pb-6 pr-12 last:pb-0"
-            >
-              {!last ? (
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    "absolute left-[17px] top-[18px] h-full w-px",
-                    before ? "border-l border-dashed border-white/15" : "bg-white/[0.08]",
-                  )}
-                >
-                  {!before ? (
-                    <span
-                      data-seg
-                      className="absolute inset-0 origin-top bg-[linear-gradient(to_bottom,#ffc88f,#86e6da)] shadow-[0_0_12px_1px_rgb(134_230_218/0.6)]"
-                    />
-                  ) : null}
-                </span>
-              ) : null}
-              {before && i > 0 ? (
-                <span
-                  data-wait
-                  aria-hidden="true"
-                  className="absolute -top-4 left-[28px] flex size-5 items-center justify-center text-dim"
-                >
-                  <Hourglass className="size-3" aria-hidden="true" />
-                </span>
-              ) : null}
-              <span
-                data-node
-                className={cn(
-                  "relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full border",
-                  before
-                    ? friction
-                      ? "border-ember/40 bg-ink-900 text-ember"
-                      : "border-white/15 bg-ink-900 text-mist"
-                    : "border-aqua/45 bg-ink-900 text-aqua",
-                )}
-              >
-                <Icon className="size-4" strokeWidth={1.8} aria-hidden="true" />
-              </span>
-              <div className="min-w-0 pt-1.5">
-                <p className="text-[0.98rem] leading-snug text-ivory">{step.text}</p>
-                {step.tag ? (
-                  <span
-                    className={cn(
-                      "mt-1.5 inline-flex rounded-full border px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em]",
-                      before
-                        ? i <= 2
-                          ? "border-ember/35 bg-ember/10 text-ember"
-                          : "border-amber/30 bg-amber/10 text-amber"
-                        : "border-aqua/30 bg-aqua/10 text-aqua",
-                    )}
-                  >
-                    {step.tag}
-                  </span>
-                ) : null}
-              </div>
-            </li>
-          );
-        })}
-      </ol>
-    </div>
   );
 }

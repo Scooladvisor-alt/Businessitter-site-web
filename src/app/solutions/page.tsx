@@ -62,16 +62,16 @@ export default function SolutionsPage() {
       <JsonLd
         data={[breadcrumbJsonLd([{ name: "Solutions", path: "/solutions" }]), servicesJsonLd]}
       />
-      <PageHero id="solutions" eyebrow={page.eyebrow} title={page.title} lead={page.lead} />
+      <PageHero id="solutions" title={page.title} lead={page.lead} />
 
       <section aria-labelledby="domaines-title" className="relative py-12 md:py-20">
         <div className="container-x">
           <SplitHeading
             id="domaines-title"
             text={page.domainsTitle}
-            className="max-w-3xl text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
+            className="mx-auto max-w-3xl text-center text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
           />
-          <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mx-auto mt-12 grid max-w-6xl gap-4 md:grid-cols-2 lg:grid-cols-3">
             {page.domains.map((domain, index) => {
               const Icon = ICONS[domain.icon] ?? Sparkles;
               return (
@@ -95,7 +95,7 @@ export default function SolutionsPage() {
                     {domain.title}
                   </h3>
                   <p className="mt-3 text-[0.97rem] leading-relaxed text-mist">{domain.text}</p>
-                  <p className="eyebrow mt-7 text-dim">{page.examplesLabel}</p>
+                  <p className="mt-7 text-[0.85rem] font-medium text-dim">{page.examplesLabel}</p>
                   <ul className="mt-4 space-y-2.5">
                     {domain.examples.map((example) => (
                       <li
@@ -116,14 +116,14 @@ export default function SolutionsPage() {
             })}
           </ul>
 
-          <Reveal className="surface border-aube relative mt-6 flex flex-col gap-6 overflow-hidden rounded-[var(--radius-panel)] p-7 sm:flex-row sm:items-center sm:justify-between">
+          <Reveal className="surface border-aube relative mx-auto mt-6 flex max-w-6xl flex-col items-center gap-6 overflow-hidden rounded-[var(--radius-panel)] p-7 text-center">
             <div className="max-w-2xl">
-              <p className="eyebrow text-amber">{page.showcase.label}</p>
+              <p className="text-[0.95rem] font-medium text-amber">{page.showcase.label}</p>
               <p className="mt-3 text-[1.02rem] leading-relaxed text-ivory/90">
                 {page.showcase.text}
               </p>
             </div>
-            <div className="flex shrink-0 flex-wrap gap-3">
+            <div className="flex shrink-0 flex-wrap justify-center gap-3">
               <ButtonLink href="/#realisation" variant="secondary" size="sm" arrow={false}>
                 SuperCalendar
               </ButtonLink>
@@ -136,22 +136,26 @@ export default function SolutionsPage() {
       </section>
 
       <section aria-labelledby="audience-title" className="relative py-16 md:py-24">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+        <div className="container-x">
+          <div className="mx-auto max-w-3xl text-center">
             <SplitHeading
               id="audience-title"
               text={page.audienceTitle}
               className="text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
             />
-            <Reveal as="p" className="mt-6 text-lead text-mist">
+            <Reveal as="p" className="mx-auto mt-6 max-w-xl text-lead text-mist">
               {page.audienceLead}
             </Reveal>
           </div>
-          <Reveal as="ul" stagger={0.08} className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
+          <Reveal
+            as="ul"
+            stagger={0.08}
+            className="mx-auto mt-12 grid max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {page.audiences.map((audience) => (
               <li
                 key={audience.title}
-                className="rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.02] p-6"
+                className="rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.02] p-6 text-center"
               >
                 <h3 className="text-[1.15rem] font-medium tracking-[-0.02em] text-ivory">
                   {audience.title}
@@ -168,26 +172,23 @@ export default function SolutionsPage() {
           <SplitHeading
             id="criteres-title"
             text={page.criteriaTitle}
-            className="max-w-3xl text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
+            className="mx-auto max-w-3xl text-center text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
           />
           <Reveal
             as="ol"
             stagger={0.08}
-            className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2 lg:grid-cols-4"
+            className="mx-auto mt-12 grid max-w-6xl gap-px overflow-hidden rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2 lg:grid-cols-4"
           >
-            {page.criteria.map((criterion, index) => (
-              <li key={criterion.title} className="bg-ink-950 p-7">
-                <span className="font-mono text-xs text-dim">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-5 text-[1.4rem] font-medium tracking-[-0.025em] text-ivory">
+            {page.criteria.map((criterion) => (
+              <li key={criterion.title} className="bg-ink-950 p-7 text-center">
+                <h3 className="text-[1.4rem] font-medium tracking-[-0.025em] text-ivory">
                   {criterion.title}
                 </h3>
                 <p className="mt-2 text-[0.97rem] leading-relaxed text-mist">{criterion.text}</p>
               </li>
             ))}
           </Reveal>
-          <p className="mt-8 text-sm text-dim">
+          <p className="mt-8 text-center text-sm text-dim">
             <Link
               href="/approche"
               className="inline-flex items-center gap-1.5 underline decoration-white/20 underline-offset-4 hover:text-ivory"

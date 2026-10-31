@@ -8,9 +8,8 @@ export const approachPage = frDeep({
     description:
       "Comprendre, identifier, recommander, construire : découvrez la démarche Businessister pour intégrer l'intelligence artificielle dans votre entreprise, à partir d'un audit gratuit et sans engagement.",
   },
-  eyebrow: "Notre approche",
-  title: "Comprendre avant de *construire*.",
-  lead: "Une solution d'intelligence artificielle n'a de valeur que si elle répond à un vrai besoin. C'est pourquoi notre démarche commence toujours par un audit gratuit de votre entreprise.",
+  title: "Comprendre avant de construire.",
+  lead: "Une solution d'intelligence artificielle n'a de valeur que si elle répond à un vrai besoin. Tout commence donc par un audit gratuit.",
   principlesTitle: "Ce qui guide notre travail",
   principles: [
     {
@@ -120,7 +119,7 @@ export const approachPage = frDeep({
     },
   ],
   cta: {
-    title: "Commençons par *comprendre* votre entreprise.",
+    title: "Commençons par comprendre votre entreprise.",
     text: "Un premier échange, gratuit et sans engagement, pour identifier ce qui pourrait réellement changer.",
     secondary: "Découvrir nos solutions",
   },
@@ -132,9 +131,8 @@ export const solutionsPage = frDeep({
     description:
       "Agents IA, agents téléphoniques et conversationnels, automatisation des processus, intégration de l'IA à vos logiciels et outils sur mesure : les domaines d'intervention de Businessister.",
   },
-  eyebrow: "Solutions",
-  title: "Des solutions pensées pour votre entreprise, *pas l'inverse*.",
-  lead: "Nous ne vendons pas de produits figés. Voici les grands domaines dans lesquels nous intervenons, et quelques exemples de ce qu'il est possible d'imaginer. Chaque solution est conçue à partir de votre situation réelle.",
+  title: "Des solutions pensées pour votre entreprise. Pas l'inverse.",
+  lead: "Pas de produits figés : des domaines d'intervention, et des solutions conçues à partir de votre situation réelle.",
   domainsTitle: "Nos domaines d'intervention",
   examplesLabel: "Exemples d'applications",
   domains: [
@@ -238,7 +236,7 @@ export const solutionsPage = frDeep({
     { title: "Maîtrisée", text: "Vous gardez la main sur les décisions importantes." },
   ],
   cta: {
-    title: "Une idée, une difficulté, une tâche qui vous pèse ? *Parlons-en.*",
+    title: "Une idée, une difficulté, une tâche qui vous pèse ? Parlons-en.",
     text: "L'audit gratuit nous permet d'étudier ensemble ce que la technologie peut réellement changer pour vous.",
     secondary: "Découvrir notre approche",
   },
@@ -250,12 +248,12 @@ export const contactPage = frDeep({
     description:
       "Demandez votre audit gratuit et sans engagement : un premier échange pour comprendre vos besoins, identifier des opportunités et envisager des solutions d'IA concrètes.",
   },
-  eyebrow: "Contact",
-  title: "Parlons de votre *entreprise*.",
-  lead: "Un premier échange pour comprendre vos besoins, identifier des opportunités et envisager des solutions concrètes. Gratuitement et sans engagement.",
+  title: "Parlons de votre entreprise.",
+  lead: "Un premier échange, gratuit et sans engagement, pour comprendre vos besoins et envisager des solutions concrètes.",
   formTitle: "Demande d'audit gratuit",
   directTitle: "Nous écrire directement",
   nextTitle: "Après votre demande",
+  assurances: ["Gratuit et sans engagement", "Aucune obligation de donner suite"],
   next: [
     "Nous prenons connaissance de votre demande et revenons vers vous pour convenir d'un premier échange.",
     "Nous échangeons sur votre activité, vos outils et les tâches que vous aimeriez simplifier.",
@@ -264,7 +262,7 @@ export const contactPage = frDeep({
 });
 
 export const notFoundPage = frDeep({
-  title: "Cette page s'est *égarée*.",
+  title: "Cette page s'est égarée.",
   text: "La page que vous cherchez n'existe pas ou a été déplacée. Reprenons depuis un point connu.",
   home: "Retour à l'accueil",
 });

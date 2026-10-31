@@ -9,10 +9,9 @@ import { RichText } from "@/components/ui/RichText";
 import { SystemPoster } from "@/components/system/SystemPoster";
 
 /**
- * Séquence 1 — Hero cinématique.
- * Le titre est animé en CSS dès le premier rendu (LCP préservé) ;
- * au défilement, le contenu s'efface pendant que le système 3D se
- * transforme : des connexions se créent, des flux s'organisent.
+ * Séquence 1 — Ouverture. Titre centré sur le système 3D ; au défilement,
+ * le texte s'efface pendant que des connexions se créent et que des flux
+ * s'organisent. Le titre est animé en CSS dès le premier rendu.
  */
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -30,9 +29,9 @@ export function Hero() {
             scrub: 0.6,
           },
         });
-        tl.to("[data-hero-cue]", { autoAlpha: 0, duration: 0.08 }, 0)
-          .to("[data-hero-content]", { y: -70, autoAlpha: 0.08, duration: 0.32 }, 0.04)
-          .to("[data-hero-glow]", { scale: 1.25, autoAlpha: 0.35, duration: 0.6 }, 0);
+        tl.to("[data-hero-cue]", { opacity: 0, duration: 0.08 }, 0)
+          .to("[data-hero-content]", { y: -60, scale: 0.96, opacity: 0.06, duration: 0.34 }, 0.04)
+          .to("[data-hero-veil]", { opacity: 0.4, duration: 0.34 }, 0.04);
       });
       return () => mm.revert();
     },
@@ -46,46 +45,34 @@ export function Hero() {
       aria-labelledby="hero-title"
       className="relative h-[100svh] motion-safe:h-[150svh]"
     >
-      <div className="sticky top-0 isolate flex h-[100svh] flex-col overflow-clip">
+      <div className="sticky top-0 isolate flex h-[100svh] items-center justify-center overflow-clip">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 mask-fade-b">
-          <div
-            data-hero-glow
-            className="absolute -left-[20%] -top-[30%] h-[80vh] w-[80vh] rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.13),transparent)]"
-          />
-          <div
-            data-hero-glow
-            className="absolute -bottom-[35%] -right-[15%] h-[90vh] w-[90vh] rounded-full bg-[radial-gradient(closest-side,rgb(134_230_218/0.09),transparent)]"
-          />
-          <div className="bg-grid absolute inset-0 opacity-50 mask-radial" />
+          <div className="absolute left-1/2 top-[-38%] h-[85vh] w-[85vh] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.12),transparent)]" />
+          <div className="absolute bottom-[-45%] left-1/2 h-[90vh] w-[130vh] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(134_230_218/0.08),transparent)]" />
         </div>
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 flex items-end justify-center pb-[6svh] md:items-center md:justify-end md:pb-0 md:pr-[2vw]"
+          className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
         >
           <SystemPoster
             variant="chaos"
             idSuffix="hero"
-            className="h-[48svh] w-auto max-w-none opacity-70 md:h-[78vh] md:translate-x-[6%] md:opacity-90"
+            className="h-[64svh] w-auto max-w-none opacity-60 md:h-[86vh]"
           />
         </div>
 
         <div
-          data-hero-content
-          className="container-x relative flex flex-1 flex-col justify-center pb-24 pt-[calc(var(--header-height)+2.5rem)] md:pb-20"
-        >
-          <p
-            className="hero-fade eyebrow inline-flex items-center gap-3 text-mist"
-            style={{ "--i": 0 } as React.CSSProperties}
-          >
-            <span className="relative flex size-2">
-              <span className="absolute inset-0 animate-ring rounded-full bg-aqua/60" />
-              <span className="relative size-2 rounded-full bg-aqua" />
-            </span>
-            {hero.eyebrow}
-          </p>
+          data-hero-veil
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_50%_42%_at_center,rgb(5_6_10/0.78),transparent)]"
+        />
 
-          <h1 id="hero-title" className="mt-7 max-w-[17ch] text-display font-medium text-ivory">
+        <div
+          data-hero-content
+          className="container-x relative flex flex-col items-center pt-[var(--header-height)] text-center"
+        >
+          <h1 id="hero-title" className="max-w-[17ch] text-display font-medium text-ivory">
             {hero.titleLines.map((line, index) => (
               <span key={line} className="hero-line">
                 <span style={{ "--i": index } as React.CSSProperties}>
@@ -96,50 +83,39 @@ export function Hero() {
           </h1>
 
           <p
-            className="hero-fade mt-7 max-w-[36rem] text-lead text-mist md:mt-9"
+            className="hero-fade mt-7 max-w-[32rem] text-lead text-mist md:mt-9"
             style={{ "--i": 3 } as React.CSSProperties}
           >
             {hero.subtitle}
           </p>
 
           <div
-            className="hero-fade mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-11"
+            className="hero-fade mt-9 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row md:mt-11"
             style={{ "--i": 4 } as React.CSSProperties}
           >
-            <ButtonLink href="#audit" size="lg">
+            <ButtonLink href="#audit" size="lg" className="w-full sm:w-auto">
               {cta.primary}
             </ButtonLink>
-            <ButtonLink href="#approche" variant="secondary" size="lg" arrow={false}>
+            <ButtonLink
+              href="#approche"
+              variant="secondary"
+              size="lg"
+              arrow={false}
+              className="w-full sm:w-auto"
+            >
               {cta.secondary}
             </ButtonLink>
           </div>
-
-          <ul
-            aria-label="Domaines d'intervention"
-            className="hero-fade mt-12 hidden flex-wrap gap-x-6 gap-y-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-dim sm:flex md:mt-16"
-            style={{ "--i": 5 } as React.CSSProperties}
-          >
-            {hero.capabilities.map((item) => (
-              <li key={item} className="flex items-center gap-2">
-                <span aria-hidden="true" className="size-1 rounded-full bg-amber/80" />
-                {item}
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div
           data-hero-cue
           aria-hidden="true"
-          className="absolute bottom-8 right-[clamp(1.25rem,4.2vw,3rem)] hidden md:block"
+          className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 md:block"
         >
-          <div
-            className="hero-fade flex flex-col items-end gap-3"
-            style={{ "--i": 6 } as React.CSSProperties}
-          >
-            <span className="eyebrow text-dim">{hero.scrollCue}</span>
-            <span className="relative block h-10 w-px overflow-hidden bg-white/10">
-              <span className="absolute inset-0 block animate-scroll-cue bg-ivory/80" />
+          <div className="hero-fade" style={{ "--i": 6 } as React.CSSProperties}>
+            <span className="relative block h-12 w-px overflow-hidden bg-white/10">
+              <span className="absolute inset-0 block animate-scroll-cue bg-ivory/70" />
             </span>
           </div>
         </div>

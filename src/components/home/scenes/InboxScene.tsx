@@ -67,7 +67,7 @@ export function InboxScene({ active }: { active: boolean }) {
                   {...(message.tone === "dim" ? { "data-row-archived": "" } : {})}
                   className="flex h-[44px] items-center gap-3 border-b border-white/[0.05] px-4 last:border-0"
                 >
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/[0.07] font-mono text-[9.5px] text-mist">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white/[0.07] text-[9.5px] font-medium text-mist">
                     {message.initials}
                   </span>
                   <p className="min-w-0 flex-1 truncate text-[12.5px] text-ivory/90">

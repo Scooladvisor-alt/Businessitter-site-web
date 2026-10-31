@@ -41,9 +41,6 @@
   --text-title--letter-spacing: -0.025em;
   --text-lead: clamp(1.06rem, 0.98rem + 0.36vw, 1.3rem);
   --text-lead--line-height: 1.6;
-  --text-eyebrow: 0.72rem;
-  --text-eyebrow--line-height: 1;
-  --text-eyebrow--letter-spacing: 0.16em;
 
   /* — Rayons — */
   --radius-card: 1.25rem;
@@ -116,7 +113,7 @@
 @theme inline {
   --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 :root {
@@ -227,14 +224,6 @@
   font-weight: 400;
   letter-spacing: -0.01em;
   padding-right: 0.06em;
-}
-
-@utility eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--text-eyebrow);
-  line-height: 1;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 @utility hairline {
@@ -437,62 +426,32 @@ html[data-system="webgl"] .system-poster {
 }
 
 /* ==========================================================================
-   Séquence 2 — Le constat : mise en page statique par défaut,
-   mise en scène animée lorsque le mouvement est autorisé (data-motion="on").
+   Séquence 2 — Le constat : mise en page statique par défaut, mise en scène
+   animée lorsque le mouvement est autorisé (data-motion="on").
    ========================================================================== */
 
 [data-problem]:not([data-motion="on"]) [data-motion-only] {
   display: none !important;
 }
 
-[data-problem][data-motion="on"] [data-text-stack] {
+[data-problem][data-motion="on"] [data-headline] {
   display: grid;
 }
 
-[data-problem][data-motion="on"] [data-text-stack] > * {
+[data-problem][data-motion="on"] [data-headline] > * {
   grid-area: 1 / 1;
 }
 
-/* Mise en scène « collante » (position: sticky) plutôt qu'un épinglage :
-   la hauteur de défilement est réservée dès le premier rendu (html.motion,
-   posée avant l'affichage), sans recalcul coûteux ni décalage des ancres. */
+/* Scène « collante » : la hauteur de défilement est réservée dès le premier
+   rendu (html.motion, posée avant l'affichage) — aucun décalage d'ancre. */
 html.motion [data-problem] [data-stage-track] {
-  height: calc(100svh + 240svh);
+  height: calc(100svh + 220svh);
 }
 
 html.motion [data-problem] [data-stage] {
   position: sticky;
   top: 0;
   height: 100svh;
-}
-
-@media (min-width: 1024px) {
-  html.motion [data-problem] [data-stage-track] {
-    height: calc(100svh + 270svh);
-  }
-
-  html.motion [data-compare-track] {
-    height: calc(100svh + 230svh);
-  }
-
-  html.motion [data-compare-track] [data-compare] {
-    position: sticky;
-    top: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  [data-problem][data-motion="on"] [data-phrase] {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-inline: 8vw;
-    text-align: center;
-    pointer-events: none;
-  }
 }
 
 @keyframes wave {
@@ -793,5 +752,110 @@ html.motion [data-problem] [data-stage] {
 
   html[data-motion-ready] [data-split]:not([data-split-done]) {
     opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Séquence 4 — illustrations des étapes (jouées lorsque l'étape est atteinte)
+   ========================================================================== */
+
+.step-art * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+html.motion .step-art .sa-pop,
+html.motion .step-art .sa-drop {
+  opacity: 0;
+}
+
+html.motion .step-art .sa-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+[data-reached] .step-art .sa-pop {
+  animation: sa-pop 0.6s var(--ease-out-back) var(--d, 0s) forwards;
+}
+
+[data-reached] .step-art .sa-drop {
+  animation: sa-drop 0.7s var(--ease-out-back) var(--d, 0s) forwards;
+}
+
+[data-reached] .step-art .sa-draw {
+  animation: sa-draw 0.6s var(--ease-out-expo) var(--d, 0s) forwards;
+}
+
+[data-reached] .step-art .sa-blink {
+  animation: sa-blink 1.4s ease-in-out var(--d, 0s) infinite;
+}
+
+[data-reached] .step-art .sa-scan {
+  animation: sa-scan 2.6s var(--ease-in-out-quart) infinite alternate;
+}
+
+[data-reached] .step-art .sa-mark {
+  animation: sa-mark 0.4s ease-out var(--d, 0s) forwards;
+}
+
+@keyframes sa-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sa-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sa-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes sa-blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes sa-scan {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(40px);
+  }
+}
+
+@keyframes sa-mark {
+  to {
+    fill: #ffbf80;
+  }
+}
+
+@keyframes tab-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }

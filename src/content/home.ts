@@ -2,9 +2,9 @@ import { frDeep } from "@/lib/typography";
 
 /**
  * Contenus de la page d'accueil.
- * Convention : les mots entourés d'astérisques (*mot*) sont mis en valeur
- * (italique à empattements + dégradé « aube ») ; « \n » force un retour
- * à la ligne dans les titres animés ligne par ligne.
+ * Convention : un segment entouré d'astérisques (*mot*) est mis en valeur
+ * (réservé au titre principal) ; chaque entrée de `titleLines` est une
+ * ligne animée du titre d'ouverture.
  */
 
 export type SceneKey = "phone" | "mail" | "docs" | "ops" | "journey" | "custom";
@@ -13,150 +13,130 @@ export type TaskIcon =
 export type TaskStatus = "auto" | "review";
 
 export const hero = frDeep({
-  eyebrow: "Intégration d'intelligence artificielle sur mesure",
   titleLines: [
     "Et si votre entreprise",
     "pouvait faire *bien plus*,",
     "avec moins de contraintes ?",
   ],
   subtitle:
-    "Nous imaginons et intégrons des solutions d'intelligence artificielle sur mesure pour libérer votre temps, simplifier vos opérations et accélérer votre développement.",
-  capabilities: [
-    "Agents IA",
-    "Automatisation des processus",
-    "Agents téléphoniques",
-    "Outils sur mesure",
-  ],
-  scrollCue: "Faites défiler",
-  reassurance: "Audit gratuit et sans engagement",
+    "Des solutions d'intelligence artificielle sur mesure, pour libérer votre temps et simplifier vos opérations.",
 });
 
 export const problem = frDeep({
-  eyebrow: "02 — Le constat",
-  title: "Votre entreprise mérite mieux que des tâches *répétitives*.",
-  lead: "Un appel pendant un rendez-vous. Des e-mails qui s'accumulent. Un devis à préparer, des informations à recopier, une relance oubliée... Chaque jour, une part précieuse de votre temps disparaît dans des tâches qui pourraient fonctionner autrement.",
-  pendingLabel: "Tâches en attente",
-  pendingChip: "À traiter",
-  transition: "Et si tout cela pouvait fonctionner *autrement* ?",
-  resolvedTitle:
-    "Les tâches répétitives sont prises en charge. Les décisions importantes restent *les vôtres*.",
-  resolvedLead:
-    "L'objectif n'est pas de remplacer les personnes, mais de les libérer de ce qui n'exige pas leur attention, tout en gardant la main sur ce qui compte.",
-  statusLabels: { auto: "Automatisé", review: "Votre validation" },
-  resolvedCounters: { auto: "Pris en charge", review: "À valider par vous" },
+  title: "Votre entreprise mérite mieux que des tâches répétitives.",
+  lead: "Appels, e-mails, devis, relances... Chaque jour, des heures disparaissent.",
+  transition: "Et si tout cela pouvait fonctionner autrement ?",
+  resolvedTitle: "Le répétitif est pris en charge. Les décisions restent les vôtres.",
+  pending: "tâches en attente",
+  resolved: { auto: "prises en charge", review: "à valider par vous" },
+  statusLabels: { pending: "À traiter", auto: "Automatisé", review: "À valider" },
   tasks: [
     {
       icon: "phone",
-      label: "Appel entrant",
-      detail: "Pendant un rendez-vous client",
-      resolved: "Appel pris en charge, demande qualifiée",
+      label: "Appel manqué",
+      detail: "Pendant un rendez-vous",
+      resolved: "Demande qualifiée",
       status: "auto",
     },
     {
       icon: "mail",
       label: "23 e-mails non lus",
-      detail: "Dont plusieurs demandes de devis",
-      resolved: "E-mails triés et priorisés",
+      detail: "Dont plusieurs devis",
+      resolved: "Triés et priorisés",
       status: "auto",
     },
     {
       icon: "file",
-      label: "Demande de devis",
-      detail: "À préparer avant vendredi",
-      resolved: "Devis préparé, prêt à être validé",
+      label: "Devis à préparer",
+      detail: "Avant vendredi",
+      resolved: "Prêt à être validé",
       status: "review",
     },
     {
       icon: "copy",
-      label: "Ressaisie manuelle",
-      detail: "Du tableur vers la facturation",
+      label: "Ressaisie",
+      detail: "Du tableur à la facturation",
       resolved: "Données synchronisées",
       status: "auto",
     },
     {
       icon: "calendar",
-      label: "Rendez-vous à organiser",
-      detail: "Trois créneaux proposés, sans réponse",
-      resolved: "Créneau confirmé au client",
+      label: "Rendez-vous à caler",
+      detail: "Trois créneaux sans réponse",
+      resolved: "Créneau confirmé",
       status: "auto",
     },
     {
       icon: "bell",
       label: "Relance oubliée",
-      detail: "Devis envoyé il y a quinze jours",
-      resolved: "Relance envoyée au bon moment",
+      detail: "Devis envoyé il y a 15 jours",
+      resolved: "Relance envoyée",
       status: "auto",
     },
     {
       icon: "voicemail",
       label: "Message vocal",
       detail: "Un prospect à rappeler",
-      resolved: "Résumé transmis, rappel planifié",
+      resolved: "Résumé transmis",
       status: "review",
     },
     {
       icon: "receipt",
       label: "Facture à envoyer",
-      detail: "Intervention terminée hier",
-      resolved: "Facture générée, à valider",
+      detail: "Intervention terminée",
+      resolved: "Générée, à valider",
       status: "review",
     },
   ] as { icon: TaskIcon; label: string; detail: string; resolved: string; status: TaskStatus }[],
 });
 
 export const possibilities = frDeep({
-  eyebrow: "03 — Le champ des possibles",
-  title: "Imaginez. Nous étudions comment le rendre *possible*.",
-  subtitle: "Chaque entreprise est différente. Ses possibilités d'automatisation le sont aussi.",
-  stageStatus: "Simulation",
+  title: "Imaginez. Nous étudions comment le rendre possible.",
+  subtitle: "Chaque entreprise est différente. Ses possibilités aussi.",
+  caption: "Illustration",
   useCases: [
     {
-      key: "phone",
-      title: "Agent téléphonique intelligent",
-      description:
-        "Un agent capable de répondre aux appels, de qualifier les demandes, de proposer des rendez-vous et de transmettre les informations à vos outils.",
-      tags: ["Réponse aux appels", "Qualification des demandes", "Prise de rendez-vous"],
-    },
-    {
       key: "mail",
+      tab: "E-mails",
       title: "Gestion intelligente des e-mails",
       description:
-        "Un système qui analyse vos messages, identifie les demandes, prépare des réponses et automatise certains traitements selon des règles que vous définissez.",
-      tags: ["Tri et priorisation", "Réponses préparées", "Règles sur mesure"],
+        "Les messages triés, les demandes identifiées, les réponses préparées selon vos règles.",
     },
     {
       key: "docs",
+      tab: "Devis",
       title: "Devis et documents",
       description:
-        "Une solution qui collecte les informations utiles, prépare vos devis, génère vos documents et vous les transmet pour validation avant tout envoi.",
-      tags: ["Collecte des données", "Documents générés", "Validation avant envoi"],
+        "Les informations collectées, le document généré, puis soumis à votre validation.",
     },
     {
       key: "ops",
+      tab: "Opérations",
       title: "Automatisation des opérations",
-      description:
-        "Des outils qui synchronisent vos logiciels, mettent à jour vos données, déclenchent les bonnes actions au bon moment et limitent les doubles saisies.",
-      tags: ["Logiciels connectés", "Données à jour", "Moins de ressaisies"],
+      description: "Vos logiciels synchronisés, vos données à jour, sans double saisie.",
     },
     {
       key: "journey",
+      tab: "Relation client",
       title: "Relation client",
-      description:
-        "Des automatisations pour les confirmations, les rappels, les suivis et les relances, afin que chaque client soit accompagné au bon moment.",
-      tags: ["Confirmations", "Rappels", "Suivis et relances"],
+      description: "Confirmations, rappels, suivis et relances envoyés au bon moment.",
+    },
+    {
+      key: "phone",
+      tab: "Téléphone",
+      title: "Accueil téléphonique",
+      description: "Les appels pris en charge, les demandes qualifiées, les rendez-vous proposés.",
     },
     {
       key: "custom",
+      tab: "Sur mesure",
       title: "Outils métiers sur mesure",
       description:
-        "Des applications conçues pour répondre à un besoin précis, que les logiciels existants ne couvrent pas correctement.",
-      tags: ["Pensé pour votre métier", "Interface dédiée", "Évolutif"],
+        "Une application pensée pour un besoin que les logiciels existants couvrent mal.",
     },
-  ] as { key: SceneKey; title: string; description: string; tags: string[] }[],
+  ] as { key: SceneKey; tab: string; title: string; description: string }[],
   prompt: {
-    title: "Et vous, qu'aimeriez-vous *automatiser* ?",
-    description:
-      "Décrivez une tâche qui vous prend du temps. Nous l'ajoutons à votre demande d'audit pour l'étudier avec vous.",
+    title: "Et vous, qu'aimeriez-vous automatiser ?",
     label: "Décrivez la tâche que vous aimeriez automatiser",
     placeholder: "J'aimerais automatiser...",
     suggestionsLabel: "Exemples",
@@ -167,18 +147,18 @@ export const possibilities = frDeep({
       "La création de documents",
     ],
     submit: "Ajouter à ma demande d'audit",
-    note: "Aucune analyse automatique : votre besoin sera étudié lors de l'audit gratuit.",
+    note: "Nous l'étudierons avec vous lors de l'audit gratuit.",
     empty: "Décrivez d'abord une tâche, ou choisissez un exemple.",
-    success: "C'est noté. Votre besoin a été ajouté au formulaire de demande d'audit.",
+    success: "C'est noté : votre besoin a été ajouté à votre demande d'audit.",
   },
-  conclusion: "Votre entreprise est unique. Votre solution doit l'être *aussi*.",
+  conclusion: "Votre entreprise est unique. Votre solution doit l'être aussi.",
 });
 
 export const scenes = frDeep({
   phone: {
     caller: "Appel entrant",
     number: "06 •• •• •• 42",
-    agent: "Agent IA — en ligne",
+    agent: "Assistant — en ligne",
     transcript: [
       { from: "client", text: "Bonjour, je voudrais un rendez-vous pour un entretien." },
       { from: "agent", text: "Bien sûr. Je vous propose mardi à 10 h ou jeudi à 14 h." },
@@ -253,138 +233,61 @@ export const scenes = frDeep({
 });
 
 export const approach = frDeep({
-  eyebrow: "04 — Notre approche",
-  title: "Nous ne commençons pas par une solution. Nous commençons par *vous*.",
-  subtitle:
-    "Avant de parler d'intelligence artificielle, nous prenons le temps de comprendre votre activité, vos méthodes de travail et vos ambitions.",
+  title: "Nous ne commençons pas par une solution. Nous commençons par vous.",
+  subtitle: "Avant de parler de technologie, nous prenons le temps de comprendre votre activité.",
   steps: [
     {
-      number: "01",
-      label: "Comprendre",
-      title: "Audit gratuit de votre entreprise.",
-      description: "Nous échangeons avec vous pour comprendre :",
-      list: [
-        "Votre activité",
-        "Vos clients",
-        "Vos méthodes de travail",
-        "Vos outils numériques",
-        "Vos difficultés",
-        "Vos tâches répétitives",
-        "Vos priorités",
-      ],
-      note: null,
+      title: "Comprendre",
+      text: "Un audit gratuit de votre activité, de vos outils et de vos priorités.",
     },
     {
-      number: "02",
-      label: "Identifier",
-      title: "Détecter les opportunités concrètes.",
-      description:
-        "Nous analysons vos processus et recherchons les tâches qui pourraient être simplifiées, automatisées ou assistées par l'IA. Nous évaluons leur faisabilité, leur intérêt économique et leurs contraintes.",
-      list: [],
-      note: null,
+      title: "Identifier",
+      text: "Les tâches qui peuvent être simplifiées, automatisées ou assistées.",
     },
     {
-      number: "03",
-      label: "Recommander",
-      title: "Un rapport d'audit gratuit et une proposition personnalisée.",
-      description:
-        "Nous synthétisons les opportunités identifiées. Lorsque cela est pertinent, nous vous proposons un projet adapté à votre entreprise, qui précise :",
-      list: [
-        "Le fonctionnement envisagé",
-        "Les outils concernés",
-        "Les bénéfices attendus",
-        "Les limites et conditions de réussite",
-        "Les coûts estimés",
-        "Les étapes de réalisation",
-      ],
-      note: "Les gains éventuels sont présentés comme des estimations argumentées, jamais comme des résultats garantis.",
+      title: "Recommander",
+      text: "Un rapport clair, des estimations argumentées et, si c'est pertinent, une proposition sur mesure.",
     },
     {
-      number: "04",
-      label: "Construire et accompagner",
-      title: "De l'idée à son intégration.",
-      description:
-        "Après validation de la proposition, nous concevons, développons, testons et intégrons la solution dans votre environnement. Nous accompagnons sa prise en main et définissons avec vous les modalités de suivi adaptées au projet.",
-      list: [],
-      note: null,
+      title: "Construire",
+      text: "Conception, intégration, tests, puis accompagnement à la prise en main.",
     },
-  ] as {
-    number: string;
-    label: string;
-    title: string;
-    description: string;
-    list: string[];
-    note: string | null;
-  }[],
-  visuals: {
-    understand: { title: "Carnet d'audit", status: "Échange en cours" },
-    identify: {
-      title: "Cartographie des processus",
-      process: ["Demande", "Devis", "Planning", "Intervention", "Facture"],
-      opportunity: "Opportunités repérées",
-      criteria: ["Faisabilité", "Intérêt économique", "Contraintes"],
-    },
-    recommend: { title: "Rapport d'audit", badge: "Estimation argumentée", status: "Gratuit" },
-    build: {
-      title: "Mise en œuvre",
-      stages: ["Conception", "Développement", "Tests", "Intégration", "Prise en main", "Suivi"],
-    },
-  },
-  conclusion: "Une technologie adaptée à votre entreprise. *Jamais l'inverse.*",
+  ],
+  conclusion: "Une technologie adaptée à votre entreprise. Jamais l'inverse.",
 });
 
 export const transformation = frDeep({
-  eyebrow: "05 — La transformation",
-  title: "Moins d'opérations manuelles. Plus de temps pour *avancer*.",
-  subtitle:
-    "Prenons une situation simple : un client souhaite prendre rendez-vous. Voici comment le même parcours peut évoluer.",
-  before: {
-    label: "Aujourd'hui",
-    caption: "Un processus fragmenté",
-    steps: [
-      { text: "Un client appelle.", tag: null },
-      { text: "Personne ne répond.", tag: "Appel manqué" },
-      { text: "Le client rappelle.", tag: "Effort pour le client" },
-      { text: "Un collaborateur vérifie l'agenda.", tag: "Manuel" },
-      { text: "Il saisit les informations.", tag: "Ressaisie" },
-      { text: "Il envoie une confirmation.", tag: "Manuel" },
-    ],
-    summary:
-      "Dans ce scénario : un appel manqué, deux appels pour le client et trois opérations manuelles.",
+  title: "Moins d'opérations manuelles. Plus de temps pour avancer.",
+  days: ["Lun", "Mar", "Mer", "Jeu", "Ven"],
+  labels: {
+    mail: "E-mails",
+    input: "Saisie",
+    followup: "Relances",
+    quote: "Devis",
+    schedule: "Agenda",
+    clients: "Clients",
+    field: "Terrain",
+    projects: "Projets",
+    team: "Équipe",
   },
-  after: {
-    label: "Avec un agent IA",
-    caption: "Un processus assisté",
-    steps: [
-      { text: "Le client appelle.", tag: null },
-      { text: "Un agent IA prend en charge sa demande.", tag: "Prise en charge" },
-      { text: "Il consulte les disponibilités.", tag: "Agenda connecté" },
-      {
-        text: "Il prépare ou confirme le rendez-vous selon les règles définies.",
-        tag: "Vos règles",
-      },
-      { text: "Les outils sont synchronisés.", tag: "Automatique" },
-      { text: "Une confirmation est envoyée.", tag: "Envoyée" },
-    ],
-    summary:
-      "Dans ce scénario : aucune ressaisie, et une validation humaine possible aux étapes que vous jugez sensibles.",
+  legend: {
+    repetitive: "Tâches répétitives",
+    automated: "Prises en charge",
+    valuable: "Temps pour l'essentiel",
   },
-  tabsLabel: "Comparer les deux parcours",
-  note: "Illustration d'un scénario type. Chaque situation est étudiée au cas par cas lors de l'audit.",
+  description:
+    "Illustration : au fil du défilement, le temps consacré aux tâches répétitives se réduit au profit du temps consacré aux clients, au terrain et aux projets.",
 });
 
 export const realisation = frDeep({
-  eyebrow: "06 — Réalisation",
-  title: "Des idées qui deviennent des *outils*.",
-  intro:
-    "Concevoir des outils opérationnels, utilisés au quotidien par des professionnels : c'est aussi notre métier.",
+  title: "Des idées qui deviennent des outils.",
   label: "Une création Businessister",
   name: "SuperCalendar",
   description:
     "Une solution de gestion des rendez-vous et de suivi client conçue pour les professionnels du ramonage, utilisée par plusieurs professionnels en France.",
   features: ["Prise de rendez-vous", "Suivi client", "Rappels automatisés"],
   link: "Découvrir SuperCalendar",
-  caption: "Représentation illustrative de l'interface.",
+  caption: "Représentation illustrative de l'interface",
   mock: {
     week: "Semaine en cours",
     days: ["Lun", "Mar", "Mer", "Jeu", "Ven"],
@@ -406,76 +309,51 @@ export const realisation = frDeep({
 });
 
 export const trust = frDeep({
-  eyebrow: "07 — Confiance",
-  title: "L'innovation n'a de valeur que lorsqu'elle inspire *confiance*.",
-  subtitle:
-    "Intégrer l'IA dans une entreprise implique des responsabilités. Nous les prenons en compte dès la conception.",
+  title: "L'innovation n'a de valeur que lorsqu'elle inspire confiance.",
   core: "Vos données",
   items: [
     {
       key: "confidentialite",
       title: "Confidentialité",
       layer: "Accès maîtrisés",
-      description:
-        "Nous prenons en compte la sensibilité de vos données professionnelles et définissons, pour chaque projet, les mesures de protection adaptées.",
+      description: "Des mesures de protection adaptées à la sensibilité de vos données.",
     },
     {
       key: "rgpd",
       title: "RGPD",
       layer: "Traitements définis",
-      description:
-        "Les exigences de protection des données sont intégrées dès la conception, selon les responsabilités et obligations applicables à chaque projet.",
+      description: "La protection des données intégrée dès la conception de chaque projet.",
     },
     {
       key: "controle",
       title: "Contrôle humain",
       layer: "Validation humaine",
-      description:
-        "Des validations humaines sont prévues lorsque les opérations le nécessitent. Les décisions importantes restent les vôtres.",
+      description: "Des validations humaines là où les décisions le nécessitent.",
     },
     {
       key: "fiabilite",
       title: "Fiabilité",
       layer: "Supervision",
-      description:
-        "Nous concevons des automatisations testées, supervisables et adaptées aux contraintes réelles de votre entreprise.",
+      description: "Des automatisations testées, supervisées et adaptées à votre réalité.",
     },
   ],
 });
 
 export const vision = frDeep({
-  eyebrow: "08 — Vision",
   title: "Votre prochaine évolution commence peut-être par une simple idée.",
   paragraphs: [
-    "Une tâche qui vous fait perdre du temps. Un processus trop complexe. Une idée que vous n'avez jamais pu concrétiser.",
-    "Parlons-en. Nous étudierons ensemble ce que la technologie peut réellement changer.",
+    "Une tâche qui vous fait perdre du temps. Un processus trop complexe. Une idée jamais concrétisée.",
+    "Parlons-en.",
   ],
-  signature: "Moins de tâches répétitives. Plus de temps pour l'essentiel.",
 });
 
 export const audit = frDeep({
-  eyebrow: "09 — Audit gratuit",
-  title: "Et si nous parlions de votre *entreprise* ?",
+  title: "Et si nous parlions de votre entreprise ?",
   subtitle:
-    "Un premier échange pour comprendre vos besoins, identifier des opportunités et envisager des solutions concrètes. Gratuitement et sans engagement.",
-  stepsTitle: "Comment se déroule l'audit",
+    "Un premier échange, gratuit et sans engagement, pour identifier ce qui peut réellement changer.",
   steps: [
-    {
-      title: "Vous nous présentez votre activité",
-      text: "Quelques informations suffisent pour préparer notre premier échange.",
-    },
-    {
-      title: "Nous analysons vos processus",
-      text: "Nous identifions avec vous les tâches qui pourraient être simplifiées.",
-    },
-    {
-      title: "Vous recevez votre rapport d'audit",
-      text: "Accompagné, lorsque c'est pertinent, d'une proposition personnalisée.",
-    },
-  ],
-  assurances: [
-    "Gratuit et sans engagement",
-    "Aucune obligation de donner suite",
-    "Informations utilisées uniquement pour votre demande",
+    "Vous présentez votre activité",
+    "Nous analysons vos processus",
+    "Vous recevez votre rapport d'audit",
   ],
 });

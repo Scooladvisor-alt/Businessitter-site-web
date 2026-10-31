@@ -54,9 +54,7 @@ export function DocsScene({ active }: { active: boolean }) {
       <Artboard>
         <div className="flex h-full items-center gap-4">
           <div data-source className="surface-raised w-[176px] shrink-0 rounded-2xl p-4">
-            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-dim">
-              {copy.sourceTitle}
-            </p>
+            <p className="text-[11px] font-medium text-dim">{copy.sourceTitle}</p>
             <ul className="mt-3 space-y-3">
               {copy.fields.map((field) => (
                 <li key={field.label} className="relative">
@@ -83,7 +81,7 @@ export function DocsScene({ active }: { active: boolean }) {
                 <FileText className="size-4" strokeWidth={2} aria-hidden="true" />
                 {copy.documentTitle}
               </p>
-              <span className="rounded-full border border-ink-950/15 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-ink-950/60">
+              <span className="rounded-full border border-ink-950/15 px-2 py-0.5 text-[10px] font-medium text-ink-950/60">
                 {copy.documentRef}
               </span>
             </div>
@@ -111,7 +109,7 @@ export function DocsScene({ active }: { active: boolean }) {
               <span className="block h-2 w-16 rounded-full bg-ink-950/35" />
             </div>
             <div data-stamp className="mt-4 flex justify-end">
-              <span className="inline-flex items-center gap-1.5 rounded-lg border-2 border-[#0f7d6f] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.06em] text-[#0f7d6f]">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border-2 border-[#0f7d6f] px-2.5 py-1 text-[11px] font-semibold text-[#0f7d6f]">
                 <BadgeCheck className="size-3.5" strokeWidth={2.2} aria-hidden="true" />
                 {copy.status}
               </span>

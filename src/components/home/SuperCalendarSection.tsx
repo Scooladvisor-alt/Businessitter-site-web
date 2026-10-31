@@ -15,7 +15,6 @@ import { site } from "@/content/site";
 import { gsap, MEDIA, useGSAP } from "@/lib/gsap";
 import { observeOnce } from "@/lib/observe";
 import { cn } from "@/lib/cn";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ButtonLink } from "@/components/ui/Button";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
@@ -112,38 +111,20 @@ export function SuperCalendarSection() {
       ref={root}
       id="realisation"
       aria-labelledby="realisation-title"
-      className="relative py-24 md:py-36"
+      className="relative overflow-x-clip py-28 md:py-40"
     >
       <div className="container-x">
-        <header className="grid gap-8 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <Eyebrow tone="aube">{realisation.eyebrow}</Eyebrow>
-            <SplitHeading
-              id="realisation-title"
-              text={realisation.title}
-              className="mt-6 text-headline font-medium text-ivory"
-            />
-          </div>
-          <Reveal
-            as="p"
-            className="text-lead text-mist lg:col-span-4 lg:col-start-9 lg:self-end"
-            delay={0.15}
-          >
-            {realisation.intro}
-          </Reveal>
+        <header className="mx-auto max-w-3xl text-center">
+          <SplitHeading
+            id="realisation-title"
+            text={realisation.title}
+            className="text-headline font-medium text-ivory"
+          />
         </header>
 
-        <article
-          data-product
-          aria-labelledby="supercalendar-name"
-          className="surface border-aube relative mt-14 overflow-hidden rounded-[var(--radius-stage)] md:mt-20 lg:grid lg:grid-cols-12"
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-32 -top-32 size-[28rem] rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.12),transparent)]"
-          />
-          <div className="relative flex flex-col p-7 sm:p-10 lg:col-span-5 lg:p-14">
-            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-mist">
+        <article aria-labelledby="supercalendar-name" className="mt-14 md:mt-20">
+          <Reveal className="mx-auto flex max-w-2xl flex-col items-center text-center">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-[0.85rem] text-mist">
               <span
                 aria-hidden="true"
                 className="size-1.5 rounded-full bg-[linear-gradient(90deg,#ffc88f,#86e6da)]"
@@ -152,95 +133,94 @@ export function SuperCalendarSection() {
             </p>
             <h3
               id="supercalendar-name"
-              className="mt-7 text-[clamp(2.4rem,1.6rem+3vw,4.25rem)] font-semibold leading-none tracking-[-0.045em] text-ivory"
+              className="mt-6 text-[clamp(2.6rem,1.8rem+3vw,4.6rem)] font-semibold leading-none tracking-[-0.045em] text-ivory"
             >
               {realisation.name}
             </h3>
-            <p className="mt-6 text-[1.05rem] leading-relaxed text-mist">
-              {realisation.description}
-            </p>
-            <ul className="mt-8 space-y-3">
+            <p className="mt-6 text-lead text-mist">{realisation.description}</p>
+            <ul className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-3">
               {realisation.features.map((feature, i) => {
                 const Icon = FEATURE_ICONS[i] ?? CalendarDays;
                 return (
-                  <li key={feature} className="flex items-center gap-3 text-ivory">
-                    <span className="flex size-8 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
-                      <Icon className="size-4 text-aqua" strokeWidth={1.7} aria-hidden="true" />
-                    </span>
+                  <li key={feature} className="flex items-center gap-2 text-[0.95rem] text-ivory">
+                    <Icon className="size-4 text-aqua" strokeWidth={1.7} aria-hidden="true" />
                     {feature}
                   </li>
                 );
               })}
             </ul>
-            <div className="mt-10 lg:mt-auto lg:pt-12">
-              <ButtonLink href={site.superCalendarUrl} variant="secondary" external>
-                {realisation.link}
-              </ButtonLink>
-            </div>
-          </div>
+            <ButtonLink href={site.superCalendarUrl} variant="secondary" external className="mt-9">
+              {realisation.link}
+            </ButtonLink>
+          </Reveal>
 
-          <div
-            data-tilt-stage
-            className="relative flex min-h-[26rem] items-center justify-center overflow-hidden border-t border-white/[0.07] px-5 pb-14 pt-12 [perspective:1400px] sm:min-h-[30rem] sm:px-12 lg:col-span-7 lg:border-l lg:border-t-0"
-          >
-            <div className="bg-grid absolute inset-0 opacity-50 mask-radial" aria-hidden="true" />
+          <div data-product className="relative mx-auto mt-16 max-w-4xl md:mt-20">
             <div
-              data-tilt
               aria-hidden="true"
-              className="relative w-full max-w-[38rem] [transform-style:preserve-3d]"
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.1),transparent)]"
+            />
+            <div
+              data-tilt-stage
+              className="relative flex items-center justify-center px-2 py-10 [perspective:1400px] sm:px-10"
             >
-              <CalendarMock />
               <div
-                data-depth="1.2"
-                data-z="60"
-                className="absolute -right-1 top-[46%] w-[13.5rem] rounded-2xl border border-white/12 bg-ink-800/95 p-3.5 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur-md [transform:translateZ(60px)] sm:-right-8"
+                data-tilt
+                aria-hidden="true"
+                className="relative w-full max-w-[42rem] [transform-style:preserve-3d]"
               >
-                <p className="text-[0.72rem] font-medium text-ivory">{realisation.mock.booking}</p>
-                <div className="mt-2.5 grid grid-cols-2 gap-1.5">
-                  {realisation.mock.slots.map((slot, i) => (
-                    <span
-                      key={slot}
-                      className={cn(
-                        "rounded-lg border px-2 py-1.5 text-center font-mono text-[0.68rem]",
-                        i === 2
-                          ? "border-aqua/50 bg-aqua/15 text-aqua"
-                          : "border-white/10 text-mist",
-                      )}
-                    >
-                      {slot}
+                <CalendarMock />
+                <div
+                  data-depth="1.2"
+                  data-z="60"
+                  className="absolute -right-1 top-[46%] w-[13.5rem] rounded-2xl border border-white/12 bg-ink-800/95 p-3.5 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur-md [transform:translateZ(60px)] sm:-right-10"
+                >
+                  <p className="text-[0.72rem] font-medium text-ivory">
+                    {realisation.mock.booking}
+                  </p>
+                  <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+                    {realisation.mock.slots.map((slot, i) => (
+                      <span
+                        key={slot}
+                        className={cn(
+                          "rounded-lg border px-2 py-1.5 text-center text-[0.68rem] tabular-nums",
+                          i === 2
+                            ? "border-aqua/50 bg-aqua/15 text-aqua"
+                            : "border-white/10 text-mist",
+                        )}
+                      >
+                        {slot}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div
+                  data-depth="2"
+                  data-z="90"
+                  className="absolute -left-1 -top-9 flex items-center gap-3 rounded-2xl border border-white/12 bg-ink-800/95 py-2.5 pl-2.5 pr-4 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur-md [transform:translateZ(90px)] sm:-left-12"
+                >
+                  <span className="flex size-8 items-center justify-center rounded-xl bg-amber/15 text-amber">
+                    <BellRing className="size-4" strokeWidth={1.8} />
+                  </span>
+                  <span>
+                    <span className="block text-[0.74rem] font-medium text-ivory">
+                      {realisation.mock.reminder}
                     </span>
-                  ))}
+                    <span className="block text-[0.68rem] text-mist">
+                      {realisation.mock.reminderDetail}
+                    </span>
+                  </span>
+                </div>
+                <div
+                  data-depth="1.6"
+                  data-z="70"
+                  className="absolute -bottom-7 left-[10%] flex items-center gap-2 rounded-full border border-white/12 bg-ink-800/95 py-2 pl-2 pr-4 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur-md [transform:translateZ(70px)]"
+                >
+                  <CircleCheck className="size-4 text-aqua" strokeWidth={2} />
+                  <span className="text-[0.72rem] text-ivory">{realisation.mock.client}</span>
                 </div>
               </div>
-              <div
-                data-depth="2"
-                data-z="90"
-                className="absolute -left-1 -top-9 flex items-center gap-3 rounded-2xl border border-white/12 bg-ink-800/95 py-2.5 pl-2.5 pr-4 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur-md [transform:translateZ(90px)] sm:-left-10"
-              >
-                <span className="flex size-8 items-center justify-center rounded-xl bg-amber/15 text-amber">
-                  <BellRing className="size-4" strokeWidth={1.8} />
-                </span>
-                <span>
-                  <span className="block text-[0.74rem] font-medium text-ivory">
-                    {realisation.mock.reminder}
-                  </span>
-                  <span className="block text-[0.68rem] text-mist">
-                    {realisation.mock.reminderDetail}
-                  </span>
-                </span>
-              </div>
-              <div
-                data-depth="1.6"
-                data-z="70"
-                className="absolute -bottom-7 left-[10%] flex items-center gap-2 rounded-full border border-white/12 bg-ink-800/95 py-2 pl-2 pr-4 shadow-[0_24px_60px_-20px_rgb(0_0_0/0.9)] backdrop-blur-md [transform:translateZ(70px)]"
-              >
-                <CircleCheck className="size-4 text-aqua" strokeWidth={2} />
-                <span className="text-[0.72rem] text-ivory">{realisation.mock.client}</span>
-              </div>
             </div>
-            <p className="absolute bottom-3 right-5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-dim">
-              {realisation.caption}
-            </p>
+            <p className="mt-6 text-center text-[0.8rem] text-dim">{realisation.caption}</p>
           </div>
         </article>
       </div>
@@ -274,7 +254,7 @@ function CalendarMock() {
         ))}
         {HOURS.map((hour, row) => (
           <div key={hour} className="contents">
-            <span className="border-t border-white/[0.05] px-2 py-3 font-mono text-[0.56rem] text-dim">
+            <span className="border-t border-white/[0.05] px-2 py-3 text-[0.56rem] tabular-nums text-dim">
               {hour}
             </span>
             {mock.days.map((day, col) => {

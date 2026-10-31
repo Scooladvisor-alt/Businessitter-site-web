@@ -155,7 +155,7 @@ export function OpsScene({ active }: { active: boolean }) {
             <li
               key={entry}
               data-log={i}
-              className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-1.5 font-mono text-[10.5px] text-mist"
+              className="flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-1.5 text-[11px] text-mist"
             >
               <Check className="size-3 text-aqua" strokeWidth={2.6} aria-hidden="true" />
               {entry}

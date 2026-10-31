@@ -46,17 +46,17 @@ Le site est alors disponible sur http://localhost:3000.
 La page d'accueil raconte une transformation en neuf séquences :
 **complexité → compréhension → possibilités → solutions → sérénité**.
 
-| #   | Séquence (ancre)                      | Mise en scène                                                                                             |
-| --- | ------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| 1   | Hero (`#accueil`)                     | Système 3D (WebGL) réactif à la souris ; au défilement, des connexions se créent et des flux s'organisent |
-| 2   | Le constat (`#constat`)               | Scène collante : les tâches s'accumulent, la question « Et si… ? », puis tout se réorganise               |
-| 3   | Les possibles (`#possibles`)          | Six mini-interfaces animées dans une scène collante + zone « Et vous, qu'aimeriez-vous automatiser ? »    |
-| 4   | Notre approche (`#approche`)          | Ligne lumineuse qui traverse les quatre étapes, chacune avec sa scène                                     |
-| 5   | La transformation (`#transformation`) | Comparaison avant/après synchronisée au défilement (onglets sur mobile)                                   |
-| 6   | Réalisation (`#realisation`)          | Carte SuperCalendar en perspective 3D, inclinaison au survol                                              |
-| 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                           |
-| 8   | Vision (`#vision`)                    | Le système du hero réapparaît, organisé ; texte révélé mot à mot                                          |
-| 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                             |
+| #   | Séquence (ancre)                      | Mise en scène                                                                                           |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| 1   | Ouverture (`#accueil`)                | Titre centré sur le système 3D (WebGL) ; au défilement, des connexions se créent, des flux s'organisent |
+| 2   | Le constat (`#constat`)               | Scène collante : les tâches s'accumulent, la question « Et si… ? », puis tout se range                  |
+| 3   | Les possibles (`#possibles`)          | Vitrine à onglets : six interfaces animées en lecture automatique + « Qu'aimeriez-vous automatiser ? »  |
+| 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée              |
+| 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)        |
+| 6   | Réalisation (`#realisation`)          | SuperCalendar, interface en perspective 3D, inclinaison au survol                                       |
+| 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                         |
+| 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                 |
+| 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                           |
 
 Pages complémentaires : `/approche`, `/solutions`, `/contact`, `/mentions-legales`,
 `/confidentialite`, `/cookies`, ainsi qu'une page 404 personnalisée.
@@ -96,7 +96,7 @@ assets/fonts/                Polices (licence OFL) utilisées pour l'image Open 
 Tous les textes visibles se trouvent dans `src/content/`. Il suffit de modifier ces fichiers :
 
 - **Mise en valeur** : un segment entouré d'astérisques, par exemple `"pouvait faire *bien plus*,"`,
-  s'affiche en italique à empattements avec le dégradé de la marque.
+  s'affiche en italique à empattements avec le dégradé de la marque (réservé au titre principal).
 - **Typographie française** : les contenus passent par `fr()` / `frDeep()` (`src/lib/typography.ts`),
   qui posent automatiquement les espaces insécables (avant `: ; ! ?`, dans les guillemets) et
   l'apostrophe typographique. Écrivez simplement `"Et si … ?"`.
@@ -209,7 +209,7 @@ signalés sur le site par un repère visible **« À compléter »** :
 - **Scène 3D** : chargée à la première interaction (ou après un court délai), jamais en mode
   « économie de données » ; repli automatique sur un visuel SVG si WebGL est indisponible ;
   rendu suspendu hors écran et lorsque l'onglet est masqué.
-- Scènes « collantes » en `position: sticky` (pas d'épinglage JavaScript coûteux), apparitions
+- Scène « collante » en `position: sticky` (pas d'épinglage JavaScript coûteux), apparitions
   en CSS via un seul `IntersectionObserver`, animations préparées à l'approche des séquences.
 - Navigation au clavier (lien d'évitement, menu mobile avec piégeage par `inert`, touche Échap),
   focus visibles, HTML sémantique, contrastes AA, formulaires étiquetés et messages d'erreur liés.

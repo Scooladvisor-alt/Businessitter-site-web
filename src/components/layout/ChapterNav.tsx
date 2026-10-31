@@ -69,7 +69,7 @@ export function ChapterNav() {
               >
                 <span
                   className={cn(
-                    "glass translate-x-2 rounded-full px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-[0.14em] opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
+                    "glass translate-x-2 rounded-full px-3 py-1 text-[0.78rem] opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100",
                     current ? "text-ivory" : "text-mist",
                   )}
                 >

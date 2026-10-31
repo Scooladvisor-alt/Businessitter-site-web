@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { vision } from "@/content/home";
 import { gsap, MEDIA, SplitText, useGSAP } from "@/lib/gsap";
 import { observeOnce } from "@/lib/observe";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SystemPoster } from "@/components/system/SystemPoster";
 
 /**
@@ -46,12 +45,6 @@ export function VisionSection() {
               { opacity: 1, y: 0, stagger: 0.25, duration: 0.6 },
               ">-0.2",
             )
-            .fromTo(
-              "[data-vision-signature]",
-              { opacity: 0, letterSpacing: "0.32em" },
-              { opacity: 1, letterSpacing: "0.16em", duration: 0.6 },
-              ">-0.1",
-            )
             .to({}, { duration: 0.4 });
         }) as () => void;
         const stop = observeOnce(section, setup, "0px 0px 120% 0px");
@@ -88,13 +81,10 @@ export function VisionSection() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgb(5_6_10/0.62)_10%,transparent_65%)]"
         />
         <div className="container-x relative text-center">
-          <Eyebrow tone="aube" className="justify-center">
-            {vision.eyebrow}
-          </Eyebrow>
           <h2
             id="vision-title"
             data-vision-title
-            className="mx-auto mt-8 max-w-5xl text-[clamp(2.3rem,1.1rem+4.6vw,5.8rem)] font-medium leading-[1.02] tracking-[-0.045em] text-ivory"
+            className="mx-auto max-w-5xl text-[clamp(2.3rem,1.1rem+4.6vw,5.8rem)] font-medium leading-[1.02] tracking-[-0.045em] text-ivory"
           >
             {vision.title}
           </h2>
@@ -105,9 +95,6 @@ export function VisionSection() {
               </p>
             ))}
           </div>
-          <p data-vision-signature className="eyebrow mt-12 text-aqua">
-            {vision.signature}
-          </p>
         </div>
       </div>
     </section>

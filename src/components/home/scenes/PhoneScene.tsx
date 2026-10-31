@@ -60,7 +60,7 @@ export function PhoneScene({ active }: { active: boolean }) {
                   {copy.agent}
                 </p>
               </div>
-              <p className="font-mono text-[11px] tracking-[0.08em] text-dim">{copy.number}</p>
+              <p className="text-[11px] tabular-nums text-dim">{copy.number}</p>
             </div>
             <span aria-hidden="true" className="flex h-6 items-end gap-[3px]">
               {[0.5, 0.9, 0.6, 1, 0.7, 0.4].map((h, i) => (
@@ -97,9 +97,7 @@ export function PhoneScene({ active }: { active: boolean }) {
               </span>
               <div className="flex-1">
                 <p className="text-[13px] font-medium text-ivory">{copy.result}</p>
-                <p className="font-mono text-[11px] tracking-[0.06em] text-mist">
-                  {copy.resultDetail}
-                </p>
+                <p className="text-[11px] tabular-nums text-mist">{copy.resultDetail}</p>
               </div>
               <span
                 data-result-check

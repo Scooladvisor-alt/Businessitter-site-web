@@ -13,10 +13,11 @@ function smooth(edge0: number, edge1: number, x: number) {
 
 function layoutFor(phase: "hero" | "vision", width: number, height: number): Layout {
   const aspect = width / Math.max(1, height);
+  // Composition centrée, derrière le titre.
   if (phase === "hero") {
-    if (aspect >= 1.25) return { offsetX: 1.6, offsetY: -0.05, scale: 1 };
-    if (aspect >= 0.85) return { offsetX: 0.7, offsetY: -0.55, scale: 0.82 };
-    return { offsetX: 0.15, offsetY: -1.45, scale: 0.58 };
+    if (aspect >= 1.25) return { offsetX: 0, offsetY: -0.1, scale: 1.05 };
+    if (aspect >= 0.85) return { offsetX: 0, offsetY: -0.1, scale: 0.9 };
+    return { offsetX: 0, offsetY: -0.25, scale: 0.6 };
   }
   if (aspect >= 1.25) return { offsetX: 0, offsetY: 0, scale: 0.95 };
   return { offsetX: 0, offsetY: 0, scale: Math.min(1, Math.max(0.5, aspect * 0.92)) };

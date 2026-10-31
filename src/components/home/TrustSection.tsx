@@ -5,9 +5,7 @@ import { Eye, Fingerprint, Scale, UserCheck, type LucideIcon } from "lucide-reac
 import { trust } from "@/content/home";
 import { gsap, MEDIA, useGSAP } from "@/lib/gsap";
 import { observeOnce } from "@/lib/observe";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SplitHeading } from "@/components/motion/SplitHeading";
-import { Reveal } from "@/components/motion/Reveal";
 
 const ICONS: LucideIcon[] = [Fingerprint, Scale, UserCheck, Eye];
 
@@ -90,26 +88,16 @@ export function TrustSection() {
         className="pointer-events-none absolute right-[-20%] top-1/3 h-[80vh] w-[80vh] rounded-full bg-[radial-gradient(closest-side,rgb(134_230_218/0.07),transparent)]"
       />
       <div className="container-x relative">
-        <header className="mx-auto max-w-4xl text-center">
-          <Eyebrow tone="aube" className="justify-center">
-            {trust.eyebrow}
-          </Eyebrow>
+        <header className="mx-auto max-w-3xl text-center">
           <SplitHeading
             id="confiance-title"
             text={trust.title}
-            className="mt-6 text-headline font-medium text-ivory"
+            className="text-headline font-medium text-ivory"
           />
-          <Reveal as="p" className="mx-auto mt-6 max-w-2xl text-lead text-mist" delay={0.15}>
-            {trust.subtitle}
-          </Reveal>
         </header>
 
-        <div className="mt-16 grid items-center gap-14 md:mt-24 lg:grid-cols-12">
-          <div
-            data-infra
-            className="relative mx-auto w-full max-w-[34rem] lg:col-span-6"
-            aria-hidden="true"
-          >
+        <div className="mt-14 flex flex-col items-center gap-16 md:mt-20">
+          <div data-infra className="relative mx-auto w-full max-w-[26rem]" aria-hidden="true">
             <svg viewBox="0 0 480 480" className="h-auto w-full overflow-visible">
               <defs>
                 <linearGradient id="trust-stroke" x1="0" y1="0" x2="1" y2="1">
@@ -174,7 +162,7 @@ export function TrustSection() {
                       x={C}
                       y={x - 9}
                       textAnchor="middle"
-                      className="trust-label fill-current font-mono text-[10.5px] uppercase tracking-[0.14em] text-dim"
+                      className="trust-label fill-current text-[12px] text-dim"
                     >
                       {trust.items[i]?.layer}
                     </text>
@@ -291,7 +279,7 @@ export function TrustSection() {
             data-commitments
             data-reveal-children=""
             style={{ "--reveal-stagger": "0.1s", "--reveal-y": "40px" } as React.CSSProperties}
-            className="grid gap-4 sm:grid-cols-2 lg:col-span-6"
+            className="grid w-full max-w-6xl gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
             {trust.items.map((item, i) => {
               const Icon = ICONS[i] ?? Eye;
@@ -300,7 +288,7 @@ export function TrustSection() {
                   key={item.key}
                   data-commitment
                   data-card={i + 1}
-                  className="surface group/card relative rounded-[var(--radius-panel)] p-6 transition-[border-color,background-color,transform] duration-500 ease-out-expo hover:-translate-y-1 hover:border-white/20 sm:p-7"
+                  className="surface group/card relative flex flex-col items-center rounded-[var(--radius-panel)] p-6 text-center transition-[border-color,background-color,transform] duration-500 ease-out-expo hover:-translate-y-1 hover:border-white/20 sm:p-7"
                 >
                   <span className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-ivory transition-colors duration-500 group-hover/card:border-aqua/40 group-hover/card:text-aqua">
                     <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
@@ -310,10 +298,6 @@ export function TrustSection() {
                   </h3>
                   <p className="mt-3 text-[0.97rem] leading-relaxed text-mist">
                     {item.description}
-                  </p>
-                  <p className="mt-5 font-mono text-[0.64rem] uppercase tracking-[0.14em] text-dim">
-                    <span aria-hidden="true">— </span>
-                    {item.layer}
                   </p>
                 </li>
               );
