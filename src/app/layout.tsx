@@ -6,6 +6,7 @@ import { Providers } from "@/components/providers/Providers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ConsentManager } from "@/components/consent/ConsentManager";
+import { SystemBackdrop } from "@/components/system/SystemBackdrop";
 import { motionBootScript } from "@/lib/reveal";
 import "./globals.css";
 
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Aller au contenu
         </a>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <SystemBackdrop />
         <Providers>
           <Header />
           <main id="contenu" tabIndex={-1} className="relative">

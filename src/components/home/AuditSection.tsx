@@ -8,6 +8,7 @@ export function AuditSection() {
   return (
     <section
       id="audit"
+      data-backdrop="audit"
       aria-labelledby="audit-title"
       className="relative overflow-clip py-28 md:py-40"
     >

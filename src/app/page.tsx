@@ -11,7 +11,6 @@ import { TrustSection } from "@/components/home/TrustSection";
 import { VisionSection } from "@/components/home/VisionSection";
 import { AuditSection } from "@/components/home/AuditSection";
 import { ChapterNav } from "@/components/layout/ChapterNav";
-import { SystemCanvas } from "@/components/system/SystemCanvas";
 
 export const metadata: Metadata = {
   title: { absolute: site.title },
@@ -23,7 +22,6 @@ export default function HomePage() {
   return (
     <>
       {/* Chaque séquence est hydratée séparément : le travail est fractionné. */}
-      <SystemCanvas heroId="accueil" visionId="vision" />
       <Hero />
       <Suspense>
         <ProblemSection />

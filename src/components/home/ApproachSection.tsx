@@ -80,6 +80,7 @@ export function ApproachSection() {
     <section
       ref={root}
       id="approche"
+      data-backdrop="approche"
       aria-labelledby="approche-title"
       className="relative overflow-clip py-28 md:py-40"
     >

@@ -136,6 +136,7 @@ export function TransformationSection() {
     <section
       ref={root}
       id="transformation"
+      data-backdrop="transformation"
       aria-labelledby="transformation-title"
       className="relative py-28 md:py-40"
     >

@@ -62,6 +62,7 @@ export function VisionSection() {
     <section
       ref={root}
       id="vision"
+      data-backdrop="vision"
       aria-labelledby="vision-title"
       className="relative h-auto motion-safe:h-[180svh]"
     >

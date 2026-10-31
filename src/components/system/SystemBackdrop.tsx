@@ -1,27 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { ScrollTrigger } from "@/lib/gsap";
-import type { SystemQuality, SystemScene, SystemTargets } from "./system-scene";
-
-type Layout = Pick<SystemTargets, "offsetX" | "offsetY" | "scale">;
-
-function smooth(edge0: number, edge1: number, x: number) {
-  const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)));
-  return t * t * (3 - 2 * t);
-}
-
-function layoutFor(phase: "hero" | "vision", width: number, height: number): Layout {
-  const aspect = width / Math.max(1, height);
-  // Composition centrée, derrière le titre.
-  if (phase === "hero") {
-    if (aspect >= 1.25) return { offsetX: 0, offsetY: -0.1, scale: 1.05 };
-    if (aspect >= 0.85) return { offsetX: 0, offsetY: -0.1, scale: 0.9 };
-    return { offsetX: 0, offsetY: -0.25, scale: 0.6 };
-  }
-  if (aspect >= 1.25) return { offsetX: 0, offsetY: 0, scale: 0.95 };
-  return { offsetX: 0, offsetY: 0, scale: Math.min(1, Math.max(0.5, aspect * 0.92)) };
-}
+import type { SystemQuality, SystemScene } from "./system-scene";
+import { backdropState, SCROLL_SPIN, type BackdropAnchor } from "./backdrop-presets";
 
 function detectQuality(): SystemQuality {
   const nav = navigator as Navigator & { deviceMemory?: number };
@@ -37,28 +20,39 @@ function shouldSkip(): boolean {
   return Boolean(connection?.saveData);
 }
 
-type SystemCanvasProps = {
-  /** Identifiant de la section d'ouverture (état « chaos »). */
-  heroId: string;
-  /** Identifiant de la section de conclusion (état « organisé »). */
-  visionId: string;
-};
+/** Sections visibles de la page courante qui déclarent une mise en scène. */
+function collectAnchors(): BackdropAnchor[] {
+  const scrollY = window.scrollY;
+  return Array.from(document.querySelectorAll<HTMLElement>("[data-backdrop]"))
+    .filter((el) => el.getClientRects().length > 0)
+    .map((el) => {
+      const rect = el.getBoundingClientRect();
+      return {
+        name: el.dataset.backdrop ?? "section",
+        top: rect.top + scrollY,
+        height: rect.height,
+      };
+    })
+    .sort((a, b) => a.top - b.top);
+}
 
 /**
- * Canvas WebGL fixe, partagé par le hero et la séquence « Vision ».
- * Chargé après le premier rendu (import dynamique, période d'inactivité),
- * jamais chargé en mode « mouvements réduits » ou « économie de données » :
- * les posters SVG statiques restent alors affichés.
+ * Arrière-plan WebGL commun à tout le site : le « système » Businessister
+ * accompagne la lecture de bout en bout, piloté par le défilement (états
+ * déclarés par section via `data-backdrop`). Démarré après le premier rendu,
+ * jamais chargé en mouvements réduits ou en mode « économie de données » :
+ * les visuels SVG statiques restent alors affichés.
  */
-export function SystemCanvas({ heroId, visionId }: SystemCanvasProps) {
+export function SystemBackdrop() {
   const hostRef = useRef<HTMLDivElement>(null);
+  const refreshRef = useRef<(() => void) | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const host = hostRef.current;
     if (!host || shouldSkip()) return;
 
-    // Un canvas neuf à chaque montage : une page conservée puis réaffichée
-    // ne réutilise jamais un contexte WebGL déjà libéré.
+    // Un canvas neuf à chaque montage : jamais de contexte WebGL déjà libéré.
     const canvas = document.createElement("canvas");
     canvas.className = "system-canvas";
     canvas.setAttribute("aria-hidden", "true");
@@ -69,10 +63,6 @@ export function SystemCanvas({ heroId, visionId }: SystemCanvasProps) {
     const cleanups: (() => void)[] = [];
 
     const boot = async () => {
-      const heroEl = document.getElementById(heroId);
-      const visionEl = document.getElementById(visionId);
-      if (!heroEl || !visionEl) return;
-
       const { SystemScene } = await import("./system-scene");
       if (disposed) return;
       host.appendChild(canvas);
@@ -80,73 +70,35 @@ export function SystemCanvas({ heroId, visionId }: SystemCanvasProps) {
       try {
         scene = new SystemScene(canvas, detectQuality());
       } catch {
-        return; // WebGL indisponible : le poster SVG reste affiché.
+        return; // WebGL indisponible : les visuels SVG restent affichés.
       }
       const instance = scene;
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
-
-      let hero: ScrollTrigger | null = null;
-      let vision: ScrollTrigger | null = null;
+      let anchors = collectAnchors();
+      let first = true;
+      let frame = 0;
 
       const compute = () => {
-        if (!hero || !vision) return;
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        const hp = hero.progress;
-        const vp = vision.progress;
-        let targets: Omit<Partial<SystemTargets>, "opacity">;
-        let opacity: number;
-        let layout: Layout;
-
-        if (vp > 0 && vp < 1) {
-          layout = layoutFor("vision", w, h);
-          opacity = smooth(0, 0.3, vp) * (1 - smooth(0.8, 1, vp)) * (mobile ? 0.7 : 0.85);
-          targets = {
-            morph: 0.3 + 0.7 * smooth(0.04, 0.55, vp),
-            connect: 1,
-            flow: 0.95,
-            dolly: 0.1 + 0.25 * smooth(0.1, 0.8, vp),
-          };
-        } else if (hp < 1) {
-          layout = layoutFor("hero", w, h);
-          opacity = (1 - smooth(0.58, 0.96, hp)) * (mobile ? 0.75 : 1);
-          targets = {
-            morph: 0.24 * smooth(0.18, 0.95, hp),
-            connect: 0.22 + 0.78 * smooth(0.02, 0.6, hp),
-            flow: smooth(0.1, 0.6, hp),
-            dolly: 0.6 * smooth(0, 1, hp),
-          };
-        } else {
-          instance.setTargets({ opacity: 0 });
-          return;
-        }
-
-        // Invisible : la mise en scène est appliquée sans transition.
-        const hidden = instance.currentOpacity < 0.02;
-        instance.setTargets({ ...layout, ...targets }, hidden);
-        instance.setTargets({ opacity });
+        frame = 0;
+        const docHeight = document.documentElement.scrollHeight;
+        const viewport = { width: window.innerWidth, height: window.innerHeight, docHeight };
+        const state = backdropState(anchors, window.scrollY, viewport);
+        const page = window.scrollY / Math.max(1, docHeight - viewport.height);
+        // Premier calcul appliqué sans transition (la scène apparaît en fondu).
+        instance.setTargets({ ...state, spin: page * SCROLL_SPIN }, first);
+        first = false;
       };
-
-      hero = ScrollTrigger.create({
-        trigger: heroEl,
-        start: "top top",
-        end: "bottom top",
-        onUpdate: compute,
-        onToggle: compute,
-        onRefresh: compute,
-      });
-      vision = ScrollTrigger.create({
-        trigger: visionEl,
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: compute,
-        onToggle: compute,
-        onRefresh: compute,
-      });
+      const schedule = () => {
+        if (!frame) frame = requestAnimationFrame(compute);
+      };
+      const recollect = () => {
+        anchors = collectAnchors();
+        schedule();
+      };
+      refreshRef.current = () => requestAnimationFrame(() => requestAnimationFrame(recollect));
 
       const onResize = () => {
         instance.resize();
-        compute();
+        recollect();
       };
       const onPointer = (event: PointerEvent) => {
         if (event.pointerType !== "mouse") return;
@@ -158,10 +110,17 @@ export function SystemCanvas({ heroId, visionId }: SystemCanvasProps) {
       const onLeave = () => instance.releasePointer();
       const onVisibility = () => (document.hidden ? instance.stop() : compute());
 
+      // La hauteur de la page change (contenus dépliés, polices, sections
+      // hydratées) : les positions des sections sont relevées à nouveau.
+      const resizeObserver = new ResizeObserver(() => recollect());
+      resizeObserver.observe(document.body);
+
+      window.addEventListener("scroll", schedule, { passive: true });
       window.addEventListener("resize", onResize);
       window.addEventListener("pointermove", onPointer, { passive: true });
       document.documentElement.addEventListener("pointerleave", onLeave);
       document.addEventListener("visibilitychange", onVisibility);
+      ScrollTrigger.addEventListener("refresh", recollect);
 
       instance.onContextLost = () => {
         delete document.documentElement.dataset.system;
@@ -176,17 +135,20 @@ export function SystemCanvas({ heroId, visionId }: SystemCanvasProps) {
       });
 
       cleanups.push(() => {
-        hero?.kill();
-        vision?.kill();
+        cancelAnimationFrame(frame);
+        refreshRef.current = null;
+        resizeObserver.disconnect();
+        window.removeEventListener("scroll", schedule);
         window.removeEventListener("resize", onResize);
         window.removeEventListener("pointermove", onPointer);
         document.documentElement.removeEventListener("pointerleave", onLeave);
         document.removeEventListener("visibilitychange", onVisibility);
+        ScrollTrigger.removeEventListener("refresh", recollect);
       });
     };
 
     // Démarrage à la première interaction (ou après un court délai) : le
-    // chargement initial reste léger, le poster SVG assure la continuité.
+    // chargement initial reste léger, les visuels SVG assurent la continuité.
     const wakeEvents = [
       "pointermove",
       "pointerdown",
@@ -223,7 +185,12 @@ export function SystemCanvas({ heroId, visionId }: SystemCanvasProps) {
       delete document.documentElement.dataset.system;
       canvas.remove();
     };
-  }, [heroId, visionId]);
+  }, []);
+
+  // Changement de page : les sections de la nouvelle page sont relevées.
+  useEffect(() => {
+    refreshRef.current?.();
+  }, [pathname]);
 
   return <div ref={hostRef} aria-hidden="true" />;
 }

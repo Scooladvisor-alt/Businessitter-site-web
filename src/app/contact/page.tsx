@@ -22,7 +22,11 @@ export default function ContactPage() {
       <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
       <PageHero id="contact" title={page.title} lead={page.lead} />
 
-      <section aria-labelledby="formulaire-title" className="relative pb-24 md:pb-36">
+      <section
+        data-backdrop="section"
+        aria-labelledby="formulaire-title"
+        className="relative pb-24 md:pb-36"
+      >
         <div className="container-x">
           <Reveal className="mx-auto max-w-3xl" y={40}>
             <div className="surface border-aube rounded-[var(--radius-stage)] p-6 sm:p-10">

@@ -133,6 +133,7 @@ export function PossibilitiesSection() {
     <section
       ref={root}
       id="possibles"
+      data-backdrop="possibles"
       aria-labelledby="possibles-title"
       className="relative overflow-x-clip py-28 md:py-40"
     >

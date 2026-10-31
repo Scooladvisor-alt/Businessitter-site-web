@@ -25,7 +25,10 @@ export function LegalPage({
   children: React.ReactNode;
 }) {
   return (
-    <article className="pb-24 pt-[calc(var(--header-height)+4rem)] md:pb-36 md:pt-[calc(var(--header-height)+6rem)]">
+    <article
+      data-backdrop="legal"
+      className="pb-24 pt-[calc(var(--header-height)+4rem)] md:pb-36 md:pt-[calc(var(--header-height)+6rem)]"
+    >
       <div className="container-x">
         <header className="mx-auto max-w-3xl text-center">
           <h1 className="text-[clamp(2.2rem,1.3rem+3.4vw,4.2rem)] font-medium leading-[1.02] tracking-[-0.04em] text-ivory">

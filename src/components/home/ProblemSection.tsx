@@ -370,6 +370,7 @@ export function ProblemSection() {
     <section
       ref={root}
       id="constat"
+      data-backdrop="constat"
       data-problem
       aria-labelledby="constat-title"
       className="relative"

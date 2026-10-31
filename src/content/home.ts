@@ -282,31 +282,10 @@ export const transformation = frDeep({
 
 export const realisation = frDeep({
   title: "Des idées qui deviennent des outils.",
-  label: "Une création Businessister",
   name: "SuperCalendar",
   description:
-    "Une solution de gestion des rendez-vous et de suivi client conçue pour les professionnels du ramonage, utilisée par plusieurs professionnels en France.",
-  features: ["Prise de rendez-vous", "Suivi client", "Rappels automatisés"],
+    "Notre solution de gestion des rendez-vous et de suivi client pour le ramonage, déjà utilisée par plusieurs professionnels en France.",
   link: "Découvrir SuperCalendar",
-  caption: "Représentation illustrative de l'interface",
-  mock: {
-    week: "Semaine en cours",
-    days: ["Lun", "Mar", "Mer", "Jeu", "Ven"],
-    events: [
-      { day: 0, start: 1, span: 2, label: "Ramonage", tone: "amber" },
-      { day: 1, start: 3, span: 2, label: "Entretien poêle", tone: "aqua" },
-      { day: 2, start: 0, span: 2, label: "Ramonage", tone: "amber" },
-      { day: 2, start: 4, span: 1, label: "Visite", tone: "lilac" },
-      { day: 3, start: 2, span: 2, label: "Débistrage", tone: "aqua" },
-      { day: 4, start: 1, span: 1, label: "Ramonage", tone: "amber" },
-      { day: 4, start: 3, span: 2, label: "Entretien", tone: "lilac" },
-    ],
-    booking: "Nouveau rendez-vous",
-    slots: ["09:00", "10:30", "14:00", "15:30"],
-    reminder: "Rappel envoyé",
-    reminderDetail: "Rendez-vous demain à 9 h",
-    client: "Fiche client mise à jour",
-  },
 });
 
 export const trust = frDeep({

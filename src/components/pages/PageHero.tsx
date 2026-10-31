@@ -12,7 +12,10 @@ type PageHeroProps = {
 /** En-tête centré des pages intérieures (animation CSS, sans JavaScript). */
 export function PageHero({ title, lead, children, id }: PageHeroProps) {
   return (
-    <section className="relative isolate overflow-clip pb-16 pt-[calc(var(--header-height)+5rem)] text-center md:pb-24 md:pt-[calc(var(--header-height)+8rem)]">
+    <section
+      data-backdrop="page-hero"
+      className="relative isolate overflow-clip pb-16 pt-[calc(var(--header-height)+5rem)] text-center md:pb-24 md:pt-[calc(var(--header-height)+8rem)]"
+    >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 mask-fade-b">
         <div className="absolute left-1/2 top-[-45%] h-[80vh] w-[80vh] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.11),transparent)]" />
       </div>

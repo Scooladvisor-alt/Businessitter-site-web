@@ -64,7 +64,11 @@ export default function SolutionsPage() {
       />
       <PageHero id="solutions" title={page.title} lead={page.lead} />
 
-      <section aria-labelledby="domaines-title" className="relative py-12 md:py-20">
+      <section
+        data-backdrop="section"
+        aria-labelledby="domaines-title"
+        className="relative py-12 md:py-20"
+      >
         <div className="container-x">
           <SplitHeading
             id="domaines-title"
@@ -135,7 +139,11 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section aria-labelledby="audience-title" className="relative py-16 md:py-24">
+      <section
+        data-backdrop="section"
+        aria-labelledby="audience-title"
+        className="relative py-16 md:py-24"
+      >
         <div className="container-x">
           <div className="mx-auto max-w-3xl text-center">
             <SplitHeading
@@ -167,7 +175,11 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section aria-labelledby="criteres-title" className="relative py-16 md:py-24">
+      <section
+        data-backdrop="section"
+        aria-labelledby="criteres-title"
+        className="relative py-16 md:py-24"
+      >
         <div className="container-x">
           <SplitHeading
             id="criteres-title"

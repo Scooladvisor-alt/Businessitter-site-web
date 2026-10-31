@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="relative flex min-h-[100svh] items-center overflow-clip pb-20 pt-[calc(var(--header-height)+3rem)]">
+    <section
+      data-backdrop="page-hero"
+      className="relative flex min-h-[100svh] items-center overflow-clip pb-20 pt-[calc(var(--header-height)+3rem)]"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center"

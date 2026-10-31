@@ -16,7 +16,7 @@ import { createSystemData, SYSTEM_QUALITY, type SystemData } from "./system-data
 /**
  * Scène WebGL du « système » : nœuds lumineux, connexions et flux.
  * Rendu léger (points + lignes, shaders sur mesure), en pause dès qu'elle
- * n'est plus visible. Aucun calcul n'est effectué hors écran.
+ * n'est plus visible ; 30 images par seconde en qualité réduite.
  */
 
 export type SystemTargets = {
@@ -34,6 +34,8 @@ export type SystemTargets = {
   offsetX: number;
   offsetY: number;
   scale: number;
+  /** Rotation supplémentaire liée au défilement (radians). */
+  spin: number;
 };
 
 export type SystemQuality = "high" | "low";
@@ -273,8 +275,12 @@ export class SystemScene {
     offsetX: 0,
     offsetY: 0,
     scale: 1,
+    spin: 0,
   };
   private current: SystemTargets = { ...this.targets };
+  private size = { width: 0, height: 0, ratio: 0 };
+  /** Intervalle minimal entre deux rendus (ms) : 30 i/s en qualité réduite. */
+  private minFrameGap: number;
 
   /** Appelé lorsque le contexte WebGL est perdu. */
   onContextLost: (() => void) | null = null;
@@ -292,6 +298,7 @@ export class SystemScene {
       depth: false,
     });
     this.renderer.setClearColor(BACKGROUND, 1);
+    this.minFrameGap = quality === "high" ? 0 : 30;
 
     const data = createSystemData(SYSTEM_QUALITY[quality]);
 
@@ -394,7 +401,12 @@ export class SystemScene {
     const width = this.canvas.clientWidth || window.innerWidth;
     const height = this.canvas.clientHeight || window.innerHeight;
     const cap = this.quality === "high" ? 2 : 1.5;
-    this.pixelRatio = Math.min(window.devicePixelRatio || 1, cap);
+    const ratio = Math.min(window.devicePixelRatio || 1, cap);
+    // Taille inchangée (barre d'adresse mobile, etc.) : aucune réallocation.
+    const { size } = this;
+    if (size.width === width && size.height === height && size.ratio === ratio) return;
+    this.size = { width, height, ratio };
+    this.pixelRatio = ratio;
     this.renderer.setPixelRatio(this.pixelRatio);
     this.renderer.setSize(width, height, false);
     this.camera.aspect = width / Math.max(1, height);
@@ -419,6 +431,7 @@ export class SystemScene {
   private frame = (now: number) => {
     if (!this.running) return;
     this.raf = requestAnimationFrame(this.frame);
+    if (this.minFrameGap && now - this.last < this.minFrameGap) return;
     const dt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
     this.last = now;
     this.time += dt;
@@ -469,7 +482,10 @@ export class SystemScene {
 
     // Rotation lente, inclinaison selon le pointeur, avancée de caméra.
     this.group.rotation.y =
-      -0.35 + this.time * (0.035 + c.morph * 0.03) + this.pointer[0] * 0.12 * this.pointerActive;
+      -0.35 +
+      c.spin +
+      this.time * (0.035 + c.morph * 0.03) +
+      this.pointer[0] * 0.12 * this.pointerActive;
     this.group.rotation.x = 0.12 - this.pointer[1] * 0.08 * this.pointerActive;
     this.group.position.set(c.offsetX, c.offsetY, 0);
     this.group.scale.setScalar(c.scale);

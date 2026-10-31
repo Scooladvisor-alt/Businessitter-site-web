@@ -46,6 +46,13 @@ Le site est alors disponible sur http://localhost:3000.
 La page d'accueil raconte une transformation en neuf séquences :
 **complexité → compréhension → possibilités → solutions → sérénité**.
 
+Un même fil visuel accompagne tout le site : le « système » 3D en arrière-plan, piloté par le
+défilement. Il part du chaos à l'ouverture, se resserre à l'entrée de chaque section puis
+s'assemble pendant la lecture, prend sa forme complète sur « Vision » et recule en pied de
+page. Chaque section déclare sa mise en scène avec `data-backdrop="<nom>"` (réglages dans
+`src/components/system/backdrop-presets.ts`) ; les pages intérieures utilisent `page-hero`,
+`section` et `legal`.
+
 | #   | Séquence (ancre)                      | Mise en scène                                                                                                 |
 | --- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | 1   | Ouverture (`#accueil`)                | Titre centré sur le système 3D (WebGL) ; au défilement, des connexions se créent, des flux s'organisent       |
@@ -53,7 +60,7 @@ La page d'accueil raconte une transformation en neuf séquences :
 | 3   | Les possibles (`#possibles`)          | Vitrine à onglets : six interfaces animées en lecture automatique + « Qu'aimeriez-vous automatiser ? »        |
 | 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée                    |
 | 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)              |
-| 6   | Réalisation (`#realisation`)          | SuperCalendar, interface en perspective 3D, inclinaison au survol                                             |
+| 6   | Réalisation (`#realisation`)          | Une carte compacte : SuperCalendar, déjà utilisé par des professionnels, et un lien discret                   |
 | 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                               |
 | 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                       |
 | 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                                 |
@@ -77,7 +84,7 @@ src/
 │   └── legal.ts             Informations juridiques — À COMPLÉTER
 ├── components/
 │   ├── home/                Séquences de la page d'accueil (+ scenes/ : mini-interfaces)
-│   ├── system/              Scène WebGL, données du système et poster SVG de repli
+│   ├── system/              Arrière-plan WebGL (tout le site), réglages par section, SVG de repli
 │   ├── forms/               Formulaire de demande d'audit
 │   ├── consent/             Consentement aux traceurs optionnels
 │   ├── layout/              En-tête, pied de page, indicateur de chapitres
@@ -206,9 +213,10 @@ signalés sur le site par un repère visible **« À compléter »** :
 
 - **Mouvements réduits** (`prefers-reduced-motion`) : aucune animation de défilement, pas de
   défilement fluide, pas de scène WebGL ; une version statique complète et cohérente s'affiche.
-- **Scène 3D** : chargée à la première interaction (ou après un court délai), jamais en mode
-  « économie de données » ; repli automatique sur un visuel SVG si WebGL est indisponible ;
-  rendu suspendu hors écran et lorsque l'onglet est masqué.
+- **Scène 3D** (une seule pour tout le site, conservée d'une page à l'autre) : chargée à la
+  première interaction (ou après un court délai), jamais en mode « économie de données » ;
+  repli automatique sur un visuel SVG si WebGL est indisponible ; 30 images/s sur les appareils
+  modestes ; rendu suspendu lorsque l'onglet est masqué.
 - Scène « collante » en `position: sticky` (pas d'épinglage JavaScript coûteux), apparitions
   en CSS via un seul `IntersectionObserver`, animations préparées à l'approche des séquences.
 - Navigation au clavier (lien d'évitement, menu mobile avec piégeage par `inert`, touche Échap),

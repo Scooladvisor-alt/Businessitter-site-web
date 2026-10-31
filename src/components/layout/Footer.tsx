@@ -7,7 +7,10 @@ import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesB
 
 export function Footer() {
   return (
-    <footer className="relative overflow-clip border-t border-white/[0.07] bg-ink-950">
+    <footer
+      data-backdrop="footer"
+      className="relative overflow-clip border-t border-white/[0.07] bg-ink-950/55"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.09),transparent)]"

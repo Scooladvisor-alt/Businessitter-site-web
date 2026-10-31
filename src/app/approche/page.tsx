@@ -42,7 +42,11 @@ export default function ApproachPage() {
       </PageHero>
 
       {/* Principes */}
-      <section aria-labelledby="principes-title" className="relative py-16 md:py-24">
+      <section
+        data-backdrop="section"
+        aria-labelledby="principes-title"
+        className="relative py-16 md:py-24"
+      >
         <div className="container-x">
           <SplitHeading id="principes-title" text={page.principlesTitle} className={sectionTitle} />
           <Reveal
@@ -66,7 +70,11 @@ export default function ApproachPage() {
       </section>
 
       {/* Étapes détaillées */}
-      <section aria-labelledby="etapes-title" className="relative py-16 md:py-24">
+      <section
+        data-backdrop="section"
+        aria-labelledby="etapes-title"
+        className="relative py-16 md:py-24"
+      >
         <div className="container-x">
           <SplitHeading id="etapes-title" text={page.stepsTitle} className={sectionTitle} />
           <ol className="mx-auto mt-14 max-w-5xl space-y-5 md:mt-20">
@@ -104,7 +112,11 @@ export default function ApproachPage() {
       </section>
 
       {/* Rapport d'audit */}
-      <section aria-labelledby="rapport-title" className="relative py-16 md:py-24">
+      <section
+        data-backdrop="section"
+        aria-labelledby="rapport-title"
+        className="relative py-16 md:py-24"
+      >
         <div className="container-x">
           <SplitHeading id="rapport-title" text={page.reportTitle} className={sectionTitle} />
           <Reveal as="p" className="mx-auto mt-6 max-w-2xl text-center text-lead text-mist">
@@ -135,7 +147,11 @@ export default function ApproachPage() {
       </section>
 
       {/* FAQ */}
-      <section aria-labelledby="faq-title" className="relative py-16 md:py-24">
+      <section
+        data-backdrop="section"
+        aria-labelledby="faq-title"
+        className="relative py-16 md:py-24"
+      >
         <div className="container-x">
           <SplitHeading id="faq-title" text={page.faqTitle} className={sectionTitle} />
           <Reveal className="mx-auto mt-12 max-w-3xl" stagger={0.05}>

@@ -79,6 +79,7 @@ export function TrustSection() {
     <section
       ref={root}
       id="confiance"
+      data-backdrop="confiance"
       data-trust
       aria-labelledby="confiance-title"
       className="group/trust relative overflow-clip py-24 md:py-36"

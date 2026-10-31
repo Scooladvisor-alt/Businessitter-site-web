@@ -42,6 +42,7 @@ export function Hero() {
     <section
       ref={root}
       id="accueil"
+      data-backdrop="hero"
       aria-labelledby="hero-title"
       className="relative h-[100svh] motion-safe:h-[150svh]"
     >
