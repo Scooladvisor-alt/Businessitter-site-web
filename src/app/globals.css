@@ -1,0 +1,797 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Businessister — Système de design « Encre & Aube »
+   Fond d'encre profond, lumière ivoire, et un dégradé d'aube (ambre → aqua)
+   qui raconte le passage de la complexité à la sérénité.
+   ========================================================================== */
+
+@theme {
+  /* — Encre (fonds et surfaces) — */
+  --color-ink-950: #05060a;
+  --color-ink-900: #090b11;
+  --color-ink-850: #0d1017;
+  --color-ink-800: #12151e;
+  --color-ink-700: #1a1e29;
+  --color-ink-600: #262b38;
+  --color-ink-500: #3a4151;
+
+  /* — Lumière (textes) — */
+  --color-ivory: #f4f1ea;
+  --color-mist: #aab0bd;
+  --color-dim: #8b91a1;
+
+  /* — Aube (accents) — */
+  --color-amber: #ffbf80;
+  --color-ember: #ff8f68;
+  --color-rose: #f3a9b2;
+  --color-lilac: #bab5f2;
+  --color-aqua: #84e4d9;
+  --color-sky: #90c6ff;
+
+  /* — Typographie fluide — */
+  --text-display: clamp(2.5rem, min(1.05rem + 5.5vw, 10.6vh), 6.4rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.045em;
+  --text-headline: clamp(2.1rem, 1.25rem + 3.45vw, 4.6rem);
+  --text-headline--line-height: 1.02;
+  --text-headline--letter-spacing: -0.038em;
+  --text-title: clamp(1.45rem, 1.15rem + 1.1vw, 2.15rem);
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.025em;
+  --text-lead: clamp(1.06rem, 0.98rem + 0.36vw, 1.3rem);
+  --text-lead--line-height: 1.6;
+  --text-eyebrow: 0.72rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.16em;
+
+  /* — Rayons — */
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+  --radius-stage: 2rem;
+
+  /* — Courbes d'accélération (langage d'animation) — */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* — Animations utilitaires — */
+  --animate-pulse-soft: pulse-soft 2.4s var(--ease-in-out-quart) infinite;
+  --animate-ring: ring 1.8s var(--ease-out-expo) infinite;
+  --animate-scroll-cue: scroll-cue 2.2s var(--ease-in-out-quart) infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 0.45;
+      transform: scale(0.92);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes ring {
+    0% {
+      opacity: 0.6;
+      transform: scale(0.85);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.9);
+    }
+  }
+
+  @keyframes scroll-cue {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    45% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    55% {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --gradient-aube: linear-gradient(100deg, #ffc88f 0%, #f6aaa8 34%, #bdb6f2 66%, #86e6da 100%);
+  --gradient-aube-soft: linear-gradient(100deg, rgb(255 200 143 / 0.9), rgb(134 230 218 / 0.9));
+  --header-height: 4rem;
+  color-scheme: dark;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --header-height: 4.5rem;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    overflow-x: clip;
+    background-color: var(--color-ink-950);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scrollbar-color: var(--color-ink-600) transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-ink-950);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: rgb(132 228 217 / 0.28);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-aqua);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  [id] {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
+  /* Lenis (défilement fluide) */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+}
+
+/* ==========================================================================
+   Utilitaires de marque
+   ========================================================================== */
+
+@utility container-x {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4.2vw, 3rem);
+}
+
+@utility text-aube {
+  background-image: var(--gradient-aube);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@utility accent-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding-right: 0.06em;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+@utility hairline {
+  border-color: rgb(255 255 255 / 0.08);
+}
+
+@utility surface {
+  background-color: rgb(18 21 30 / 0.72);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.05),
+    0 30px 80px -40px rgb(0 0 0 / 0.8);
+}
+
+@utility surface-raised {
+  background-color: rgb(26 30 41 / 0.86);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.07),
+    0 18px 50px -24px rgb(0 0 0 / 0.85);
+}
+
+@utility glass {
+  background-color: rgb(9 11 17 / 0.62);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Bordure en dégradé (masque) */
+@utility border-aube {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      140deg,
+      rgb(255 200 143 / 0.55),
+      rgb(255 255 255 / 0.06) 32%,
+      rgb(255 255 255 / 0.04) 64%,
+      rgb(134 230 218 / 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* Grille technique discrète en arrière-plan */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+@utility mask-fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+@utility mask-fade-b {
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
+@utility mask-radial {
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, transparent 75%);
+  mask-image: radial-gradient(ellipse at center, #000 35%, transparent 75%);
+}
+
+@utility skeleton-line {
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgb(255 255 255 / 0.07) 0%,
+    rgb(255 255 255 / 0.13) 50%,
+    rgb(255 255 255 / 0.07) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* ==========================================================================
+   Grain filmique (texture très légère, purement décorative)
+   ========================================================================== */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("/visuals/grain.svg");
+  background-size: 180px 180px;
+}
+
+/* ==========================================================================
+   Intro du hero — animations CSS (aucune dépendance au JavaScript,
+   démarrent dès le premier rendu pour préserver le LCP)
+   ========================================================================== */
+
+.hero-line {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 0.2em;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.hero-line > span {
+  display: inline-block;
+  transform: translate3d(0, 105%, 0);
+  animation: hero-rise 1s var(--ease-out-expo) forwards;
+  animation-delay: calc(0.04s + var(--i, 0) * 0.07s);
+}
+
+.hero-fade {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  animation: hero-fade 1s var(--ease-out-expo) forwards;
+  animation-delay: calc(0.32s + var(--i, 0) * 0.07s);
+}
+
+@keyframes hero-rise {
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hero-fade {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ==========================================================================
+   Visuel « système » (poster SVG / canvas WebGL)
+   ========================================================================== */
+
+.system-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100lvh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out-expo);
+}
+
+.system-canvas[data-ready="true"] {
+  opacity: 1;
+}
+
+html[data-system="webgl"] .system-poster {
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out-expo);
+}
+
+/* ==========================================================================
+   Préférence de réduction des mouvements
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-line > span,
+  .hero-fade {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Masques de lignes générés par SplitText : marge pour les jambages
+   et les italiques à empattements. */
+.split-line-mask {
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  padding-inline-end: 0.08em;
+  margin-inline-end: -0.08em;
+}
+
+/* Cibles focalisées par programmation (sections, titres) */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+/* ==========================================================================
+   Séquence 2 — Le constat : mise en page statique par défaut,
+   mise en scène animée lorsque le mouvement est autorisé (data-motion="on").
+   ========================================================================== */
+
+[data-problem]:not([data-motion="on"]) [data-motion-only] {
+  display: none !important;
+}
+
+[data-problem][data-motion="on"] [data-text-stack] {
+  display: grid;
+}
+
+[data-problem][data-motion="on"] [data-text-stack] > * {
+  grid-area: 1 / 1;
+}
+
+/* Mise en scène « collante » (position: sticky) plutôt qu'un épinglage :
+   la hauteur de défilement est réservée dès le premier rendu (html.motion,
+   posée avant l'affichage), sans recalcul coûteux ni décalage des ancres. */
+html.motion [data-problem] [data-stage-track] {
+  height: calc(100svh + 240svh);
+}
+
+html.motion [data-problem] [data-stage] {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+@media (min-width: 1024px) {
+  html.motion [data-problem] [data-stage-track] {
+    height: calc(100svh + 270svh);
+  }
+
+  html.motion [data-compare-track] {
+    height: calc(100svh + 230svh);
+  }
+
+  html.motion [data-compare-track] [data-compare] {
+    position: sticky;
+    top: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-problem][data-motion="on"] [data-phrase] {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 8vw;
+    text-align: center;
+    pointer-events: none;
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* ==========================================================================
+   Séquence 7 — Confiance : infrastructure animée
+   ========================================================================== */
+
+[data-trust]:not(.is-inview) .trust-anim {
+  animation-play-state: paused;
+}
+
+.trust-scan {
+  animation: trust-scan 9s linear infinite;
+}
+
+@keyframes trust-scan {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+.trust-packet-in {
+  animation: trust-packet-in 5.2s var(--ease-in-out-quart) infinite;
+}
+
+@keyframes trust-packet-in {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  26%,
+  52% {
+    transform: translateX(41px);
+    opacity: 1;
+  }
+  88% {
+    transform: translateX(170px);
+    opacity: 1;
+  }
+  96%,
+  100% {
+    transform: translateX(176px);
+    opacity: 0;
+  }
+}
+
+.trust-checkpoint {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: trust-checkpoint 5.2s var(--ease-in-out-quart) infinite;
+}
+
+@keyframes trust-checkpoint {
+  0%,
+  24%,
+  56%,
+  100% {
+    stroke-opacity: 0.45;
+    transform: scale(1);
+  }
+  32%,
+  48% {
+    stroke-opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+.trust-packet-out {
+  animation: trust-packet-out 5.2s var(--ease-in-out-quart) 2.6s infinite;
+  opacity: 0;
+}
+
+@keyframes trust-packet-out {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(160px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(170px);
+    opacity: 0;
+  }
+}
+
+/* Mise en relation engagement ↔ couche de l'infrastructure */
+.trust-shape,
+.trust-label,
+.trust-node {
+  transition:
+    opacity 0.5s var(--ease-out-expo),
+    stroke-width 0.5s var(--ease-out-expo),
+    color 0.5s var(--ease-out-expo);
+}
+
+[data-trust]:has([data-card]:hover) .trust-layer {
+  opacity: 0.35;
+  transition: opacity 0.5s var(--ease-out-expo);
+}
+
+[data-trust]:has([data-card="1"]:hover) .trust-layer[data-layer="1"],
+[data-trust]:has([data-card="2"]:hover) .trust-layer[data-layer="2"],
+[data-trust]:has([data-card="3"]:hover) .trust-layer[data-layer="3"],
+[data-trust]:has([data-card="4"]:hover) .trust-layer[data-layer="4"] {
+  opacity: 1;
+}
+
+[data-trust]:has([data-card="1"]:hover) .trust-layer[data-layer="1"] .trust-shape,
+[data-trust]:has([data-card="2"]:hover) .trust-layer[data-layer="2"] .trust-shape,
+[data-trust]:has([data-card="3"]:hover) .trust-layer[data-layer="3"] .trust-shape,
+[data-trust]:has([data-card="4"]:hover) .trust-layer[data-layer="4"] .trust-shape {
+  stroke-width: 2.4;
+}
+
+[data-trust]:has([data-card="1"]:hover) .trust-layer[data-layer="1"] .trust-label,
+[data-trust]:has([data-card="2"]:hover) .trust-layer[data-layer="2"] .trust-label,
+[data-trust]:has([data-card="3"]:hover) .trust-layer[data-layer="3"] .trust-label,
+[data-trust]:has([data-card="4"]:hover) .trust-layer[data-layer="4"] .trust-label {
+  color: var(--color-ivory);
+}
+
+/* ==========================================================================
+   Pages légales — mise en forme du texte courant
+   ========================================================================== */
+
+.legal-prose h2 {
+  font-size: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--color-ivory);
+}
+
+.legal-prose h3 {
+  margin-top: 1.75rem;
+  font-size: 1.08rem;
+  font-weight: 500;
+  color: var(--color-ivory);
+}
+
+.legal-prose p,
+.legal-prose li,
+.legal-prose dd {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-mist);
+}
+
+.legal-prose p {
+  margin-top: 1rem;
+}
+
+.legal-prose ul {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.legal-prose ul li::marker {
+  color: var(--color-dim);
+}
+
+.legal-prose dl {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.legal-prose dl > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+@media (min-width: 40rem) {
+  .legal-prose dl > div {
+    grid-template-columns: 15rem 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.legal-prose dt {
+  font-size: 0.92rem;
+  color: var(--color-dim);
+}
+
+.legal-prose dd {
+  color: var(--color-ivory);
+}
+
+.legal-prose a {
+  color: var(--color-ivory);
+  text-decoration: underline;
+  text-decoration-color: rgb(255 255 255 / 0.25);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.3s;
+}
+
+.legal-prose a:hover {
+  text-decoration-color: var(--color-aqua);
+}
+
+.legal-prose strong {
+  color: var(--color-ivory);
+  font-weight: 500;
+}
+
+.legal-prose table {
+  margin-top: 1.25rem;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.legal-prose th,
+.legal-prose td {
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  text-align: left;
+  vertical-align: top;
+  color: var(--color-mist);
+}
+
+.legal-prose th {
+  font-weight: 500;
+  color: var(--color-ivory);
+}
+
+/* Scènes illustratives : animations CSS en pause hors de la scène active */
+.scene:not([data-scene-active]) * {
+  animation-play-state: paused !important;
+}
+
+/* ==========================================================================
+   Apparitions au défilement (CSS) — actives seulement si le mouvement est
+   autorisé et que l'application a démarré (html[data-motion-ready]).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-motion-ready] [data-reveal]:not([data-revealed]),
+  html[data-motion-ready] [data-reveal-children]:not([data-revealed]) > * {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 28px), 0);
+  }
+
+  html[data-motion-ready] [data-reveal][data-revealing],
+  html[data-motion-ready] [data-reveal-children][data-revealing] > * {
+    transition:
+      opacity 1s var(--ease-out-expo),
+      transform 1.2s var(--ease-out-expo);
+    transition-delay: calc(
+      var(--reveal-delay, 0s) + var(--reveal-index, 0) * var(--reveal-stagger, 0s)
+    );
+  }
+
+  [data-reveal-children] > :nth-child(2) {
+    --reveal-index: 1;
+  }
+  [data-reveal-children] > :nth-child(3) {
+    --reveal-index: 2;
+  }
+  [data-reveal-children] > :nth-child(4) {
+    --reveal-index: 3;
+  }
+  [data-reveal-children] > :nth-child(5) {
+    --reveal-index: 4;
+  }
+  [data-reveal-children] > :nth-child(6) {
+    --reveal-index: 5;
+  }
+  [data-reveal-children] > :nth-child(7) {
+    --reveal-index: 6;
+  }
+  [data-reveal-children] > :nth-child(8) {
+    --reveal-index: 7;
+  }
+  [data-reveal-children] > :nth-child(n + 9) {
+    --reveal-index: 8;
+  }
+
+  html[data-motion-ready] [data-split]:not([data-split-done]) {
+    opacity: 0;
+  }
+}
