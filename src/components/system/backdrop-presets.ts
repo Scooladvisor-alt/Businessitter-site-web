@@ -1,13 +1,15 @@
 import type { SystemTargets } from "./system-scene";
+import type { FieldShape } from "./field-shapes";
 
 /**
- * Mise en scène de l'arrière-plan « système », section par section.
+ * Mise en scène de l'arrière-plan, section par section.
  *
- * Chaque section porte un attribut `data-backdrop="<nom>"`. Au défilement,
- * l'état de la scène est interpolé entre les sections voisines : le système
- * part du chaos (ouverture), s'organise un peu plus à chaque séquence (chaque
- * section le voit se resserrer à son entrée puis s'assembler), atteint sa
- * forme complète sur « Vision », puis recule doucement en fin de page.
+ * Chaque section porte un attribut `data-backdrop="<nom>"`. Deux couches :
+ *  - le « système » (réseau de nœuds et de liaisons) : chaos à l'ouverture,
+ *    il s'efface pendant le parcours puis réapparaît, organisé, sur Vision ;
+ *  - une nuée de particules qui change de formation à chaque section
+ *    (tourbillon, champ ondulant, hélice, éclosion, treillis…), avec son
+ *    propre mouvement, ses couleurs et une intensité pilotée au défilement.
  */
 
 export type BackdropState = Omit<SystemTargets, "spin">;
@@ -24,9 +26,12 @@ export type PresetInput = {
   /** Rapport largeur / hauteur de la fenêtre. */
   aspect: number;
   mobile: boolean;
+  /** Rang de la section parmi celles qui portent le même nom. */
+  index: number;
 };
 
-type Preset = (input: PresetInput) => BackdropState;
+type PresetResult = BackdropState & { shape: FieldShape };
+type Preset = (input: PresetInput) => PresetResult;
 
 export const BACKDROP_KEYS = [
   "morph",
@@ -37,6 +42,9 @@ export const BACKDROP_KEYS = [
   "offsetX",
   "offsetY",
   "scale",
+  "fieldOpacity",
+  "fieldEnergy",
+  "fieldScale",
 ] as const satisfies readonly (keyof BackdropState)[];
 
 /** Rotation totale liée au défilement, du haut au bas de la page (radians). */
@@ -49,38 +57,49 @@ export function smooth(edge0: number, edge1: number, x: number) {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** Cadrage centré, adapté au format de l'écran. */
+/** Échelle des formations selon le format de l'écran. */
+function fit(aspect: number) {
+  if (aspect >= 1.25) return 1;
+  if (aspect >= 0.85) return 0.86;
+  return 0.62;
+}
+
+/** Cadrage centré du réseau, adapté au format de l'écran. */
 function frame(aspect: number, scale: number, offsetY = 0) {
   if (aspect >= 1.25) return { offsetX: 0, offsetY, scale };
   if (aspect >= 0.85) return { offsetX: 0, offsetY, scale: scale * 0.86 };
   return { offsetX: 0, offsetY: offsetY - 0.12, scale: scale * 0.6 };
 }
 
-type AmbientOptions = {
-  /** Degré d'organisation atteint dans la section. */
-  morph: number;
-  /** Relâchement à l'entrée de la section (le système se resserre ensuite). */
-  loose: number;
+/** Réseau effacé (les paramètres restent cohérents pour les transitions). */
+function quiet(aspect: number, dolly: number, opacity = 0) {
+  return { morph: 0.6, connect: 1, flow: 0.6, opacity, dolly, ...frame(aspect, 1) };
+}
+
+type FormationOptions = {
+  shape: FieldShape;
   opacity: number;
+  energy: number | ((p: number) => number);
   dolly: [number, number];
-  scale: number;
-  flow: number;
+  scale?: (p: number) => number;
 };
 
-/** Séquence de contenu : le système s'assemble pendant la lecture. */
-function ambient(options: AmbientOptions): Preset {
+/** Section de contenu : une formation de particules, le réseau effacé. */
+function formation(options: FormationOptions): Preset {
   return ({ p, aspect, mobile }) => ({
-    morph: options.morph - options.loose * (1 - smooth(0.05, 0.65, p)),
-    connect: 1,
-    flow: options.flow,
-    opacity: options.opacity * (mobile ? 0.85 : 1),
-    dolly: lerp(options.dolly[0], options.dolly[1], smooth(0, 1, p)),
-    ...frame(aspect, options.scale),
+    ...quiet(aspect, lerp(options.dolly[0], options.dolly[1], smooth(0, 1, p))),
+    shape: options.shape,
+    fieldOpacity: options.opacity * (mobile ? 0.85 : 1),
+    fieldEnergy: typeof options.energy === "function" ? options.energy(p) : options.energy,
+    fieldScale: fit(aspect) * (options.scale ? options.scale(p) : 1),
   });
 }
 
+/** Formations successives des sections de pages intérieures. */
+const SECTION_SHAPES: FieldShape[] = ["wave", "helix", "bloom", "shells", "lattice", "streams"];
+
 export const PRESETS: Record<string, Preset> = {
-  /** Ouverture : le chaos, au premier plan. */
+  /** Ouverture : le système en chaos, au premier plan, dans une nuée diffuse. */
   hero: ({ exit, aspect, mobile }) => {
     let layout = { offsetX: 0, offsetY: -0.1, scale: 1.05 };
     if (aspect < 0.85) layout = { offsetX: 0, offsetY: -0.25, scale: 0.6 };
@@ -92,68 +111,70 @@ export const PRESETS: Record<string, Preset> = {
       flow: smooth(0.1, 0.6, exit),
       dolly: 0.6 * smooth(0, 1, exit),
       ...layout,
+      shape: "nebula",
+      fieldOpacity: (0.36 + 0.2 * smooth(0.3, 1, exit)) * (mobile ? 0.85 : 1),
+      fieldEnergy: 0.4,
+      fieldScale: fit(aspect),
     };
   },
 
-  /** Le constat : encore enchevêtré ; il s'organise quand les tâches se rangent. */
+  /**
+   * Le constat : un tourbillon qui s'emballe avec le flot des tâches, ralentit
+   * pendant la question, puis se dénoue en rubans parallèles (flux simples).
+   */
   constat: ({ p, aspect, mobile }) => {
-    const question = smooth(0.3, 0.38, p) * (1 - smooth(0.46, 0.54, p));
+    const pressure = smooth(0.15, 0.41, p);
+    const question = smooth(0.42, 0.46, p) * (1 - smooth(0.56, 0.59, p));
+    const resolved = p > 0.58;
     return {
-      morph: 0.12 + 0.42 * smooth(0.52, 0.85, p),
+      ...quiet(aspect, lerp(0.45, 0.2, smooth(0.3, 0.9, p)), 0.3 * (1 - smooth(0, 0.22, p))),
+      morph: 0.15,
       connect: 0.8,
-      flow: 0.35 + 0.5 * smooth(0.52, 0.85, p),
-      opacity: (0.5 - 0.18 * question) * (mobile ? 0.85 : 1),
-      dolly: lerp(0.45, 0.2, smooth(0.3, 0.9, p)),
-      ...frame(aspect, 1.15),
+      flow: 0.4,
+      shape: resolved ? "streams" : "vortex",
+      fieldOpacity: (resolved ? 0.7 : 0.62 - 0.25 * question) * (mobile ? 0.85 : 1),
+      fieldEnergy: resolved ? 0.7 : 0.4 + 1.1 * pressure - 1.2 * question,
+      fieldScale: fit(aspect),
     };
   },
 
-  possibles: ambient({
-    morph: 0.62,
-    loose: 0.28,
-    opacity: 0.48,
-    dolly: [0.12, 0.32],
-    scale: 1.25,
-    flow: 0.7,
+  /** Le champ des possibles : littéralement, un champ qui ondule. */
+  possibles: formation({
+    shape: "wave",
+    opacity: 0.72,
+    energy: (p) => 0.45 + 0.5 * p,
+    dolly: [0.1, 0.3],
   }),
 
-  approche: ambient({
-    morph: 0.74,
-    loose: 0.26,
-    opacity: 0.5,
-    dolly: [0.05, 0.28],
-    scale: 1.1,
-    flow: 0.78,
+  /** L'approche : une double hélice, étape par étape. */
+  approche: formation({
+    shape: "helix",
+    opacity: 0.7,
+    energy: (p) => 0.5 + 0.4 * p,
+    dolly: [0.05, 0.25],
   }),
 
-  transformation: ambient({
-    morph: 0.84,
-    loose: 0.24,
-    opacity: 0.44,
-    dolly: [0.15, 0.38],
-    scale: 1.2,
-    flow: 0.82,
+  /** La transformation : une éclosion qui s'ouvre au fil du défilement. */
+  transformation: formation({
+    shape: "bloom",
+    opacity: 0.66,
+    energy: 0.5,
+    dolly: [0.1, 0.3],
+    scale: (p) => 0.62 + 0.5 * smooth(0.05, 0.75, p),
   }),
 
-  realisation: ambient({
-    morph: 0.88,
-    loose: 0,
-    opacity: 0.52,
-    dolly: [0.05, 0.12],
-    scale: 0.95,
-    flow: 0.86,
+  /** La réalisation : un treillis net, un objet construit. */
+  realisation: formation({ shape: "lattice", opacity: 0.62, energy: 0.5, dolly: [0.05, 0.15] }),
+
+  /** La confiance : des couches concentriques autour d'un cœur. */
+  confiance: formation({
+    shape: "shells",
+    opacity: 0.66,
+    energy: (p) => 0.4 + 0.4 * p,
+    dolly: [0.1, 0.25],
   }),
 
-  confiance: ambient({
-    morph: 0.92,
-    loose: 0.18,
-    opacity: 0.46,
-    dolly: [0.12, 0.3],
-    scale: 1.05,
-    flow: 0.9,
-  }),
-
-  /** Vision : le système s'assemble entièrement, au premier plan. */
+  /** Vision : le système réapparaît et s'assemble entièrement, cerné d'un halo. */
   vision: ({ pass, aspect, mobile }) => {
     const presence = smooth(0.05, 0.3, pass) * (1 - smooth(0.8, 1, pass));
     const scale = aspect >= 1.25 ? 0.95 : Math.min(1, Math.max(0.5, aspect * 0.92));
@@ -166,29 +187,34 @@ export const PRESETS: Record<string, Preset> = {
       offsetX: 0,
       offsetY: 0,
       scale,
+      shape: "halo",
+      fieldOpacity: (0.3 + 0.2 * presence) * (mobile ? 0.85 : 1),
+      fieldEnergy: 0.5,
+      fieldScale: fit(aspect),
     };
   },
 
-  audit: ambient({
+  /** L'audit : un anneau, une porte d'entrée. */
+  audit: ({ p, aspect, mobile }) => ({
+    ...quiet(aspect, lerp(0.05, 0.2, smooth(0, 1, p)), 0.12),
     morph: 1,
-    loose: 0.12,
-    opacity: 0.4,
-    dolly: [0.05, 0.22],
-    scale: 1.05,
-    flow: 0.72,
+    shape: "portal",
+    fieldOpacity: 0.62 * (mobile ? 0.85 : 1),
+    fieldEnergy: 0.5,
+    fieldScale: fit(aspect),
   }),
 
-  /** Pied de page : le système, organisé, recule. */
+  /** Pied de page : un horizon calme. */
   footer: ({ p, aspect, mobile }) => ({
+    ...quiet(aspect, lerp(0.1, -0.2, smooth(0, 1, p))),
     morph: 1,
-    connect: 1,
-    flow: 0.55,
-    opacity: 0.36 * (mobile ? 0.85 : 1),
-    dolly: lerp(0.1, -0.3, smooth(0, 1, p)),
-    ...frame(aspect, 0.9),
+    shape: "horizon",
+    fieldOpacity: 0.6 * (mobile ? 0.85 : 1),
+    fieldEnergy: 0.4,
+    fieldScale: fit(aspect),
   }),
 
-  /** En-tête des pages intérieures. */
+  /** En-tête des pages intérieures : le système, dans une nuée. */
   "page-hero": ({ exit, aspect, mobile }) => ({
     morph: 0.3 + 0.35 * smooth(0, 1, exit),
     connect: 0.6 + 0.4 * smooth(0, 0.6, exit),
@@ -196,50 +222,54 @@ export const PRESETS: Record<string, Preset> = {
     opacity: (0.78 - 0.28 * smooth(0.3, 1, exit)) * (mobile ? 0.8 : 1),
     dolly: 0.15 + 0.35 * smooth(0, 1, exit),
     ...frame(aspect, 0.95, -0.05),
+    shape: "nebula",
+    fieldOpacity: 0.42 * (mobile ? 0.85 : 1),
+    fieldEnergy: 0.4,
+    fieldScale: fit(aspect),
   }),
 
-  /** Section de page intérieure : s'assemble au fil de la page. */
-  section: ({ p, page, aspect, mobile }) => ({
-    morph: Math.min(1, 0.6 + 0.4 * page) - 0.22 * (1 - smooth(0.05, 0.65, p)),
-    connect: 1,
-    flow: 0.8,
-    opacity: 0.46 * (mobile ? 0.85 : 1),
-    dolly: lerp(0.05, 0.3, smooth(0, 1, p)),
-    ...frame(aspect, 1.15),
+  /** Section de page intérieure : une formation différente à chaque section. */
+  section: ({ p, aspect, mobile, index }) => ({
+    ...quiet(aspect, lerp(0.05, 0.25, smooth(0, 1, p))),
+    shape: SECTION_SHAPES[index % SECTION_SHAPES.length] as FieldShape,
+    fieldOpacity: 0.6 * (mobile ? 0.85 : 1),
+    fieldEnergy: 0.55,
+    fieldScale: fit(aspect),
   }),
 
   /** Textes légaux : présence très discrète, lecture confortable. */
   legal: ({ p, aspect }) => ({
-    morph: 1,
-    connect: 1,
-    flow: 0.5,
-    opacity: 0.22,
-    dolly: lerp(0, 0.2, p),
-    ...frame(aspect, 1.2),
+    ...quiet(aspect, lerp(0, 0.15, p)),
+    shape: "horizon",
+    fieldOpacity: 0.32,
+    fieldEnergy: 0.3,
+    fieldScale: fit(aspect),
   }),
 
   /** Zones sans section déclarée. */
-  default: ({ page, aspect, mobile }) => ({
-    morph: 0.6 + 0.4 * page,
-    connect: 1,
-    flow: 0.8,
-    opacity: 0.42 * (mobile ? 0.85 : 1),
-    dolly: 0.1 + 0.2 * page,
-    ...frame(aspect, 1.15),
+  default: ({ aspect }) => ({
+    ...quiet(aspect, 0.15),
+    shape: "wave",
+    fieldOpacity: 0.5,
+    fieldEnergy: 0.5,
+    fieldScale: fit(aspect),
   }),
 };
 
 export type BackdropAnchor = { name: string; top: number; height: number };
 
+export type BackdropFrame = { state: BackdropState; shape: FieldShape };
+
 /**
  * État de la scène pour une position de défilement : moyenne pondérée des
- * sections proches du milieu de l'écran (fondu sur ±30 % de sa hauteur).
+ * sections proches du milieu de l'écran (fondu sur ±30 % de sa hauteur) ;
+ * la formation est celle de la section dominante.
  */
 export function backdropState(
   anchors: readonly BackdropAnchor[],
   scrollY: number,
   viewport: { width: number; height: number; docHeight: number },
-): BackdropState {
+): BackdropFrame {
   const vh = viewport.height;
   const focus = scrollY + vh * 0.5;
   const fade = vh * 0.3;
@@ -250,12 +280,20 @@ export function backdropState(
 
   const sum = Object.fromEntries(BACKDROP_KEYS.map((key) => [key, 0])) as BackdropState;
   let total = 0;
-  const add = (state: BackdropState, weight: number) => {
-    for (const key of BACKDROP_KEYS) sum[key] += state[key] * weight;
+  const dominant = { shape: "nebula" as FieldShape, weight: 0 };
+  const add = (result: PresetResult, weight: number) => {
+    for (const key of BACKDROP_KEYS) sum[key] += result[key] * weight;
     total += weight;
+    if (weight > dominant.weight) {
+      dominant.weight = weight;
+      dominant.shape = result.shape;
+    }
   };
 
+  const seen = new Map<string, number>();
   for (const anchor of anchors) {
+    const index = seen.get(anchor.name) ?? 0;
+    seen.set(anchor.name, index + 1);
     const bottom = anchor.top + anchor.height;
     const weight =
       smooth(anchor.top - fade, anchor.top + fade, focus) *
@@ -271,14 +309,17 @@ export function backdropState(
         page,
         aspect,
         mobile,
+        index,
       }),
       weight,
     );
   }
 
-  if (total < 1 && PRESETS.default) {
-    add(PRESETS.default({ p: 0, pass: 0, exit: 0, page, aspect, mobile }), 1 - total);
+  const fallback = PRESETS.default;
+  if (total < 1 && fallback) {
+    const input = { p: 0, pass: 0, exit: 0, page, aspect, mobile, index: 0 };
+    add(fallback(input), 1 - total);
   }
   for (const key of BACKDROP_KEYS) sum[key] /= Math.max(1, total);
-  return sum;
+  return { state: sum, shape: dominant.shape };
 }

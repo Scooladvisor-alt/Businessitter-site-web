@@ -427,32 +427,93 @@ html[data-system="webgl"] .system-poster {
 }
 
 /* ==========================================================================
-   Séquence 2 — Le constat : mise en page statique par défaut, mise en scène
-   animée lorsque le mouvement est autorisé (data-motion="on").
+   Séquence 2 — Le constat : mise en page statique par défaut ; mise en scène
+   « collante » dès que le mouvement est autorisé (html.motion, posée avant
+   l'affichage : la hauteur de défilement est réservée, aucun décalage).
    ========================================================================== */
 
-[data-problem]:not([data-motion="on"]) [data-motion-only] {
-  display: none !important;
+[data-problem] [data-motion-only] {
+  display: none;
 }
 
-[data-problem][data-motion="on"] [data-headline] {
-  display: grid;
+html.motion [data-problem]:not([data-motion="off"]) {
+  & [data-motion-only] {
+    display: block;
+  }
+
+  & [data-stage-track] {
+    height: calc(100svh + 240svh);
+  }
+
+  & [data-stage] {
+    position: sticky;
+    top: 0;
+    display: block;
+    height: 100svh;
+    padding: 0;
+  }
+
+  & [data-slot] {
+    position: absolute;
+    inset-inline: 0;
+    translate: 0 -50%;
+  }
+
+  & [data-slot="center"] {
+    top: 50%;
+  }
+
+  & [data-slot="question"] {
+    top: 45%;
+  }
+
+  & [data-slot="top"] {
+    top: 30%;
+  }
+
+  & [data-slot="pipe"] {
+    top: 56%;
+  }
+
+  /* États initiaux (repris par l'animation). */
+  & [data-noise-row][data-late],
+  & [data-question] [data-word],
+  & [data-text-b] [data-word],
+  & [data-text-b2] [data-word],
+  & [data-pipe],
+  & [data-legend] {
+    opacity: 0;
+  }
 }
 
-[data-problem][data-motion="on"] [data-headline] > * {
-  grid-area: 1 / 1;
+@media (max-width: 767px) {
+  html.motion [data-problem]:not([data-motion="off"]) {
+    & [data-slot="top"] {
+      top: 26%;
+    }
+
+    & [data-slot="pipe"] {
+      top: 58%;
+    }
+  }
 }
 
-/* Scène « collante » : la hauteur de défilement est réservée dès le premier
-   rendu (html.motion, posée avant l'affichage) — aucun décalage d'ancre. */
-html.motion [data-problem] [data-stage-track] {
-  height: calc(100svh + 260svh);
+@keyframes noise-flow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.3333%, 0, 0);
+  }
 }
 
-html.motion [data-problem] [data-stage] {
-  position: sticky;
-  top: 0;
-  height: 100svh;
+@keyframes pipe-flow {
+  from {
+    transform: translate3d(-33.3333%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @keyframes wave {

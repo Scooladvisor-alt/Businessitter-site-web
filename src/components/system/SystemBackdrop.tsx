@@ -81,10 +81,15 @@ export function SystemBackdrop() {
         frame = 0;
         const docHeight = document.documentElement.scrollHeight;
         const viewport = { width: window.innerWidth, height: window.innerHeight, docHeight };
-        const state = backdropState(anchors, window.scrollY, viewport);
+        const { state, shape } = backdropState(anchors, window.scrollY, viewport);
         const page = window.scrollY / Math.max(1, docHeight - viewport.height);
         // Premier calcul appliqué sans transition (la scène apparaît en fondu).
         instance.setTargets({ ...state, spin: page * SCROLL_SPIN }, first);
+        instance.setFieldShape(shape, first);
+        // Formation courante (lisible par les tests et les outils de diagnostic).
+        if (document.documentElement.dataset.backdropShape !== shape) {
+          document.documentElement.dataset.backdropShape = shape;
+        }
         first = false;
       };
       const schedule = () => {
@@ -183,6 +188,7 @@ export function SystemBackdrop() {
       scene?.dispose();
       scene = null;
       delete document.documentElement.dataset.system;
+      delete document.documentElement.dataset.backdropShape;
       canvas.remove();
     };
   }, []);

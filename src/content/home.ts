@@ -9,7 +9,16 @@ import { frDeep } from "@/lib/typography";
 
 export type SceneKey = "phone" | "mail" | "docs" | "ops" | "journey" | "custom";
 export type TaskIcon =
-  "phone" | "mail" | "file" | "copy" | "calendar" | "bell" | "voicemail" | "receipt";
+  | "phone"
+  | "mail"
+  | "file"
+  | "copy"
+  | "calendar"
+  | "bell"
+  | "voicemail"
+  | "receipt"
+  | "user"
+  | "cart";
 export type TaskStatus = "auto" | "review";
 
 export const hero = frDeep({
@@ -26,69 +35,36 @@ export const problem = frDeep({
   title: "Votre entreprise mérite mieux que des tâches répétitives.",
   lead: "Appels, e-mails, devis, relances... Chaque jour, des heures disparaissent.",
   transition: "Et si tout cela pouvait fonctionner autrement ?",
-  resolvedTitle: "Le répétitif est pris en charge. Les décisions restent les vôtres.",
-  pending: "tâches en attente",
-  pendingOne: "tâche en attente",
-  resolved: { auto: "prises en charge", review: "à valider par vous" },
-  statusLabels: { pending: "À traiter", auto: "Automatisé", review: "À valider" },
-  tasks: [
-    {
-      icon: "phone",
-      label: "Appel manqué",
-      detail: "Pendant un rendez-vous",
-      resolved: "Demande qualifiée",
-      status: "auto",
-    },
-    {
-      icon: "mail",
-      label: "23 e-mails non lus",
-      detail: "Dont plusieurs devis",
-      resolved: "Triés et priorisés",
-      status: "auto",
-    },
-    {
-      icon: "file",
-      label: "Devis à préparer",
-      detail: "Avant vendredi",
-      resolved: "Prêt à être validé",
-      status: "review",
-    },
-    {
-      icon: "copy",
-      label: "Ressaisie",
-      detail: "Du tableur à la facturation",
-      resolved: "Données synchronisées",
-      status: "auto",
-    },
-    {
-      icon: "calendar",
-      label: "Rendez-vous à caler",
-      detail: "Trois créneaux sans réponse",
-      resolved: "Créneau confirmé",
-      status: "auto",
-    },
-    {
-      icon: "bell",
-      label: "Relance oubliée",
-      detail: "Devis envoyé il y a 15 jours",
-      resolved: "Relance envoyée",
-      status: "auto",
-    },
-    {
-      icon: "voicemail",
-      label: "Message vocal",
-      detail: "Un prospect à rappeler",
-      resolved: "Résumé transmis",
-      status: "review",
-    },
-    {
-      icon: "receipt",
-      label: "Facture à envoyer",
-      detail: "Intervention terminée",
-      resolved: "Générée, à valider",
-      status: "review",
-    },
-  ] as { icon: TaskIcon; label: string; detail: string; resolved: string; status: TaskStatus }[],
+  resolved: "Le répétitif est pris en charge.",
+  resolvedAccent: "Les décisions restent les vôtres.",
+  legend: { auto: "Pris en charge", review: "À valider par vous" },
+  summary:
+    "Illustration : un appel manqué devient une demande qualifiée, les e-mails sont triés, les données synchronisées, les rendez-vous confirmés et les relances envoyées. Les devis et les factures restent à valider par vous.",
+  /** Le flot du quotidien (décor de la première partie). */
+  noise: [
+    { icon: "phone", label: "Appel manqué" },
+    { icon: "mail", label: "23 e-mails non lus" },
+    { icon: "file", label: "Demande de devis" },
+    { icon: "bell", label: "Relance à faire" },
+    { icon: "copy", label: "Ressaisie dans le tableur" },
+    { icon: "calendar", label: "Rendez-vous à déplacer" },
+    { icon: "voicemail", label: "Nouveau message vocal" },
+    { icon: "receipt", label: "Facture à envoyer" },
+    { icon: "user", label: "Fiche client à compléter" },
+    { icon: "cart", label: "Commande à confirmer" },
+    { icon: "mail", label: "Pièce jointe manquante" },
+    { icon: "calendar", label: "Planning à refaire" },
+  ] as { icon: TaskIcon; label: string }[],
+  /** Le flux simplifié : à gauche à traiter, à droite pris en charge ou à valider. */
+  flow: [
+    { icon: "phone", from: "Appel manqué", to: "Demande qualifiée", status: "auto" },
+    { icon: "mail", from: "E-mails non lus", to: "Triés et priorisés", status: "auto" },
+    { icon: "file", from: "Devis à préparer", to: "Devis à valider", status: "review" },
+    { icon: "copy", from: "Ressaisie", to: "Données synchronisées", status: "auto" },
+    { icon: "calendar", from: "Rendez-vous à caler", to: "Créneau confirmé", status: "auto" },
+    { icon: "bell", from: "Relance oubliée", to: "Relance envoyée", status: "auto" },
+    { icon: "receipt", from: "Facture à envoyer", to: "Facture à valider", status: "review" },
+  ] as { icon: TaskIcon; from: string; to: string; status: TaskStatus }[],
 });
 
 export const possibilities = frDeep({

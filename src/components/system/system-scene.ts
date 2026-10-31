@@ -12,9 +12,18 @@ import {
   WebGLRenderer,
 } from "three";
 import { createSystemData, SYSTEM_QUALITY, type SystemData } from "./system-data";
+import {
+  createFieldData,
+  FIELD_COUNT,
+  FIELD_STYLES,
+  fieldMotion,
+  type FieldData,
+  type FieldShape,
+} from "./field-shapes";
 
 /**
- * Scène WebGL du « système » : nœuds lumineux, connexions et flux.
+ * Scène WebGL du « système » : nœuds lumineux, connexions et flux, entourés
+ * d'une nuée de particules qui change de formation d'une section à l'autre.
  * Rendu léger (points + lignes, shaders sur mesure), en pause dès qu'elle
  * n'est plus visible ; 30 images par seconde en qualité réduite.
  */
@@ -36,6 +45,10 @@ export type SystemTargets = {
   scale: number;
   /** Rotation supplémentaire liée au défilement (radians). */
   spin: number;
+  /** Nuée de particules : opacité, intensité du mouvement, échelle. */
+  fieldOpacity: number;
+  fieldEnergy: number;
+  fieldScale: number;
 };
 
 export type SystemQuality = "high" | "low";
@@ -185,6 +198,87 @@ void main() {
 }
 `;
 
+const FIELD_VERTEX = /* glsl */ `
+${COMMON}
+attribute vec3 aFrom;
+attribute vec3 aTo;
+attribute vec4 aRand;
+attribute vec2 aInfo;
+uniform float uProgress;
+uniform float uScatter;
+uniform vec4 uMotion;
+uniform vec3 uColorA;
+uniform vec3 uColorB;
+uniform float uOpacity;
+uniform float uSize;
+uniform float uPixelRatio;
+varying vec3 vColor;
+varying float vAlpha;
+
+// Rotation différentielle + ondulation (identique à fieldMotion, côté JS).
+vec3 fieldMotion(vec3 p, vec4 m) {
+  float r = length(p.xz);
+  float a = m.x / (0.7 + r);
+  float c = cos(a);
+  float s = sin(a);
+  vec3 q = vec3(c * p.x - s * p.z, p.y, s * p.x + c * p.z);
+  q.y += m.y * sin(q.x * 0.85 + m.z) * cos(q.z * 0.7 + m.z * 0.6);
+  return q;
+}
+
+void main() {
+  float t = clamp(uProgress * 1.6 - aRand.w * 0.6, 0.0, 1.0);
+  t = t * t * (3.0 - 2.0 * t);
+  vec3 pos = mix(aFrom, fieldMotion(aTo, uMotion), t) + aRand.xyz * sin(t * 3.14159265) * uScatter;
+  pos += vec3(
+    sin(uTime * 0.21 + aRand.x * 31.0),
+    cos(uTime * 0.17 + aRand.y * 29.0),
+    sin(uTime * 0.19 + aRand.z * 23.0)
+  ) * 0.035;
+  vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+  float influence;
+  gl_Position = pointerDisplace(projectionMatrix * mv, influence);
+  gl_PointSize = aInfo.x * uSize * uPixelRatio * (1.0 + influence * 0.8) * 46.0 / max(0.5, -mv.z);
+  vColor = mix(uColorA, uColorB, aInfo.y);
+  float twinkle = 0.72 + 0.28 * sin(uTime * (0.8 + aInfo.y) + aRand.w * 40.0);
+  vAlpha = uOpacity * twinkle * smoothstep(-26.0, -4.5, mv.z) * (1.0 + influence * 0.6) * 1.35;
+}
+`;
+
+const FIELD_FRAGMENT = /* glsl */ `
+varying vec3 vColor;
+varying float vAlpha;
+
+void main() {
+  vec2 uv = gl_PointCoord - 0.5;
+  float d = length(uv);
+  if (d > 0.5) discard;
+  float core = smoothstep(0.16, 0.0, d);
+  float halo = pow(smoothstep(0.5, 0.0, d), 2.2);
+  vec3 col = mix(vColor, vec3(1.0, 0.98, 0.95), core * 0.6);
+  gl_FragColor = vec4(col, (halo * 0.7 + core * 0.9) * vAlpha);
+}
+`;
+
+/** Paramètres de formation lissés d'une forme à l'autre. */
+type FieldLook = {
+  size: number;
+  tilt: number;
+  offsetY: number;
+  scale: number;
+  swirl: number;
+  wave: number;
+  waveSpeed: number;
+};
+
+const FIELD_MORPH_SECONDS = 2.4;
+const FIELD_SCATTER = 0.9;
+
+function lookOf(shape: FieldShape): FieldLook {
+  const { size, tilt, offsetY, scale, swirl, wave, waveSpeed } = FIELD_STYLES[shape];
+  return { size, tilt, offsetY, scale, swirl, wave, waveSpeed };
+}
+
 function nodeAttributes(geometry: BufferGeometry, data: SystemData) {
   geometry.setAttribute("position", new BufferAttribute(data.chaos, 3));
   geometry.setAttribute("aChaos", new BufferAttribute(data.chaos, 3));
@@ -276,8 +370,31 @@ export class SystemScene {
     offsetY: 0,
     scale: 1,
     spin: 0,
+    fieldOpacity: 0,
+    fieldEnergy: 0.5,
+    fieldScale: 1,
   };
   private current: SystemTargets = { ...this.targets };
+
+  // — Nuée de particules —
+  private fieldGroup = new Group();
+  private fieldData: FieldData;
+  private fieldGeometry = new BufferGeometry();
+  private fieldMaterial: ShaderMaterial;
+  private fieldPoints: Points;
+  private fieldFrom: Float32Array;
+  private fieldTo: Float32Array;
+  private fieldShape: FieldShape = "nebula";
+  private fieldProgress = 1;
+  private swirlPhase = 0;
+  private wavePhase = 0;
+  private waveAmp = 0;
+  private look: FieldLook = lookOf("nebula");
+  private lookTarget: FieldLook = lookOf("nebula");
+  private colorA = new Color(FIELD_STYLES.nebula.colorA);
+  private colorB = new Color(FIELD_STYLES.nebula.colorB);
+  private colorATarget = new Color(FIELD_STYLES.nebula.colorA);
+  private colorBTarget = new Color(FIELD_STYLES.nebula.colorB);
   private size = { width: 0, height: 0, ratio: 0 };
   /** Intervalle minimal entre deux rendus (ms) : 30 i/s en qualité réduite. */
   private minFrameGap: number;
@@ -363,7 +480,40 @@ export class SystemScene {
 
     this.group.add(this.chaosLines, this.orderLines, this.points);
     this.group.rotation.set(0.12, -0.35, 0);
-    this.scene.add(this.group);
+
+    this.fieldData = createFieldData(FIELD_COUNT[quality]);
+    const initial = this.fieldData.shape("nebula");
+    this.fieldFrom = Float32Array.from(initial);
+    this.fieldTo = Float32Array.from(initial);
+    this.fieldGeometry.setAttribute("position", new BufferAttribute(this.fieldTo, 3));
+    this.fieldGeometry.setAttribute("aFrom", new BufferAttribute(this.fieldFrom, 3));
+    this.fieldGeometry.setAttribute("aTo", new BufferAttribute(this.fieldTo, 3));
+    this.fieldGeometry.setAttribute("aRand", new BufferAttribute(this.fieldData.rand, 4));
+    this.fieldGeometry.setAttribute("aInfo", new BufferAttribute(this.fieldData.info, 2));
+    this.fieldMaterial = new ShaderMaterial({
+      vertexShader: FIELD_VERTEX,
+      fragmentShader: FIELD_FRAGMENT,
+      uniforms: {
+        ...this.shared,
+        uProgress: { value: 1 },
+        uScatter: { value: FIELD_SCATTER },
+        uMotion: { value: [0, 0, 0, 0] },
+        uColorA: { value: this.colorA },
+        uColorB: { value: this.colorB },
+        uOpacity: { value: 0 },
+        uSize: { value: quality === "high" ? 1 : 1.25 },
+        uPixelRatio: { value: 1 },
+      },
+      transparent: true,
+      depthTest: false,
+      depthWrite: false,
+      blending: AdditiveBlending,
+    });
+    this.fieldPoints = new Points(this.fieldGeometry, this.fieldMaterial);
+    this.fieldPoints.frustumCulled = false;
+    this.fieldGroup.add(this.fieldPoints);
+
+    this.scene.add(this.fieldGroup, this.group);
     this.camera.position.set(0, 0, 10.5);
 
     canvas.addEventListener("webglcontextlost", this.handleContextLost, false);
@@ -384,7 +534,66 @@ export class SystemScene {
   setTargets(targets: Partial<SystemTargets>, immediate = false) {
     Object.assign(this.targets, targets);
     if (immediate) Object.assign(this.current, targets);
-    if (this.targets.opacity > 0.001) this.start();
+    if (this.targets.opacity > 0.001 || this.targets.fieldOpacity > 0.001) this.start();
+  }
+
+  /**
+   * Nouvelle formation pour la nuée : la position actuelle de chaque
+   * particule devient le point de départ (aucun saut, même en pleine
+   * métamorphose), puis les particules rejoignent la nouvelle forme.
+   */
+  setFieldShape(shape: FieldShape, immediate = false) {
+    if (shape === this.fieldShape) return;
+    if (immediate) {
+      const positions = this.fieldData.shape(shape);
+      this.fieldFrom.set(positions);
+      this.fieldTo.set(positions);
+      (this.fieldGeometry.getAttribute("aFrom") as BufferAttribute).needsUpdate = true;
+      (this.fieldGeometry.getAttribute("aTo") as BufferAttribute).needsUpdate = true;
+      this.fieldShape = shape;
+      this.fieldProgress = 1;
+      this.look = lookOf(shape);
+      this.lookTarget = lookOf(shape);
+      this.colorA.set(FIELD_STYLES[shape].colorA);
+      this.colorB.set(FIELD_STYLES[shape].colorB);
+      this.colorATarget.copy(this.colorA);
+      this.colorBTarget.copy(this.colorB);
+      return;
+    }
+    const { count, rand } = this.fieldData;
+    const from = this.fieldFrom;
+    const to = this.fieldTo;
+    const progress = this.fieldProgress;
+    for (let i = 0; i < count; i++) {
+      let t = Math.min(1, Math.max(0, progress * 1.6 - (rand[i * 4 + 3] as number) * 0.6));
+      t = t * t * (3 - 2 * t);
+      const [mx, my, mz] = fieldMotion(
+        to[i * 3] as number,
+        to[i * 3 + 1] as number,
+        to[i * 3 + 2] as number,
+        this.swirlPhase,
+        this.waveAmp,
+        this.wavePhase,
+      );
+      const bulge = Math.sin(t * Math.PI) * FIELD_SCATTER;
+      for (let k = 0; k < 3; k++) {
+        const a = from[i * 3 + k] as number;
+        const b = k === 0 ? mx : k === 1 ? my : mz;
+        from[i * 3 + k] = a + (b - a) * t + (rand[i * 4 + k] as number) * bulge;
+      }
+    }
+    to.set(this.fieldData.shape(shape));
+    (this.fieldGeometry.getAttribute("aFrom") as BufferAttribute).needsUpdate = true;
+    (this.fieldGeometry.getAttribute("aTo") as BufferAttribute).needsUpdate = true;
+    this.fieldShape = shape;
+    this.fieldProgress = 0;
+    this.swirlPhase = 0;
+    this.wavePhase = 0;
+    this.waveAmp = 0;
+    this.lookTarget = lookOf(shape);
+    this.colorATarget.set(FIELD_STYLES[shape].colorA);
+    this.colorBTarget.set(FIELD_STYLES[shape].colorB);
+    this.start();
   }
 
   /** Position du pointeur en coordonnées normalisées (-1 → 1). */
@@ -413,6 +622,7 @@ export class SystemScene {
     this.camera.updateProjectionMatrix();
     this.shared.uAspect.value = this.camera.aspect;
     this.pointsMaterial.uniforms.uPixelRatio.value = this.pixelRatio;
+    this.fieldMaterial.uniforms.uPixelRatio.value = this.pixelRatio;
     if (!this.running) this.render();
   }
 
@@ -443,6 +653,20 @@ export class SystemScene {
       c[key] += (t[key] - c[key]) * ease;
     });
 
+    // Nuée : métamorphose, mouvements propres, apparence.
+    this.fieldProgress = Math.min(1, this.fieldProgress + dt / FIELD_MORPH_SECONDS);
+    const lookEase = 1 - Math.exp(-dt * 1.6);
+    const look = this.look;
+    (Object.keys(look) as (keyof FieldLook)[]).forEach((key) => {
+      look[key] += (this.lookTarget[key] - look[key]) * lookEase;
+    });
+    this.colorA.lerp(this.colorATarget, lookEase);
+    this.colorB.lerp(this.colorBTarget, lookEase);
+    const energy = c.fieldEnergy;
+    this.swirlPhase += dt * look.swirl * (0.35 + energy);
+    this.wavePhase += dt * look.waveSpeed * (0.6 + 0.4 * energy);
+    this.waveAmp = look.wave * (0.55 + 0.45 * Math.min(1.5, energy));
+
     const pEase = 1 - Math.exp(-dt * 3.2);
     this.pointer[0] += (this.pointerTarget[0] - this.pointer[0]) * pEase;
     this.pointer[1] += (this.pointerTarget[1] - this.pointer[1]) * pEase;
@@ -450,8 +674,14 @@ export class SystemScene {
 
     this.render();
 
-    if (t.opacity <= 0.001 && c.opacity < 0.004) {
+    if (
+      t.opacity <= 0.001 &&
+      c.opacity < 0.004 &&
+      t.fieldOpacity <= 0.001 &&
+      c.fieldOpacity < 0.004
+    ) {
       c.opacity = 0;
+      c.fieldOpacity = 0;
       this.render();
       this.stop();
     }
@@ -491,6 +721,18 @@ export class SystemScene {
     this.group.scale.setScalar(c.scale);
     this.camera.position.z = 10.5 - c.dolly * 2.4;
 
+    const look = this.look;
+    const field = this.fieldMaterial.uniforms;
+    field.uProgress.value = this.fieldProgress;
+    field.uMotion.value = [this.swirlPhase, this.waveAmp, this.wavePhase, 0];
+    field.uOpacity.value = c.fieldOpacity;
+    field.uSize.value = (this.quality === "high" ? 1 : 1.25) * look.size;
+    this.fieldPoints.visible = c.fieldOpacity > 0.003;
+    this.fieldGroup.rotation.set(look.tilt, c.spin + this.time * 0.025, 0);
+    this.fieldGroup.position.set(0, look.offsetY, 0);
+    this.fieldGroup.scale.setScalar(look.scale * c.fieldScale);
+    this.points.visible = c.opacity > 0.003;
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -504,6 +746,8 @@ export class SystemScene {
     this.pointsMaterial.dispose();
     this.chaosMaterial.dispose();
     this.orderMaterial.dispose();
+    this.fieldGeometry.dispose();
+    this.fieldMaterial.dispose();
     this.renderer.dispose();
     this.renderer.forceContextLoss();
   }

@@ -46,24 +46,31 @@ Le site est alors disponible sur http://localhost:3000.
 La page d'accueil raconte une transformation en neuf séquences :
 **complexité → compréhension → possibilités → solutions → sérénité**.
 
-Un même fil visuel accompagne tout le site : le « système » 3D en arrière-plan, piloté par le
-défilement. Il part du chaos à l'ouverture, se resserre à l'entrée de chaque section puis
-s'assemble pendant la lecture, prend sa forme complète sur « Vision » et recule en pied de
-page. Chaque section déclare sa mise en scène avec `data-backdrop="<nom>"` (réglages dans
-`src/components/system/backdrop-presets.ts`) ; les pages intérieures utilisent `page-hero`,
-`section` et `legal`.
+Un même fil visuel accompagne tout le site, en arrière-plan WebGL piloté par le défilement :
 
-| #   | Séquence (ancre)                      | Mise en scène                                                                                                 |
-| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| 1   | Ouverture (`#accueil`)                | Titre centré sur le système 3D (WebGL) ; au défilement, des connexions se créent, des flux s'organisent       |
-| 2   | Le constat (`#constat`)               | Scène collante : les tâches s'accumulent, se rassemblent pendant la question, puis sont distribuées une à une |
-| 3   | Les possibles (`#possibles`)          | Vitrine à onglets : six interfaces animées en lecture automatique + « Qu'aimeriez-vous automatiser ? »        |
-| 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée                    |
-| 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)              |
-| 6   | Réalisation (`#realisation`)          | Une carte compacte : SuperCalendar, déjà utilisé par des professionnels, et un lien discret                   |
-| 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                               |
-| 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                       |
-| 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                                 |
+- le **système** (réseau de nœuds et de liaisons) : en chaos à l'ouverture, il s'efface pendant
+  le parcours puis réapparaît, entièrement organisé, sur « Vision » ;
+- une **nuée de particules** qui change de formation à chaque section, avec ses propres couleurs
+  et son propre mouvement : nébuleuse (ouverture), tourbillon qui s'emballe puis se dénoue en
+  rubans (constat), champ ondulant (possibles), double hélice (approche), éclosion
+  (transformation), treillis (réalisation), sphères concentriques (confiance), halo (vision),
+  anneau (audit), horizon (pied de page).
+
+Chaque section déclare sa mise en scène avec `data-backdrop="<nom>"` (réglages dans
+`src/components/system/backdrop-presets.ts`, formes dans `field-shapes.ts`) ; les pages
+intérieures utilisent `page-hero`, `section` (une formation différente par section) et `legal`.
+
+| #   | Séquence (ancre)                      | Mise en scène                                                                                               |
+| --- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| 1   | Ouverture (`#accueil`)                | Titre centré sur le système 3D (WebGL) ; au défilement, des connexions se créent, des flux s'organisent     |
+| 2   | Le constat (`#constat`)               | Le flot des sollicitations s'accumule et s'accélère, la question, puis un seul flux traverse une passerelle |
+| 3   | Les possibles (`#possibles`)          | Vitrine à onglets : six interfaces animées en lecture automatique + « Qu'aimeriez-vous automatiser ? »      |
+| 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée                  |
+| 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)            |
+| 6   | Réalisation (`#realisation`)          | Une carte compacte : SuperCalendar, déjà utilisé par des professionnels, et un lien discret                 |
+| 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                             |
+| 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                     |
+| 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                               |
 
 Pages complémentaires : `/approche`, `/solutions`, `/contact`, `/mentions-legales`,
 `/confidentialite`, `/cookies`, ainsi qu'une page 404 personnalisée.
