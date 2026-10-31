@@ -46,17 +46,17 @@ Le site est alors disponible sur http://localhost:3000.
 La page d'accueil raconte une transformation en neuf séquences :
 **complexité → compréhension → possibilités → solutions → sérénité**.
 
-| #   | Séquence (ancre)                      | Mise en scène                                                                                           |
-| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| 1   | Ouverture (`#accueil`)                | Titre centré sur le système 3D (WebGL) ; au défilement, des connexions se créent, des flux s'organisent |
-| 2   | Le constat (`#constat`)               | Scène collante : les tâches s'accumulent, la question « Et si… ? », puis tout se range                  |
-| 3   | Les possibles (`#possibles`)          | Vitrine à onglets : six interfaces animées en lecture automatique + « Qu'aimeriez-vous automatiser ? »  |
-| 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée              |
-| 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)        |
-| 6   | Réalisation (`#realisation`)          | SuperCalendar, interface en perspective 3D, inclinaison au survol                                       |
-| 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                         |
-| 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                 |
-| 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                           |
+| #   | Séquence (ancre)                      | Mise en scène                                                                                                 |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| 1   | Ouverture (`#accueil`)                | Titre centré sur le système 3D (WebGL) ; au défilement, des connexions se créent, des flux s'organisent       |
+| 2   | Le constat (`#constat`)               | Scène collante : les tâches s'accumulent, se rassemblent pendant la question, puis sont distribuées une à une |
+| 3   | Les possibles (`#possibles`)          | Vitrine à onglets : six interfaces animées en lecture automatique + « Qu'aimeriez-vous automatiser ? »        |
+| 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée                    |
+| 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)              |
+| 6   | Réalisation (`#realisation`)          | SuperCalendar, interface en perspective 3D, inclinaison au survol                                             |
+| 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                               |
+| 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                       |
+| 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                                 |
 
 Pages complémentaires : `/approche`, `/solutions`, `/contact`, `/mentions-legales`,
 `/confidentialite`, `/cookies`, ainsi qu'une page 404 personnalisée.

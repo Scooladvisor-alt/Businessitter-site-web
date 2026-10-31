@@ -28,6 +28,7 @@ export const problem = frDeep({
   transition: "Et si tout cela pouvait fonctionner autrement ?",
   resolvedTitle: "Le répétitif est pris en charge. Les décisions restent les vôtres.",
   pending: "tâches en attente",
+  pendingOne: "tâche en attente",
   resolved: { auto: "prises en charge", review: "à valider par vous" },
   statusLabels: { pending: "À traiter", auto: "Automatisé", review: "À valider" },
   tasks: [

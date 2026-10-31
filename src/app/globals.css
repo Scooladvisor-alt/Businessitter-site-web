@@ -445,7 +445,7 @@ html[data-system="webgl"] .system-poster {
 /* Scène « collante » : la hauteur de défilement est réservée dès le premier
    rendu (html.motion, posée avant l'affichage) — aucun décalage d'ancre. */
 html.motion [data-problem] [data-stage-track] {
-  height: calc(100svh + 220svh);
+  height: calc(100svh + 260svh);
 }
 
 html.motion [data-problem] [data-stage] {

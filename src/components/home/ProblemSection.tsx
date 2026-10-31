@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import {
   BellRing,
   CalendarClock,
@@ -52,12 +52,46 @@ const CHAOS_MOBILE: Spot[] = [
   { x: 0.14, y: 0.34, r: -6 },
 ];
 
+/** Pile au centre du plateau (décalages en px) pendant la question. */
+const PILE: Spot[] = [
+  { x: -14, y: 10, r: -7 },
+  { x: 12, y: 4, r: 5 },
+  { x: -6, y: -6, r: -3 },
+  { x: 16, y: 8, r: 8 },
+  { x: -12, y: -10, r: -5 },
+  { x: 6, y: 2, r: 3 },
+  { x: -4, y: -14, r: -2 },
+  { x: 10, y: -4, r: 4 },
+];
+
 /** Nombre de tâches déjà présentes à l'arrivée sur la séquence. */
 const VISIBLE_AT_START = 3;
 
+/** Cadence de la distribution des cartes dans la grille (unités de timeline). */
+const DEAL_STEP = 0.2;
+
+/** Découpe une phrase en mots animables (les espaces insécables sont conservés). */
+function Words({ text }: { text: string }) {
+  const words = text.split(" ");
+  return (
+    <>
+      {words.map((word, index) => (
+        <Fragment key={index}>
+          <span data-word className="inline-block">
+            {word}
+          </span>
+          {index < words.length - 1 ? " " : null}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
 /**
  * Séquence 2 — Le constat. Scène « collante » (position: sticky) :
- * les tâches s'accumulent, la question est posée, puis tout se range.
+ * les tâches s'accumulent, se rassemblent en pile pendant que la question
+ * se dessine, puis sont distribuées une à une dans la grille, chacune
+ * changeant de statut à son arrivée.
  * Les états initiaux sont posés explicitement à l'hydratation : la scène
  * n'est jamais vide et ne dépend d'aucune préparation différée.
  */
@@ -93,16 +127,19 @@ export function ProblemSection() {
             );
             const spots = desktop ? CHAOS_DESKTOP : CHAOS_MOBILE;
             const spot = (i: number) => spots[i % spots.length] as Spot;
-            const dx = (i: number) => {
-              const card = cards[i] as HTMLElement;
-              const center = grid.offsetLeft + card.offsetLeft + card.offsetWidth / 2;
-              return board.offsetWidth * (0.5 + spot(i).x) - center;
-            };
-            const dy = (i: number) => {
-              const card = cards[i] as HTMLElement;
-              const center = grid.offsetTop + card.offsetTop + card.offsetHeight / 2;
-              return board.offsetHeight * (0.5 + spot(i).y) - center;
-            };
+            const center = (card: HTMLElement) => ({
+              x: grid.offsetLeft + card.offsetLeft + card.offsetWidth / 2,
+              y: grid.offsetTop + card.offsetTop + card.offsetHeight / 2,
+            });
+            const chaosX = (i: number) =>
+              board.offsetWidth * (0.5 + spot(i).x) - center(cards[i] as HTMLElement).x;
+            const chaosY = (i: number) =>
+              board.offsetHeight * (0.5 + spot(i).y) - center(cards[i] as HTMLElement).y;
+            const pile = (i: number) => PILE[i % PILE.length] as Spot;
+            const pileX = (i: number) =>
+              board.offsetWidth * 0.5 + pile(i).x - center(cards[i] as HTMLElement).x;
+            const pileY = (i: number) =>
+              board.offsetHeight * 0.55 + pile(i).y - center(cards[i] as HTMLElement).y;
 
             const visible = cards.slice(0, VISIBLE_AT_START);
             const incoming = cards.slice(VISIBLE_AT_START);
@@ -113,18 +150,42 @@ export function ProblemSection() {
             };
             setText("[data-count-auto]", autoVisible);
             setText("[data-count-review]", cards.length - autoVisible);
-            if (counterEl) counterEl.textContent = String(visible.length);
+
+            const labelEl = q("[data-pending-label]")[0] as HTMLElement | undefined;
+            const showPending = (value: number) => {
+              const n = Math.max(0, value);
+              if (counterEl) counterEl.textContent = String(n);
+              if (labelEl) labelEl.textContent = n > 1 ? problem.pending : problem.pendingOne;
+            };
+            showPending(visible.length);
+
+            const questionWords = q("[data-phrase] [data-word]");
+            const resolvedWords = q("[data-text-b] [data-word]");
 
             // États initiaux, posés explicitement.
-            gsap.set(cards, { x: dx, y: dy, rotation: (i) => spot(i).r, opacity: 1, scale: 1 });
-            gsap.set(incoming, { opacity: 0, scale: 0.8 });
+            gsap.set(cards, {
+              x: chaosX,
+              y: chaosY,
+              rotation: (i) => spot(i).r,
+              opacity: 1,
+              scale: 1,
+              zIndex: (i) => i + 1,
+            });
+            gsap.set(incoming, {
+              opacity: 0,
+              scale: 0.8,
+              y: (i) => chaosY(i + visible.length) + 24,
+            });
             gsap.set(q("[data-resolved]"), { opacity: 0, y: 6 });
             gsap.set(q("[data-chip-resolved]"), { opacity: 0, scale: 0.8 });
             gsap.set(q("[data-chip-pending]"), { opacity: 1 });
             gsap.set(q("[data-detail]"), { opacity: 1 });
-            gsap.set(q("[data-text-a]"), { opacity: 1, y: 0 });
-            gsap.set(q("[data-phrase]"), { opacity: 0, y: 24 });
-            gsap.set(q("[data-text-b]"), { opacity: 0, y: 24 });
+            gsap.set(q("[data-flash]"), { opacity: 0 });
+            gsap.set(q("[data-text-a]"), { opacity: 1, y: 0, filter: "blur(0px)" });
+            gsap.set(q("[data-phrase]"), { opacity: 1, y: 0, filter: "blur(0px)" });
+            gsap.set(questionWords, { opacity: 0, y: 18, filter: "blur(10px)" });
+            gsap.set(q("[data-text-b]"), { opacity: 1 });
+            gsap.set(resolvedWords, { opacity: 0, y: 14, filter: "blur(8px)" });
             gsap.set(q("[data-hud-pending]"), { opacity: 1 });
             gsap.set(q("[data-hud-resolved]"), { opacity: 0, y: 6 });
             gsap.set(q("[data-glow-warm]"), { opacity: 0.35 });
@@ -133,67 +194,146 @@ export function ProblemSection() {
             const counter = { n: visible.length };
             const tl = gsap.timeline({
               defaults: { ease: "none" },
-              scrollTrigger: { trigger: track, start: "top top", end: "bottom bottom", scrub: 0.7 },
+              scrollTrigger: { trigger: track, start: "top top", end: "bottom bottom", scrub: 1 },
             });
 
             // 1. Les tâches s'accumulent.
             tl.to(
               incoming,
-              { opacity: 1, scale: 1, duration: 0.5, stagger: 0.3, ease: "back.out(1.7)" },
+              {
+                opacity: 1,
+                scale: 1,
+                y: (i) => chaosY(i + visible.length),
+                duration: 0.5,
+                stagger: 0.26,
+                ease: "back.out(1.5)",
+              },
               0.05,
             )
               .to(
                 counter,
                 {
                   n: cards.length,
-                  duration: 0.3 * incoming.length + 0.3,
-                  onUpdate: () => {
-                    if (counterEl) counterEl.textContent = String(Math.round(counter.n));
-                  },
+                  duration: 0.26 * incoming.length + 0.25,
+                  onUpdate: () => showPending(Math.round(counter.n)),
                 },
                 0.05,
               )
-              .to(q("[data-glow-warm]"), { opacity: 1, duration: 1.6 }, 0);
+              .to(q("[data-glow-warm]"), { opacity: 1, duration: 1.5 }, 0);
 
-            // 2. La tension, puis la question.
+            // 2. Le texte d'ouverture s'efface ; les tâches se rassemblent en
+            //    pile pendant que la question se dessine, mot à mot.
             tl.to(
-              cards,
-              { rotation: (i) => spot(i).r * 1.6, duration: 0.5, ease: "sine.inOut" },
-              1.7,
+              q("[data-text-a]"),
+              { opacity: 0, y: -28, filter: "blur(10px)", duration: 0.5, ease: "power1.in" },
+              1.6,
             )
-              .to(q("[data-text-a]"), { opacity: 0, y: -24, duration: 0.5 }, 2)
-              .to(cards, { opacity: 0.12, duration: 0.5 }, 2.05)
-              .to(q("[data-hud-pending]"), { opacity: 0, duration: 0.3 }, 2.05)
-              .to(q("[data-phrase]"), { opacity: 1, y: 0, duration: 0.6 }, 2.3)
-              .to(q("[data-phrase]"), { opacity: 0, y: -24, duration: 0.5 }, 3.3);
-
-            // 3. Tout se range ; vous gardez la main.
-            tl.to(
-              cards,
-              {
-                x: 0,
-                y: 0,
-                rotation: 0,
-                opacity: 1,
-                duration: 1,
-                stagger: 0.05,
-                ease: "power3.inOut",
-              },
-              3.4,
-            )
-              .to(q("[data-detail]"), { opacity: 0, duration: 0.25, stagger: 0.05 }, 3.9)
-              .to(q("[data-resolved]"), { opacity: 1, y: 0, duration: 0.35, stagger: 0.05 }, 4)
-              .to(q("[data-chip-pending]"), { opacity: 0, duration: 0.2, stagger: 0.05 }, 3.95)
+              .set(cards, { zIndex: (i) => cards.length - i }, 1.7)
               .to(
-                q("[data-chip-resolved]"),
-                { opacity: 1, scale: 1, duration: 0.3, stagger: 0.05, ease: "back.out(2)" },
-                4.05,
+                cards,
+                {
+                  x: pileX,
+                  y: pileY,
+                  rotation: (i) => pile(i).r,
+                  scale: 0.9,
+                  opacity: 0.6,
+                  duration: 1.2,
+                  stagger: 0.04,
+                  ease: "power2.inOut",
+                },
+                1.7,
               )
-              .to(q("[data-glow-warm]"), { opacity: 0, duration: 0.8 }, 3.5)
-              .to(q("[data-glow-cool]"), { opacity: 1, duration: 1 }, 3.6)
-              .to(q("[data-text-b]"), { opacity: 1, y: 0, duration: 0.6 }, 4.2)
-              .to(q("[data-hud-resolved]"), { opacity: 1, y: 0, duration: 0.4 }, 4.4)
-              .to({}, { duration: 0.8 });
+              .to(q("[data-hud-pending]"), { opacity: 0.5, duration: 0.4 }, 1.8)
+              .to(
+                questionWords,
+                {
+                  opacity: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.45,
+                  stagger: 0.07,
+                  ease: "power2.out",
+                },
+                2.1,
+              )
+              .to(
+                cards,
+                { rotation: (i) => pile(i).r * 0.5, duration: 0.6, ease: "sine.inOut" },
+                2.95,
+              );
+
+            // 3. La question s'efface ; les tâches sont distribuées une à une
+            //    dans la grille et changent de statut à leur arrivée.
+            const dealAt = 3.45;
+            const resolveDelay = 0.55;
+            const firstResolve = dealAt + resolveDelay;
+            const lastResolve = firstResolve + DEAL_STEP * (cards.length - 1);
+
+            tl.to(
+              q("[data-phrase]"),
+              { opacity: 0, y: -16, filter: "blur(8px)", duration: 0.35, ease: "power1.in" },
+              3.3,
+            ).to(q("[data-hud-pending]"), { opacity: 1, duration: 0.3 }, dealAt);
+
+            cards.forEach((card, i) => {
+              const at = dealAt + i * DEAL_STEP;
+              const resolveAt = at + resolveDelay;
+              const part = (selector: string) => card.querySelector(selector);
+              tl.to(
+                card,
+                {
+                  x: 0,
+                  y: 0,
+                  rotation: 0,
+                  scale: 1,
+                  opacity: 1,
+                  duration: 0.8,
+                  ease: "power2.inOut",
+                },
+                at,
+              )
+                .to(part("[data-detail]"), { opacity: 0, duration: 0.2 }, resolveAt)
+                .to(part("[data-resolved]"), { opacity: 1, y: 0, duration: 0.3 }, resolveAt + 0.08)
+                .to(part("[data-chip-pending]"), { opacity: 0, duration: 0.15 }, resolveAt)
+                .to(
+                  part("[data-chip-resolved]"),
+                  { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.8)" },
+                  resolveAt + 0.05,
+                )
+                .to(part("[data-flash]"), { opacity: 1, duration: 0.12 }, resolveAt)
+                .to(part("[data-flash]"), { opacity: 0, duration: 0.5 }, resolveAt + 0.15);
+            });
+
+            tl.to(
+              counter,
+              {
+                n: 0,
+                duration: DEAL_STEP * cards.length,
+                onUpdate: () => showPending(Math.floor(counter.n)),
+              },
+              firstResolve,
+            )
+              .to(q("[data-glow-warm]"), { opacity: 0, duration: 1.2 }, dealAt + 0.1)
+              .to(q("[data-glow-cool]"), { opacity: 1, duration: 1.4 }, dealAt + 0.4)
+              .to(
+                resolvedWords,
+                {
+                  opacity: 1,
+                  y: 0,
+                  filter: "blur(0px)",
+                  duration: 0.45,
+                  stagger: 0.06,
+                  ease: "power2.out",
+                },
+                3.66,
+              )
+              .to(q("[data-hud-pending]"), { opacity: 0, y: -6, duration: 0.3 }, lastResolve + 0.2)
+              .to(
+                q("[data-hud-resolved]"),
+                { opacity: 1, y: 0, duration: 0.35 },
+                lastResolve + 0.35,
+              )
+              .to({}, { duration: 0.4 });
           }, section);
         };
 
@@ -254,13 +394,13 @@ export function ProblemSection() {
               data-motion-only
               className="self-center text-[clamp(2rem,1.2rem+3.4vw,4.4rem)] font-medium leading-[1.04] tracking-[-0.04em] text-ivory"
             >
-              {problem.transition}
+              <Words text={problem.transition} />
             </p>
             <p
               data-text-b
               className="self-center text-[clamp(1.75rem,1.1rem+2.6vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.035em] text-ivory"
             >
-              {problem.resolvedTitle}
+              <Words text={problem.resolvedTitle} />
             </p>
           </div>
 
@@ -299,7 +439,7 @@ export function ProblemSection() {
                 <span data-counter className="font-medium tabular-nums text-ivory">
                   {problem.tasks.length}
                 </span>
-                {problem.pending}
+                <span data-pending-label>{problem.pending}</span>
               </p>
               <p
                 data-hud-resolved
@@ -340,6 +480,17 @@ export function ProblemSection() {
                       index >= 6 && "max-lg:[[data-motion=on]_&]:hidden",
                     )}
                   >
+                    <span
+                      aria-hidden="true"
+                      data-flash
+                      data-motion-only
+                      className={cn(
+                        "pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0",
+                        automated
+                          ? "shadow-[inset_0_0_0_1px_rgb(134_230_218/0.6),0_0_36px_-10px_rgb(134_230_218/0.6)]"
+                          : "shadow-[inset_0_0_0_1px_rgb(255_200_143/0.6),0_0_36px_-10px_rgb(255_200_143/0.55)]",
+                      )}
+                    />
                     <div className="surface-raised flex h-full flex-col rounded-2xl p-3 text-left sm:p-4">
                       <div className="flex items-center gap-2.5">
                         <span
