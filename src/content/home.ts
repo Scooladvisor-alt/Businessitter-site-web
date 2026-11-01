@@ -22,7 +22,7 @@ export type TaskIcon =
 export type TaskStatus = "auto" | "review";
 
 export const hero = frDeep({
-  titleLines: ["Intégrez l'IA", "à votre entreprise.", "Faites *bien plus*."],
+  titleLines: ["Intégrez l'IA dans votre entreprise.", "Faites *plus avec moins*."],
 });
 
 export const problem = frDeep({

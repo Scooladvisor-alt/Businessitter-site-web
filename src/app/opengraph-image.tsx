@@ -70,12 +70,12 @@ export default function OpengraphImage() {
             style={{
               display: "flex",
               flexDirection: "column",
-              fontSize: 66,
+              fontSize: 56,
               lineHeight: 1.04,
               letterSpacing: "-0.045em",
             }}
           >
-            <span>{fr("Intégrez l'IA à votre entreprise.")}</span>
+            <span>{fr("Intégrez l'IA dans votre entreprise.")}</span>
             <div style={{ display: "flex", alignItems: "baseline" }}>
               <span>Faites</span>
               <span
@@ -83,12 +83,12 @@ export default function OpengraphImage() {
                   marginLeft: 18,
                   fontFamily: "Instrument Serif",
                   fontStyle: "italic",
-                  fontSize: 76,
+                  fontSize: 64,
                   letterSpacing: "-0.01em",
                   color: "#f3a9b2",
                 }}
               >
-                bien plus
+                plus avec moins
               </span>
               <span>.</span>
             </div>

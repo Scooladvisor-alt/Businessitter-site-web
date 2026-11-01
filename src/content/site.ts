@@ -31,7 +31,7 @@ export const site = {
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null,
   },
   /** Date de dernière mise à jour des contenus (plan du site). */
-  updatedAt: "2026-10-31",
+  updatedAt: "2026-11-01",
   /** Réalisation présentée sur la page d'accueil (URL à valider). */
   superCalendarUrl: process.env.NEXT_PUBLIC_SUPERCALENDAR_URL?.trim() || "https://supercalendar.fr",
 } as const;
@@ -49,6 +49,7 @@ export const legalNav: readonly NavItem[] = frDeep([
   { label: "Mentions légales", href: "/mentions-legales" },
   { label: "Politique de confidentialité", href: "/confidentialite" },
   { label: "Gestion des cookies", href: "/cookies" },
+  { label: "CGU", href: "/cgu" },
 ]);
 
 export const footerNav: readonly NavItem[] = frDeep([

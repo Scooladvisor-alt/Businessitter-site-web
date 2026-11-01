@@ -134,12 +134,9 @@ export default function PrivacyPage() {
           <ul>
             <li>{fr(`${info.host.name}, pour l'hébergement du site ;`)}</li>
             <li>
-              <Value
-                value={null}
-                label={fr(
-                  "service de réception des demandes (messagerie, outil d'automatisation ou CRM)",
-                )}
-              />
+              {fr(
+                "le service de messagerie ou d'automatisation utilisé pour acheminer les demandes envoyées depuis le formulaire (par exemple Resend pour l'envoi d'e-mails) ;",
+              )}
             </li>
             {analyticsId ? (
               <li>

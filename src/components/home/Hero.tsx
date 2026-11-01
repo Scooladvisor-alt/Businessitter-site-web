@@ -73,7 +73,10 @@ export function Hero() {
           data-hero-content
           className="container-x relative flex flex-col items-center pt-[var(--header-height)] text-center"
         >
-          <h1 id="hero-title" className="text-display font-medium text-ivory">
+          <h1
+            id="hero-title"
+            className="text-[clamp(2.3rem,0.8rem+4.3vw,5.2rem)] font-medium leading-[1.02] tracking-[-0.045em] text-ivory"
+          >
             {hero.titleLines.map((line, index) => (
               <span key={line} className="hero-line">
                 <span style={{ "--i": index } as React.CSSProperties}>
@@ -85,7 +88,7 @@ export function Hero() {
 
           <div
             className="hero-fade mt-10 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row md:mt-14"
-            style={{ "--i": 3 } as React.CSSProperties}
+            style={{ "--i": 2 } as React.CSSProperties}
           >
             <ButtonLink href="#audit" size="lg" className="w-full sm:w-auto">
               {cta.primary}

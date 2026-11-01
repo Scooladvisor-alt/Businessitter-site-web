@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { realisation } from "@/content/home";
 import { site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
@@ -23,12 +24,13 @@ export function SuperCalendarSection() {
             className="pointer-events-none absolute left-1/2 top-0 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.35),transparent)]"
           />
           <p className="relative inline-flex items-center gap-2.5 text-[1.05rem] font-semibold tracking-[-0.02em] text-ink-950">
-            <span
-              aria-hidden="true"
-              className="flex size-8 items-center justify-center rounded-[0.6rem] bg-[linear-gradient(135deg,#ffc88f,#86e6da)] text-[0.85rem] font-bold text-ink-950 shadow-[0_8px_24px_-8px_rgb(255_200_143/0.6)]"
-            >
-              S
-            </span>
+            <Image
+              src="/brand/supercalendar.png"
+              alt=""
+              width={60}
+              height={48}
+              className="h-11 w-auto drop-shadow-[0_6px_14px_rgb(0_0_0/0.18)]"
+            />
             {realisation.name}
           </p>
           <h2

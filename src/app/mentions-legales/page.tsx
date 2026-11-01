@@ -24,9 +24,10 @@ export default function LegalNoticePage() {
           <p>{fr(`Le site ${site.domain} est édité par :`)}</p>
           <dl>
             <div>
-              <dt>{fr("Dénomination")}</dt>
+              <dt>{fr("Éditeur")}</dt>
               <dd>
-                <Value value={info.companyName} label={fr("dénomination sociale")} />
+                <Value value={info.companyName} label={fr("nom de l'éditeur")} />
+                {fr(", exerçant sous le nom commercial Businessister")}
               </dd>
             </div>
             <div>
@@ -35,17 +36,14 @@ export default function LegalNoticePage() {
                 <Value value={info.legalForm} label={fr("forme juridique")} />
               </dd>
             </div>
+            {info.shareCapital ? (
+              <div>
+                <dt>{fr("Capital social")}</dt>
+                <dd>{info.shareCapital}</dd>
+              </div>
+            ) : null}
             <div>
-              <dt>{fr("Capital social")}</dt>
-              <dd>
-                <Value
-                  value={info.shareCapital}
-                  label={fr("capital social (sociétés uniquement)")}
-                />
-              </dd>
-            </div>
-            <div>
-              <dt>{fr("Siège social")}</dt>
+              <dt>{fr("Adresse")}</dt>
               <dd>
                 <Value value={info.address} label={fr("adresse")} />
               </dd>
@@ -56,11 +54,15 @@ export default function LegalNoticePage() {
                 <Value value={info.registration} label={fr("RCS ou RNE et numéro SIREN")} />
               </dd>
             </div>
+            {info.vatNumber ? (
+              <div>
+                <dt>{fr("TVA intracommunautaire")}</dt>
+                <dd>{info.vatNumber}</dd>
+              </div>
+            ) : null}
             <div>
-              <dt>{fr("TVA intracommunautaire")}</dt>
-              <dd>
-                <Value value={info.vatNumber} label={fr("numéro de TVA, le cas échéant")} />
-              </dd>
+              <dt>{fr("Activité")}</dt>
+              <dd>{fr("Conseil, programmation et intégration de solutions informatiques")}</dd>
             </div>
             <div>
               <dt>{fr("Adresse e-mail")}</dt>
@@ -72,12 +74,12 @@ export default function LegalNoticePage() {
                 )}
               </dd>
             </div>
-            <div>
-              <dt>{fr("Téléphone")}</dt>
-              <dd>
-                <Value value={info.phone} label={fr("téléphone")} />
-              </dd>
-            </div>
+            {info.phone ? (
+              <div>
+                <dt>{fr("Téléphone")}</dt>
+                <dd>{info.phone}</dd>
+              </div>
+            ) : null}
             <div>
               <dt>{fr("Direction de la publication")}</dt>
               <dd>
@@ -122,7 +124,7 @@ export default function LegalNoticePage() {
           </p>
           <p>
             {fr(
-              "Les polices de caractères Inter Tight, Instrument Serif et JetBrains Mono sont distribuées sous licence SIL Open Font License. Les icônes proviennent de la bibliothèque Lucide, distribuée sous licence ISC.",
+              "Le nom Businessister, son logo et le nom SuperCalendar sont la propriété de l'éditeur. Les polices de caractères Inter Tight et Instrument Serif sont distribuées sous licence SIL Open Font License ; les icônes proviennent de la bibliothèque Lucide, distribuée sous licence ISC.",
             )}
           </p>
         </LegalSection>
@@ -153,7 +155,9 @@ export default function LegalNoticePage() {
             {fr("Le traitement des données personnelles est décrit dans la ")}
             <Link href="/confidentialite">{fr("politique de confidentialité")}</Link>
             {fr(". L'utilisation des traceurs est détaillée sur la page ")}
-            <Link href="/cookies">{fr("gestion des cookies")}</Link>.
+            <Link href="/cookies">{fr("gestion des cookies")}</Link>
+            {fr(", et les règles d'utilisation du site dans les ")}
+            <Link href="/cgu">{fr("conditions générales d'utilisation")}</Link>.
           </p>
         </LegalSection>
 

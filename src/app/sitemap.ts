@@ -9,6 +9,7 @@ const routes: { path: string; priority: number; changeFrequency: "monthly" | "ye
   { path: "/mentions-legales", priority: 0.2, changeFrequency: "yearly" },
   { path: "/confidentialite", priority: 0.2, changeFrequency: "yearly" },
   { path: "/cookies", priority: 0.2, changeFrequency: "yearly" },
+  { path: "/cgu", priority: 0.2, changeFrequency: "yearly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

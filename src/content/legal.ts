@@ -1,5 +1,6 @@
 /**
- * Informations juridiques de l'éditeur — À COMPLÉTER avant la mise en ligne.
+ * Informations juridiques de l'éditeur (entrepreneur individuel).
+ * L'adresse e-mail de contact est lue depuis NEXT_PUBLIC_CONTACT_EMAIL.
  *
  * Aucune information n'est inventée : chaque valeur `null` est affichée sur
  * les pages légales sous la forme d'un repère « À compléter », et un bandeau
@@ -45,23 +46,23 @@ const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
 const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null;
 
 export const legalInfo: LegalInfo = {
-  companyName: null,
-  legalForm: null,
+  companyName: "Antonin Silandre",
+  legalForm: "Entrepreneur individuel (EI)",
   shareCapital: null,
-  address: null,
-  registration: null,
-  vatNumber: null,
-  publicationDirector: null,
+  address: "77330 Ozoir-la-Ferrière, France",
+  registration: "Inscrit au Registre national des entreprises (RNE) — SIREN 988 933 537",
+  vatNumber: process.env.NEXT_PUBLIC_VAT_NUMBER?.trim() || null,
+  publicationDirector: "Antonin Silandre",
   email: contactEmail,
   phone: contactPhone,
   privacyEmail: contactEmail,
-  prospectRetention: null,
+  prospectRetention: "trois ans à compter du dernier contact",
   host: {
     name: "Vercel Inc.",
     website: "https://vercel.com",
-    address: null,
+    address: "440 N Barranca Ave #4133, Covina, CA 91723, États-Unis",
   },
-  lastUpdated: "31 octobre 2026",
+  lastUpdated: "1er novembre 2026",
 };
 
 /** Indique si des informations légales obligatoires restent à compléter. */
