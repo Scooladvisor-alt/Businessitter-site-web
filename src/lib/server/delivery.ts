@@ -78,7 +78,8 @@ function emailChannel(): Channel | null {
         method: "POST",
         headers: {
           Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; charset=utf-8",
+          Accept: "application/json",
         },
         body: JSON.stringify({
           from,
@@ -114,19 +115,23 @@ function webhookChannel(): Channel | null {
   return {
     name: "webhook",
     async send(request, meta) {
+      const fields = {
+        name: request.name,
+        company: request.company,
+        email: request.email,
+        phone: request.phone,
+        sector: request.sector,
+        message: request.message || "",
+        consent: request.consent,
+      };
+      // Champs au premier niveau (lisibles directement dans n8n, Make, Zapier…),
+      // repris dans « data » pour compatibilité.
       const body = JSON.stringify({
         type: "audit_request",
         submittedAt: meta.submittedAt,
         source: meta.source,
-        data: {
-          name: request.name,
-          company: request.company,
-          email: request.email,
-          phone: request.phone,
-          sector: request.sector,
-          message: request.message,
-          consent: request.consent,
-        },
+        ...fields,
+        data: fields,
       });
 
       const headers: Record<string, string> = {

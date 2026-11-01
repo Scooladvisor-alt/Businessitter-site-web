@@ -27,7 +27,7 @@ export const site = {
   /** Version affichée en pied de page (segment mis en valeur entre astérisques). */
   footerTagline: fr("L'IA doit s'adapter à votre entreprise. *Pas l'inverse.*"),
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "antonin@supercalendar.fr",
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "antonin.silandre@businessitter.com",
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null,
   },
   /** Date de dernière mise à jour des contenus (plan du site). */

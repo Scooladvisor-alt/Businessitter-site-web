@@ -42,7 +42,8 @@ export type LegalInfo = {
   lastUpdated: string;
 };
 
-const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "antonin@supercalendar.fr";
+const contactEmail =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "antonin.silandre@businessitter.com";
 const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null;
 
 export const legalInfo: LegalInfo = {

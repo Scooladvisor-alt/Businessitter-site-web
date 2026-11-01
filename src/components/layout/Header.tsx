@@ -60,14 +60,14 @@ export function Header() {
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
-        <div className="glass-light pointer-events-auto mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full pl-4 pr-2 sm:h-[3.75rem] sm:pl-5">
+        <div className="glass-light pointer-events-auto mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full pl-5 pr-2 sm:h-[3.75rem] sm:pl-7">
           <Link
             href="/"
             className="relative -m-1.5 rounded-full p-1.5"
             aria-label="Businessister — Accueil"
             onClick={() => close()}
           >
-            <Logo idSuffix="header" className="h-7 sm:h-8" />
+            <Logo idSuffix="header" className="h-7 -translate-y-[3px] sm:h-8" />
           </Link>
 
           <nav aria-label="Navigation principale" className="hidden lg:block">
