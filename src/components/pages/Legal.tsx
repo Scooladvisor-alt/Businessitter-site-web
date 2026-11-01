@@ -82,9 +82,7 @@ export function LegalSection({
   className?: string;
 }) {
   return (
-    <section
-      className={cn("border-t border-white/[0.08] py-10 first:border-t-0 first:pt-0", className)}
-    >
+    <section className={cn("py-8 first:pt-0", className)}>
       <h2>{title}</h2>
       {children}
     </section>

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { Sparkles } from "lucide-react";
 import { scenes } from "@/content/home";
-import { LogoMark } from "@/components/ui/Logo";
+import { LogoBadge } from "@/components/ui/Logo";
 import { Artboard, Bar, Chip } from "./SceneParts";
 import { useSceneTimeline } from "./use-scene-timeline";
 
@@ -72,7 +72,7 @@ export function CustomScene({ active }: { active: boolean }) {
             className="flex w-[110px] shrink-0 flex-col gap-1 border-r border-white/8 bg-white/[0.02] p-3"
           >
             <div className="mb-3 flex items-center gap-1.5 text-[11px] font-semibold text-ivory">
-              <LogoMark idSuffix="custom" className="size-4" />
+              <LogoBadge idSuffix="custom" className="size-5" />
               {copy.appName}
             </div>
             {copy.nav.map((item, i) => (

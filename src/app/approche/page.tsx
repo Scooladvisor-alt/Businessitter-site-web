@@ -94,7 +94,7 @@ export default function ApproachPage() {
                   </span>
                   <h3 className="mt-4 text-title font-medium text-ivory">{step.title}</h3>
                 </div>
-                <dl className="mt-8 grid gap-6 border-t border-white/[0.07] pt-8 text-center sm:grid-cols-3">
+                <dl className="mt-8 grid gap-6 text-center sm:grid-cols-3">
                   {(["does", "gets", "you"] as const).map((key) => (
                     <div key={key}>
                       <dt className="text-[0.9rem] font-medium text-ivory">
@@ -154,7 +154,7 @@ export default function ApproachPage() {
             {page.faq.map((item) => (
               <details
                 key={item.question}
-                className="group border-b border-white/[0.08] py-2 first:border-t"
+                className="surface group mb-3 rounded-[1.4rem] px-5 py-1 sm:px-6"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 rounded-lg py-4 text-[1.08rem] font-medium tracking-[-0.01em] text-ivory [&::-webkit-details-marker]:hidden">
                   {item.question}

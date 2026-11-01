@@ -115,6 +115,17 @@ Tous les textes visibles se trouvent dans `src/content/`. Il suffit de modifier 
   sur les écrans larges (`"Moins de tâches manuelles.\n*Plus de temps.*"`).
 - **Pas de sous-titres** : chaque section tient en un titre court et direct ; le détail est
   porté par les visuels, les cartes et les pages intérieures.
+
+### Logo et matières
+
+- **Logo** : le « B » noir et son étoile au dégradé « aube », vectorisés depuis le fichier
+  fourni : `public/brand/businessister-logo.svg` (fichier autonome) et
+  `src/components/ui/logo-paths.ts` (tracés utilisés par le composant `Logo`, les icônes et
+  l'image de partage). La lettre étant noire, elle est toujours posée sur une surface claire.
+- **« Liquid glass »** (`src/app/globals.css`) : `glass-light` (verre clair : en-tête flottant,
+  pastilles du logo, carte SuperCalendar), `surface` / `surface-raised` / `glass` (verre sombre
+  des cartes), `btn-aube` (bouton principal glacé) et `btn-glass` (boutons secondaires, onglets,
+  puces). Pas de lignes de séparation : le site reste ouvert, d'une section à l'autre.
 - **Typographie française** : les contenus passent par `fr()` / `frDeep()` (`src/lib/typography.ts`),
   qui posent automatiquement les espaces insécables (avant `: ; ! ?`, dans les guillemets) et
   l'apostrophe typographique. Écrivez simplement `"Et si … ?"`.

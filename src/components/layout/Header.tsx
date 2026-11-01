@@ -17,20 +17,12 @@ function isActive(pathname: string, href: string) {
 
 export function Header() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   const isHome = pathname === "/";
   const auditHref = isHome ? "#audit" : "/contact";
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const close = useCallback((restoreFocus = false) => {
     setOpen(false);
@@ -65,20 +57,13 @@ export function Header() {
   // Le menu se ferme si l'en-tête est masqué (navigation conservée par Activity).
   useEffect(() => () => setOpen(false), []);
 
-  const solid = scrolled || open;
-
   return (
     <>
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,backdrop-filter] duration-500 ease-out-expo",
-          solid ? "glass border-white/[0.07]" : "border-transparent bg-transparent",
-        )}
-      >
-        <div className="container-x flex h-[var(--header-height)] items-center justify-between gap-6">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+        <div className="glass-light pointer-events-auto mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full pl-4 pr-2 sm:h-[3.75rem] sm:pl-5">
           <Link
             href="/"
-            className="relative z-10 -m-1.5 rounded-lg p-1.5"
+            className="relative -m-1.5 rounded-full p-1.5"
             aria-label="Businessister — Accueil"
             onClick={() => close()}
           >
@@ -95,18 +80,13 @@ export function Header() {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "group relative inline-flex h-10 items-center rounded-full px-4 text-[0.92rem] transition-colors duration-300",
-                        active ? "text-ivory" : "text-mist hover:text-ivory",
+                        "group relative inline-flex h-10 items-center rounded-full px-4 text-[0.92rem] font-medium transition-colors duration-300",
+                        active
+                          ? "bg-ink-950/[0.06] text-ink-950"
+                          : "text-ink-600 hover:bg-ink-950/[0.05] hover:text-ink-950",
                       )}
                     >
                       {item.label}
-                      <span
-                        aria-hidden="true"
-                        className={cn(
-                          "absolute inset-x-4 bottom-1.5 h-px origin-left bg-[linear-gradient(90deg,#ffc88f,#86e6da)] transition-transform duration-500 ease-out-expo",
-                          active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
-                        )}
-                      />
                     </Link>
                   </li>
                 );
@@ -114,14 +94,14 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="relative z-10 flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <ButtonLink href={auditHref} size="sm" className="hidden sm:inline-flex">
               {cta.short}
             </ButtonLink>
             <button
               ref={toggleRef}
               type="button"
-              className="relative inline-flex size-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.03] text-ivory transition-colors hover:bg-white/[0.08] lg:hidden"
+              className="relative inline-flex size-10 items-center justify-center rounded-full bg-ink-950/[0.06] text-ink-950 transition-colors hover:bg-ink-950/10 lg:hidden"
               aria-expanded={open}
               aria-controls="menu-mobile"
               onClick={() => setOpen((value) => !value)}
@@ -153,7 +133,7 @@ export function Header() {
           <m.div
             id="menu-mobile"
             key="menu"
-            className="fixed inset-x-0 bottom-0 top-[var(--header-height)] z-40 flex flex-col overflow-y-auto bg-ink-950/[0.97] backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink-950/[0.96] pt-[calc(var(--header-height)+0.5rem)] backdrop-blur-xl lg:hidden"
             initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
             animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
             exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
@@ -177,14 +157,13 @@ export function Header() {
                         delay: 0.08 + index * 0.05,
                         ease: [0.16, 1, 0.3, 1],
                       }}
-                      className="border-b border-white/[0.07]"
                     >
                       <Link
                         ref={index === 0 ? firstLinkRef : undefined}
                         href={item.href}
                         aria-current={active ? "page" : undefined}
                         onClick={() => close()}
-                        className="group flex items-center justify-center py-4 text-[clamp(1.75rem,7vw,2.5rem)] font-medium tracking-[-0.035em] text-ivory"
+                        className="group flex items-center justify-center py-3.5 text-[clamp(1.75rem,7vw,2.5rem)] font-medium tracking-[-0.035em] text-ivory"
                       >
                         <span>{item.label}</span>
                       </Link>

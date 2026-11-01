@@ -14,10 +14,6 @@ export function AuditSection() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 h-px w-[min(80rem,90vw)] -translate-x-1/2 bg-[linear-gradient(90deg,transparent,rgb(255_255_255/0.14),transparent)]"
-      />
-      <div
-        aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-[20%] h-[70vh] w-[90vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.07),transparent)]"
       />
       <div className="container-x relative">

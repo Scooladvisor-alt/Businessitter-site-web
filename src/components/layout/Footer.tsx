@@ -8,16 +8,13 @@ import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesB
 
 export function Footer() {
   return (
-    <footer
-      data-backdrop="footer"
-      className="relative overflow-clip border-t border-white/[0.07] bg-ink-950/55"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.09),transparent)]"
-      />
-      <div className="container-x relative flex flex-col items-center py-16 text-center md:py-20">
-        <Link href="/" aria-label="Businessister — Accueil" className="inline-flex rounded-lg">
+    <footer data-backdrop="footer" className="relative overflow-clip">
+      <div className="container-x relative flex flex-col items-center pb-12 pt-10 text-center md:pb-14 md:pt-16">
+        <Link
+          href="/"
+          aria-label="Businessister — Accueil"
+          className="glass-light inline-flex rounded-full py-2 pl-3 pr-5"
+        >
           <Logo idSuffix="footer" />
         </Link>
         <p className="mt-6 max-w-2xl text-[clamp(1.4rem,1.1rem+1.2vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.025em] text-ivory">
@@ -47,7 +44,7 @@ export function Footer() {
           </ul>
         </nav>
 
-        <div className="mt-12 flex w-full flex-col items-center gap-4 border-t border-white/[0.07] pt-8 text-sm text-dim md:flex-row md:justify-between">
+        <div className="mt-14 flex w-full flex-col items-center gap-4 text-sm text-dim md:flex-row md:justify-between">
           <p>
             © <CurrentYear />
             {site.name}

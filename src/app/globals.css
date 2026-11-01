@@ -210,6 +210,16 @@
   padding-inline: clamp(1.25rem, 4.2vw, 3rem);
 }
 
+/* Sur verre clair, le dégradé « aube » passe dans ses teintes profondes
+   (contraste suffisant pour les grands textes). */
+.glass-light :focus-visible {
+  outline-color: var(--color-ink-950);
+}
+
+.glass-light .text-aube {
+  background-image: linear-gradient(100deg, #c4621f 0%, #c43f69 36%, #6a52cf 70%, #13877a 100%);
+}
+
 @utility text-aube {
   background-image: var(--gradient-aube);
   -webkit-background-clip: text;
@@ -219,23 +229,75 @@
   box-decoration-break: clone;
 }
 
-/* Boutons principaux : le dégradé « aube » de la direction artistique,
-   qui glisse au survol. Texte sombre : contraste AA sur toute la largeur. */
+/* ==========================================================================
+   « Liquid glass » : matières translucides, reflets spéculaires sur l'arête
+   supérieure, légère lumière interne. Le flou d'arrière-plan est réservé
+   aux éléments de taille raisonnable (et aux grandes surfaces sur grand
+   écran), car l'arrière-plan animé impose de le recalculer en continu.
+   ========================================================================== */
+
+/* Boutons principaux : dégradé « aube » glacé, qui glisse au survol.
+   Texte sombre : contraste AA sur toute la largeur. */
 @utility btn-aube {
-  background-image: linear-gradient(
-    100deg,
-    #ffc88f 0%,
-    #f6aaa8 24%,
-    #bdb6f2 50%,
-    #86e6da 76%,
-    #ffc88f 100%
-  );
-  background-size: 200% 100%;
-  background-position: 0% 50%;
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 0.5) 0%, rgb(255 255 255 / 0) 58%),
+    linear-gradient(100deg, #ffc88f 0%, #f6aaa8 24%, #bdb6f2 50%, #86e6da 76%, #ffc88f 100%);
+  background-size:
+    100% 100%,
+    200% 100%;
+  background-position:
+    0 0,
+    0% 50%;
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / 0.95),
+    inset 0 -3px 8px rgb(110 80 160 / 0.16),
+    0 0 0 1px rgb(255 255 255 / 0.28),
+    0 14px 34px -14px rgb(255 190 140 / 0.62);
 
   &:hover {
-    background-position: 100% 50%;
+    background-position:
+      0 0,
+      100% 50%;
+    box-shadow:
+      inset 0 1px 1px rgb(255 255 255 / 1),
+      inset 0 -3px 8px rgb(110 80 160 / 0.16),
+      0 0 0 1px rgb(255 255 255 / 0.4),
+      0 18px 50px -12px rgb(134 230 218 / 0.6);
   }
+}
+
+/* Boutons secondaires, onglets, puces : verre transparent. */
+@utility btn-glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.13), rgb(255 255 255 / 0.035));
+  border: 1px solid rgb(255 255 255 / 0.18);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.32),
+    inset 0 -1px 0 rgb(255 255 255 / 0.04),
+    0 10px 30px -16px rgb(0 0 0 / 0.75);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+
+  &:hover {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.2), rgb(255 255 255 / 0.06));
+    border-color: rgb(255 255 255 / 0.3);
+  }
+}
+
+/* Verre clair : en-tête, pastilles du logo, cartes « lumière ». Le logo
+   noir y reste parfaitement lisible. */
+@utility glass-light {
+  color: var(--color-ink-950);
+  background:
+    radial-gradient(140% 110% at 12% -35%, rgb(255 255 255 / 1), rgb(255 255 255 / 0) 58%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.95), rgb(242 240 236 / 0.9));
+  border: 1px solid rgb(255 255 255 / 0.78);
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / 1),
+    inset 0 -1px 2px rgb(0 0 0 / 0.08),
+    0 1px 2px rgb(0 0 0 / 0.18),
+    0 18px 48px -18px rgb(0 0 0 / 0.7);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
 }
 
 @utility accent-serif {
@@ -251,25 +313,43 @@
 }
 
 @utility surface {
-  background-color: rgb(18 21 30 / 0.72);
-  border: 1px solid rgb(255 255 255 / 0.08);
+  background:
+    radial-gradient(120% 80% at 10% -25%, rgb(255 255 255 / 0.085), rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.012)), rgb(14 16 23 / 0.74);
+  border: 1px solid rgb(255 255 255 / 0.1);
   box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.05),
-    0 30px 80px -40px rgb(0 0 0 / 0.8);
+    inset 0 1px 0 rgb(255 255 255 / 0.15),
+    inset 0 -1px 0 rgb(255 255 255 / 0.03),
+    0 30px 80px -40px rgb(0 0 0 / 0.85);
+
+  @media (min-width: 768px) {
+    background:
+      radial-gradient(120% 80% at 10% -25%, rgb(255 255 255 / 0.085), rgb(255 255 255 / 0) 55%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(255 255 255 / 0.012)),
+      rgb(14 16 23 / 0.58);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    backdrop-filter: blur(16px) saturate(150%);
+  }
 }
 
 @utility surface-raised {
-  background-color: rgb(26 30 41 / 0.86);
-  border: 1px solid rgb(255 255 255 / 0.1);
+  background:
+    radial-gradient(120% 90% at 10% -30%, rgb(255 255 255 / 0.1), rgb(255 255 255 / 0) 55%),
+    linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.015)), rgb(24 27 37 / 0.88);
+  border: 1px solid rgb(255 255 255 / 0.12);
   box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.07),
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    inset 0 -1px 0 rgb(255 255 255 / 0.03),
     0 18px 50px -24px rgb(0 0 0 / 0.85);
 }
 
 @utility glass {
-  background-color: rgb(9 11 17 / 0.62);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.02)), rgb(9 11 17 / 0.6);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
 }
 
 /* Bordure en dégradé (masque) */

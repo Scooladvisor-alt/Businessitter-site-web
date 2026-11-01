@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { posterSvg } from "@/components/system/poster-geometry";
+import { logoSvg } from "@/components/ui/logo-paths";
 import { fr } from "@/lib/typography";
 
 export const alt = fr(
@@ -16,6 +17,7 @@ const instrumentSerif = readFileSync(join(fontsDir, "InstrumentSerif-Italic.ttf"
 
 export default function OpengraphImage() {
   const network = `data:image/svg+xml;base64,${Buffer.from(posterSvg("order", 0.9)).toString("base64")}`;
+  const logo = `data:image/svg+xml;base64,${Buffer.from(logoSvg()).toString("base64")}`;
 
   return new ImageResponse(
     <div
@@ -47,20 +49,20 @@ export default function OpengraphImage() {
           width: "100%",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <svg width="44" height="44" viewBox="0 0 32 32">
-            <defs>
-              <linearGradient id="m" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#ffc88f" />
-                <stop offset="0.55" stopColor="#f3a9b2" />
-                <stop offset="1" stopColor="#86e6da" />
-              </linearGradient>
-            </defs>
-            <rect x="4" y="3" width="4.6" height="26" rx="2.3" fill="#f4f1ea" />
-            <circle cx="16.2" cy="19.6" r="7.1" fill="none" stroke="#f4f1ea" strokeWidth="4.6" />
-            <circle cx="25.7" cy="6.5" r="3.3" fill="url(#m)" />
-          </svg>
-          <span style={{ fontSize: 34, letterSpacing: "-0.035em" }}>Businessister</span>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            alignSelf: "flex-start",
+            padding: "12px 26px 12px 18px",
+            borderRadius: 999,
+            backgroundColor: "#f6f4ef",
+            color: "#0a0a0b",
+          }}
+        >
+          <img src={logo} alt="" width={34} height={45} />
+          <span style={{ fontSize: 30, letterSpacing: "-0.035em" }}>Businessister</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -73,24 +75,23 @@ export default function OpengraphImage() {
               letterSpacing: "-0.045em",
             }}
           >
-            <span>{fr("L'intelligence artificielle,")}</span>
+            <span>{fr("Intégrez l'IA à votre entreprise.")}</span>
             <div style={{ display: "flex", alignItems: "baseline" }}>
+              <span>Faites</span>
               <span
                 style={{
+                  marginLeft: 18,
                   fontFamily: "Instrument Serif",
                   fontStyle: "italic",
-                  fontSize: 74,
+                  fontSize: 76,
                   letterSpacing: "-0.01em",
-                  color: "#86e6da",
+                  color: "#f3a9b2",
                 }}
               >
-                {fr("pensée")}
+                bien plus
               </span>
-              <span style={{ marginLeft: 18 }}>{fr("pour votre entreprise.")}</span>
+              <span>.</span>
             </div>
-          </div>
-          <div style={{ marginTop: 28, fontSize: 28, color: "#aab0bd", lineHeight: 1.4 }}>
-            {fr("Agents IA · Automatisation des processus · Outils sur mesure")}
           </div>
         </div>
 
@@ -103,16 +104,15 @@ export default function OpengraphImage() {
               fontSize: 24,
               padding: "12px 22px",
               borderRadius: 999,
-              border: "1px solid rgba(255,255,255,0.18)",
-              backgroundColor: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.22)",
+              backgroundImage:
+                "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04))",
             }}
           >
             <div style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: "#84e4d9" }} />
             {fr("Audit gratuit et sans engagement")}
           </div>
-          <span style={{ fontSize: 22, letterSpacing: "0.16em", color: "#8b91a1" }}>
-            BUSINESSISTER.COM
-          </span>
+          <span style={{ fontSize: 24, color: "#8b91a1" }}>businessister.com</span>
         </div>
       </div>
     </div>,

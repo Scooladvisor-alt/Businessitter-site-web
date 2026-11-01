@@ -557,7 +557,7 @@ export function AuditForm({ idPrefix, className }: AuditFormProps) {
             <button
               type="submit"
               disabled={submitting}
-              className="group/btn relative inline-flex h-14 w-full items-center justify-center gap-3 rounded-full btn-aube px-7 text-base font-medium text-ink-950 shadow-[0_0_0_1px_rgb(255_255_255/0.18),0_14px_40px_-14px_rgb(255_200_143/0.55)] transition-[background-position,box-shadow,transform] duration-700 ease-out-expo hover:shadow-[0_0_0_1px_rgb(255_255_255/0.32),0_18px_54px_-12px_rgb(134_230_218/0.6)] active:scale-[0.99] disabled:cursor-progress disabled:opacity-80 sm:w-auto"
+              className="group/btn relative inline-flex h-14 w-full items-center justify-center gap-3 rounded-full btn-aube px-7 text-base font-medium text-ink-950 transition-[background-position,box-shadow,transform] duration-700 ease-out-expo active:scale-[0.99] disabled:cursor-progress disabled:opacity-80 sm:w-auto"
             >
               {submitting ? (
                 <>
@@ -614,7 +614,7 @@ function Field({
         "aria-invalid": error ? true : undefined,
         "aria-describedby": describedBy,
         className: cn(
-          "block h-12 w-full rounded-xl border bg-white/[0.03] px-4 text-[1rem] text-ivory placeholder:text-dim/80 transition-[border-color,background-color,box-shadow] duration-300 hover:border-white/25 focus:border-aqua/60 focus:bg-white/[0.05] focus:shadow-[0_0_0_4px_rgb(134_230_218/0.12)] focus:outline-none",
+          "block h-12 w-full rounded-xl border bg-[linear-gradient(180deg,rgb(5_6_10/0.55),rgb(255_255_255/0.03))] px-4 text-[1rem] text-ivory shadow-[inset_0_2px_5px_rgb(0_0_0/0.35),inset_0_-1px_0_rgb(255_255_255/0.05)] placeholder:text-dim/80 transition-[border-color,background-color,box-shadow] duration-300 hover:border-white/25 focus:border-aqua/60 focus:shadow-[inset_0_2px_5px_rgb(0_0_0/0.35),0_0_0_4px_rgb(134_230_218/0.12)] focus:outline-none",
           error ? "border-ember/60" : "border-white/12",
         ),
       })}

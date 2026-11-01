@@ -112,11 +112,11 @@ export function OpsScene({ active }: { active: boolean }) {
 
         <div
           data-hub
-          className="absolute flex size-[76px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-[22px] border border-white/15 bg-ink-800 text-ivory shadow-[0_0_60px_-10px_rgb(134_230_218/0.45)]"
+          className="glass-light absolute flex size-[76px] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-[22px] shadow-[0_0_60px_-10px_rgb(134_230_218/0.45)]"
           style={{ left: HUB.x, top: HUB.y }}
         >
-          <LogoMark idSuffix="ops" className="size-7" />
-          <span className="mt-1 px-1 text-center text-[8.5px] leading-tight text-mist">
+          <LogoMark idSuffix="ops" className="h-7" />
+          <span className="mt-1 px-1 text-center text-[8.5px] leading-tight text-ink-600">
             {copy.hub}
           </span>
         </div>

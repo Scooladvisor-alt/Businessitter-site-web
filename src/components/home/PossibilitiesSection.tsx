@@ -182,10 +182,10 @@ export function PossibilitiesSection() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => select(index)}
                   className={cn(
-                    "relative flex shrink-0 items-center gap-2 overflow-hidden rounded-full border px-4 py-2.5 text-[0.9rem] transition-colors duration-300",
+                    "relative flex shrink-0 items-center gap-2 overflow-hidden rounded-full border px-4 py-2.5 text-[0.9rem] transition-[color,background,border-color] duration-300",
                     selected
-                      ? "border-white/20 bg-white/[0.08] text-ivory"
-                      : "border-white/[0.08] text-mist hover:border-white/15 hover:text-ivory",
+                      ? "btn-glass text-ivory"
+                      : "border-white/[0.08] bg-white/[0.02] text-mist hover:border-white/15 hover:text-ivory",
                   )}
                 >
                   <Icon className="size-4" strokeWidth={1.7} aria-hidden="true" />

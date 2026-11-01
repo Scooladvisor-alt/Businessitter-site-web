@@ -122,7 +122,7 @@ export function AutomationPrompt() {
         <label htmlFor={inputId} className="sr-only">
           {copy.label}
         </label>
-        <div className="relative rounded-[1.4rem] border border-white/12 bg-ink-950/60 text-left transition-colors focus-within:border-aqua/50">
+        <div className="relative rounded-[1.4rem] border border-white/12 bg-[linear-gradient(180deg,rgb(5_6_10/0.7),rgb(5_6_10/0.5))] text-left shadow-[inset_0_2px_6px_rgb(0_0_0/0.45),inset_0_-1px_0_rgb(255_255_255/0.06)] transition-colors focus-within:border-aqua/50">
           <textarea
             ref={inputRef}
             id={inputId}
@@ -165,7 +165,7 @@ export function AutomationPrompt() {
                 setStatus("idle");
                 inputRef.current?.focus();
               }}
-              className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.03] px-3.5 py-1.5 text-[0.85rem] text-mist transition-colors hover:border-white/25 hover:text-ivory"
+              className="btn-glass group inline-flex min-h-9 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.85rem] text-mist transition-colors hover:text-ivory"
             >
               <Plus
                 className="size-3.5 text-dim transition-colors group-hover:text-aqua"
