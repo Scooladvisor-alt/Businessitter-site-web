@@ -34,7 +34,7 @@ export function PageHero({ title, lead, children, id }: PageHeroProps) {
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_50%_45%_at_center,rgb(5_6_10/0.7),transparent)]"
       />
       <div className="container-x flex flex-col items-center">
-        <h1 className="max-w-4xl text-[clamp(2.4rem,1.2rem+4.6vw,5.6rem)] font-medium leading-[1] tracking-[-0.045em] text-ivory">
+        <h1 className="max-w-6xl text-[clamp(2.4rem,1.2rem+4.6vw,5.6rem)] font-medium leading-[1] tracking-[-0.045em] text-ivory">
           <span className="hero-line">
             <span style={{ "--i": 0 } as React.CSSProperties}>
               <RichText text={title} />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RichText } from "@/components/ui/RichText";
 import { CircleCheck, Mail, Phone } from "lucide-react";
 import { contactPage } from "@/content/pages";
 import { site } from "@/content/site";
@@ -20,7 +21,7 @@ export default function ContactPage() {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
-      <PageHero id="contact" title={page.title} lead={page.lead} />
+      <PageHero id="contact" title={page.title} />
 
       <section
         data-backdrop="section"
@@ -31,15 +32,15 @@ export default function ContactPage() {
           <Reveal className="mx-auto max-w-3xl" y={40}>
             <div className="surface border-aube rounded-[var(--radius-stage)] p-6 sm:p-10">
               <h2 id="formulaire-title" className="text-center text-title font-medium text-ivory">
-                {page.formTitle}
+                <RichText text={page.formTitle} />
               </h2>
               <AuditForm idPrefix="contact" className="mt-8" />
             </div>
           </Reveal>
 
           <Reveal className="mx-auto mt-20 max-w-4xl text-center">
-            <h2 className="text-[1.5rem] font-medium tracking-[-0.025em] text-ivory">
-              {page.nextTitle}
+            <h2 className="text-[clamp(1.6rem,1.2rem+1.4vw,2.4rem)] font-medium tracking-[-0.03em] text-ivory">
+              <RichText text={page.nextTitle} />
             </h2>
             <ol className="mt-8 grid gap-6 sm:grid-cols-3">
               {page.next.map((step, index) => (

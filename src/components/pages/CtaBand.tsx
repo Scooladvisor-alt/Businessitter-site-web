@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/Reveal";
 
 type CtaBandProps = {
   title: string;
-  text: string;
+  text?: string;
   secondary?: { label: string; href: string };
 };
 
@@ -19,10 +19,12 @@ export function CtaBand({ title, text, secondary }: CtaBandProps) {
             aria-hidden="true"
             className="pointer-events-none absolute left-1/2 top-0 h-72 w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(186_181_242/0.2),transparent)]"
           />
-          <h2 className="relative mx-auto max-w-3xl text-[clamp(1.9rem,1.2rem+2.6vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.035em] text-ivory">
+          <h2 className="relative mx-auto max-w-4xl text-[clamp(2rem,1.1rem+3.2vw,4rem)] font-medium leading-[1.04] tracking-[-0.038em] text-ivory">
             <RichText text={title} />
           </h2>
-          <p className="relative mx-auto mt-5 max-w-xl text-lead text-mist">{text}</p>
+          {text ? (
+            <p className="relative mx-auto mt-5 max-w-xl text-lead text-mist">{text}</p>
+          ) : null}
           <div className="relative mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <ButtonLink href="/contact" size="lg">
               {cta.primary}

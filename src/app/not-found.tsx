@@ -27,22 +27,13 @@ export default function NotFound() {
         />
       </div>
       <div className="container-x relative flex flex-col items-center text-center">
-        <p className="hero-fade text-sm text-dim" style={{ "--i": 0 } as React.CSSProperties}>
-          Erreur 404
-        </p>
-        <h1 className="mt-6 max-w-3xl text-[clamp(2.4rem,1.2rem+4.6vw,5.6rem)] font-medium leading-[1] tracking-[-0.045em] text-ivory">
+        <h1 className="max-w-5xl text-[clamp(2.4rem,1.2rem+4.6vw,5.6rem)] font-medium leading-[1] tracking-[-0.045em] text-ivory">
           <span className="hero-line">
             <span style={{ "--i": 1 } as React.CSSProperties}>
               <RichText text={notFoundPage.title} />
             </span>
           </span>
         </h1>
-        <p
-          className="hero-fade mx-auto mt-8 max-w-xl text-lead text-mist"
-          style={{ "--i": 2 } as React.CSSProperties}
-        >
-          {notFoundPage.text}
-        </p>
         <div
           className="hero-fade mt-10 flex flex-col items-center gap-3 sm:flex-row"
           style={{ "--i": 3 } as React.CSSProperties}

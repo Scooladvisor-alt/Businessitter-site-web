@@ -16,7 +16,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const sectionTitle =
-  "mx-auto max-w-3xl text-center text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory";
+  "mx-auto max-w-5xl text-center text-[clamp(2.2rem,1.1rem+3.6vw,4.4rem)] font-medium leading-[1.03] tracking-[-0.038em] text-ivory";
 
 export default function ApproachPage() {
   const page = approachPage;
@@ -35,7 +35,7 @@ export default function ApproachPage() {
       <JsonLd
         data={[breadcrumbJsonLd([{ name: "Notre approche", path: "/approche" }]), faqJsonLd]}
       />
-      <PageHero id="approche" title={page.title} lead={page.lead}>
+      <PageHero id="approche" title={page.title}>
         <ButtonLink href="/contact" size="lg">
           {cta.primary}
         </ButtonLink>
@@ -92,8 +92,7 @@ export default function ApproachPage() {
                   <span className="flex size-10 items-center justify-center rounded-full border border-white/15 text-sm tabular-nums text-ivory">
                     {index + 1}
                   </span>
-                  <p className="mt-4 text-[0.95rem] font-medium text-amber">{step.label}</p>
-                  <h3 className="mt-2 text-title font-medium text-ivory">{step.title}</h3>
+                  <h3 className="mt-4 text-title font-medium text-ivory">{step.title}</h3>
                 </div>
                 <dl className="mt-8 grid gap-6 border-t border-white/[0.07] pt-8 text-center sm:grid-cols-3">
                   {(["does", "gets", "you"] as const).map((key) => (
@@ -119,9 +118,6 @@ export default function ApproachPage() {
       >
         <div className="container-x">
           <SplitHeading id="rapport-title" text={page.reportTitle} className={sectionTitle} />
-          <Reveal as="p" className="mx-auto mt-6 max-w-2xl text-center text-lead text-mist">
-            {page.reportLead}
-          </Reveal>
           <Reveal as="ul" stagger={0.07} className="mx-auto mt-12 max-w-2xl space-y-3">
             {page.reportItems.map((item) => (
               <li
@@ -176,7 +172,6 @@ export default function ApproachPage() {
 
       <CtaBand
         title={page.cta.title}
-        text={page.cta.text}
         secondary={{ label: page.cta.secondary, href: "/solutions" }}
       />
     </>

@@ -2,9 +2,10 @@
 
 import { useRef } from "react";
 import { vision } from "@/content/home";
-import { gsap, MEDIA, SplitText, useGSAP } from "@/lib/gsap";
+import { gsap, MEDIA, useGSAP } from "@/lib/gsap";
 import { observeOnce } from "@/lib/observe";
 import { SystemPoster } from "@/components/system/SystemPoster";
+import { RichWords } from "@/components/ui/RichWords";
 
 /**
  * Séquence 8 — Vision. Le système du hero réapparaît, désormais organisé ;
@@ -19,12 +20,10 @@ export function VisionSection() {
       if (!section) return;
       const mm = gsap.matchMedia();
       mm.add(MEDIA.motion, (context) => {
-        const title = section.querySelector<HTMLElement>("[data-vision-title]");
-        if (!title) return;
-        let split: SplitText | null = null;
+        const words = gsap.utils.toArray<HTMLElement>("[data-vision-title] [data-word]", section);
+        if (!words.length) return;
         // Préparé à l'approche de la séquence seulement.
         const setup = context.add("setupVision", () => {
-          split = SplitText.create(title, { type: "words", wordsClass: "vision-word" });
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: section,
@@ -34,24 +33,13 @@ export function VisionSection() {
             },
           });
           tl.fromTo(
-            split.words,
+            words,
             { opacity: 0.12 },
             { opacity: 1, stagger: 0.12, duration: 0.5, ease: "none" },
             0,
-          )
-            .fromTo(
-              "[data-vision-text]",
-              { opacity: 0, y: 26 },
-              { opacity: 1, y: 0, stagger: 0.25, duration: 0.6 },
-              ">-0.2",
-            )
-            .to({}, { duration: 0.4 });
+          ).to({}, { duration: 0.6 });
         }) as () => void;
-        const stop = observeOnce(section, setup, "0px 0px 120% 0px");
-        return () => {
-          stop();
-          split?.revert();
-        };
+        return observeOnce(section, setup, "0px 0px 120% 0px");
       });
       return () => mm.revert();
     },
@@ -85,17 +73,10 @@ export function VisionSection() {
           <h2
             id="vision-title"
             data-vision-title
-            className="mx-auto max-w-5xl text-[clamp(2.3rem,1.1rem+4.6vw,5.8rem)] font-medium leading-[1.02] tracking-[-0.045em] text-ivory"
+            className="mx-auto max-w-6xl text-[clamp(2.3rem,1.1rem+4.6vw,5.8rem)] font-medium leading-[1.02] tracking-[-0.045em] text-ivory"
           >
-            {vision.title}
+            <RichWords text={vision.title} />
           </h2>
-          <div className="mx-auto mt-10 max-w-2xl space-y-4 text-lead text-mist">
-            {vision.paragraphs.map((paragraph) => (
-              <p key={paragraph} data-vision-text>
-                {paragraph}
-              </p>
-            ))}
-          </div>
         </div>
       </div>
     </section>

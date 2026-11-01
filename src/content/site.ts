@@ -24,6 +24,8 @@ export const site = {
     "Businessister imagine, développe et intègre des solutions d'intelligence artificielle sur mesure : agents IA, agents téléphoniques, automatisation des processus et outils métiers. Audit gratuit et sans engagement.",
   ),
   tagline: fr("L'intelligence artificielle doit s'adapter à votre entreprise. Pas l'inverse."),
+  /** Version affichée en pied de page (segment mis en valeur entre astérisques). */
+  footerTagline: fr("L'IA doit s'adapter à votre entreprise. *Pas l'inverse.*"),
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null,
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null,

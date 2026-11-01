@@ -557,7 +557,7 @@ export function AuditForm({ idPrefix, className }: AuditFormProps) {
             <button
               type="submit"
               disabled={submitting}
-              className="group/btn relative inline-flex h-14 w-full items-center justify-center gap-3 rounded-full bg-ivory px-7 text-base font-medium text-ink-950 shadow-[0_0_0_1px_rgb(255_255_255/0.14),0_14px_40px_-16px_rgb(255_200_143/0.55)] transition-[background-color,box-shadow,transform] duration-500 ease-out-expo hover:bg-white hover:shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_18px_54px_-14px_rgb(134_230_218/0.6)] active:scale-[0.99] disabled:cursor-progress disabled:opacity-80 sm:w-auto"
+              className="group/btn relative inline-flex h-14 w-full items-center justify-center gap-3 rounded-full btn-aube px-7 text-base font-medium text-ink-950 shadow-[0_0_0_1px_rgb(255_255_255/0.18),0_14px_40px_-14px_rgb(255_200_143/0.55)] transition-[background-position,box-shadow,transform] duration-700 ease-out-expo hover:shadow-[0_0_0_1px_rgb(255_255_255/0.32),0_18px_54px_-12px_rgb(134_230_218/0.6)] active:scale-[0.99] disabled:cursor-progress disabled:opacity-80 sm:w-auto"
             >
               {submitting ? (
                 <>

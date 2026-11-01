@@ -15,6 +15,7 @@ import { cn } from "@/lib/cn";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
+import { RichText } from "@/components/ui/RichText";
 import { AutomationPrompt } from "./AutomationPrompt";
 import { PhoneScene } from "./scenes/PhoneScene";
 import { InboxScene } from "./scenes/InboxScene";
@@ -142,15 +143,12 @@ export function PossibilitiesSection() {
         className="pointer-events-none absolute left-1/2 top-[30%] h-[70vh] w-[110vw] -translate-x-1/2 bg-[radial-gradient(closest-side,rgb(186_181_242/0.07),transparent)]"
       />
       <div className="container-x relative">
-        <header className="mx-auto max-w-3xl text-center">
+        <header className="mx-auto max-w-6xl text-center">
           <SplitHeading
             id="possibles-title"
             text={possibilities.title}
             className="text-headline font-medium text-ivory"
           />
-          <Reveal as="p" className="mx-auto mt-6 max-w-xl text-lead text-mist" delay={0.1}>
-            {possibilities.subtitle}
-          </Reveal>
         </header>
 
         <div
@@ -240,7 +238,7 @@ export function PossibilitiesSection() {
               </span>
             </div>
 
-            <div className="mx-auto mt-8 grid max-w-xl text-center">
+            <div className="mx-auto mt-8 grid max-w-3xl text-center">
               {useCases.map((useCase, index) => {
                 const isActive = index === active;
                 return (
@@ -254,10 +252,9 @@ export function PossibilitiesSection() {
                         : "pointer-events-none translate-y-2 opacity-0",
                     )}
                   >
-                    <h3 className="text-title font-medium text-ivory">{useCase.title}</h3>
-                    <p className="mt-3 text-[1.02rem] leading-relaxed text-mist">
-                      {useCase.description}
-                    </p>
+                    <h3 className="text-[clamp(1.6rem,1.2rem+1.5vw,2.6rem)] font-medium leading-[1.08] tracking-[-0.03em] text-ivory">
+                      <RichText text={useCase.title} />
+                    </h3>
                   </div>
                 );
               })}
@@ -271,9 +268,9 @@ export function PossibilitiesSection() {
 
         <Reveal
           as="p"
-          className="mx-auto mt-24 max-w-3xl text-center text-[clamp(1.75rem,1.1rem+2.4vw,3.2rem)] font-medium leading-[1.08] tracking-[-0.035em] text-ivory md:mt-36"
+          className="mx-auto mt-24 max-w-5xl text-balance text-center text-[clamp(2rem,1.1rem+3.2vw,4rem)] font-medium leading-[1.04] tracking-[-0.038em] text-ivory md:mt-36"
         >
-          {possibilities.conclusion}
+          <RichText text={possibilities.conclusion} />
         </Reveal>
       </div>
     </section>

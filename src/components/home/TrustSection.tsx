@@ -89,7 +89,7 @@ export function TrustSection() {
         className="pointer-events-none absolute right-[-20%] top-1/3 h-[80vh] w-[80vh] rounded-full bg-[radial-gradient(closest-side,rgb(134_230_218/0.07),transparent)]"
       />
       <div className="container-x relative">
-        <header className="mx-auto max-w-3xl text-center">
+        <header className="mx-auto max-w-6xl text-center">
           <SplitHeading
             id="confiance-title"
             text={trust.title}
@@ -294,12 +294,9 @@ export function TrustSection() {
                   <span className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-ivory transition-colors duration-500 group-hover/card:border-aqua/40 group-hover/card:text-aqua">
                     <Icon className="size-5" strokeWidth={1.6} aria-hidden="true" />
                   </span>
-                  <h3 className="mt-6 text-[1.3rem] font-medium tracking-[-0.02em] text-ivory">
+                  <h3 className="mt-5 text-[1.25rem] font-medium tracking-[-0.02em] text-ivory">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[0.97rem] leading-relaxed text-mist">
-                    {item.description}
-                  </p>
                 </li>
               );
             })}

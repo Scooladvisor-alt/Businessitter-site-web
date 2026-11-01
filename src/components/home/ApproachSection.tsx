@@ -6,6 +6,7 @@ import { cta } from "@/content/site";
 import { gsap, MEDIA, useGSAP } from "@/lib/gsap";
 import { observeLine } from "@/lib/observe";
 import { ButtonLink } from "@/components/ui/Button";
+import { RichText } from "@/components/ui/RichText";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
 import { StepArt } from "./StepArt";
@@ -89,15 +90,12 @@ export function ApproachSection() {
         className="pointer-events-none absolute left-1/2 top-1/3 h-[70vh] w-[90vw] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(255_200_143/0.06),transparent)]"
       />
       <div className="container-x relative">
-        <header className="mx-auto max-w-3xl text-center">
+        <header className="mx-auto max-w-6xl text-center">
           <SplitHeading
             id="approche-title"
             text={approach.title}
             className="text-headline font-medium text-ivory"
           />
-          <Reveal as="p" className="mx-auto mt-6 max-w-xl text-lead text-mist" delay={0.1}>
-            {approach.subtitle}
-          </Reveal>
         </header>
 
         <ol
@@ -126,7 +124,7 @@ export function ApproachSection() {
               <h3 className="mt-6 text-[1.45rem] font-medium tracking-[-0.025em] text-ivory">
                 {step.title}
               </h3>
-              <p className="mt-3 max-w-[17rem] text-[0.98rem] leading-relaxed text-mist">
+              <p className="mt-2 max-w-[15rem] text-[0.98rem] leading-relaxed text-mist">
                 {step.text}
               </p>
               {index < approach.steps.length - 1 ? (
@@ -142,9 +140,9 @@ export function ApproachSection() {
         <div className="mt-24 flex flex-col items-center text-center md:mt-32">
           <Reveal
             as="p"
-            className="max-w-3xl text-[clamp(1.75rem,1.1rem+2.4vw,3.2rem)] font-medium leading-[1.08] tracking-[-0.035em] text-ivory"
+            className="max-w-5xl text-balance text-[clamp(2rem,1.1rem+3.2vw,4rem)] font-medium leading-[1.04] tracking-[-0.038em] text-ivory"
           >
-            {approach.conclusion}
+            <RichText text={approach.conclusion} />
           </Reveal>
           <Reveal className="mt-10" delay={0.15}>
             <ButtonLink href="#audit" size="lg">

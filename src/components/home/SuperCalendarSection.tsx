@@ -2,6 +2,7 @@ import { realisation } from "@/content/home";
 import { site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
+import { RichText } from "@/components/ui/RichText";
 
 /**
  * Séquence 6 — Réalisation. Une preuve concrète, en une seule carte :
@@ -30,12 +31,12 @@ export function SuperCalendarSection() {
             </span>
             {realisation.name}
           </p>
-          <h2 id="realisation-title" className="relative mt-5 text-title font-medium text-ivory">
-            {realisation.title}
+          <h2
+            id="realisation-title"
+            className="relative mx-auto mt-6 max-w-xl text-[clamp(1.7rem,1.2rem+1.8vw,2.8rem)] font-medium leading-[1.08] tracking-[-0.032em] text-ivory"
+          >
+            <RichText text={realisation.title} />
           </h2>
-          <p className="relative mx-auto mt-3 max-w-lg text-[1rem] leading-relaxed text-mist">
-            {realisation.description}
-          </p>
           <ButtonLink
             href={site.superCalendarUrl}
             external

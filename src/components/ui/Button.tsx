@@ -6,11 +6,11 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group/btn relative inline-flex select-none items-center justify-center gap-2.5 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-[background-color,color,box-shadow,border-color,transform] duration-500 ease-out-expo active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60";
+  "group/btn relative inline-flex select-none items-center justify-center gap-2.5 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-[background-color,background-position,color,box-shadow,border-color,transform] duration-700 ease-out-expo active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-ivory text-ink-950 shadow-[0_0_0_1px_rgb(255_255_255/0.14),0_14px_40px_-16px_rgb(255_200_143/0.55)] hover:bg-white hover:shadow-[0_0_0_1px_rgb(255_255_255/0.3),0_18px_54px_-14px_rgb(134_230_218/0.6)]",
+    "btn-aube text-ink-950 shadow-[0_0_0_1px_rgb(255_255_255/0.18),0_14px_40px_-14px_rgb(255_200_143/0.55)] hover:shadow-[0_0_0_1px_rgb(255_255_255/0.32),0_18px_54px_-12px_rgb(134_230_218/0.6)]",
   secondary:
     "border border-white/15 bg-white/[0.02] text-ivory hover:border-white/35 hover:bg-white/[0.07]",
   ghost: "text-ivory hover:bg-white/[0.07]",

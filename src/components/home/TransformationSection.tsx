@@ -141,7 +141,7 @@ export function TransformationSection() {
       className="relative py-28 md:py-40"
     >
       <div className="container-x">
-        <header className="mx-auto max-w-3xl text-center">
+        <header className="mx-auto max-w-6xl text-center">
           <SplitHeading
             id="transformation-title"
             text={transformation.title}

@@ -1,6 +1,7 @@
 import { TriangleAlert } from "lucide-react";
 import { legalInfoIncomplete } from "@/content/legal";
 import { cn } from "@/lib/cn";
+import { RichText } from "@/components/ui/RichText";
 import { fr } from "@/lib/typography";
 
 /** Valeur légale, ou repère visible « À compléter » si elle manque. */
@@ -30,10 +31,12 @@ export function LegalPage({
       className="pb-24 pt-[calc(var(--header-height)+4rem)] md:pb-36 md:pt-[calc(var(--header-height)+6rem)]"
     >
       <div className="container-x">
-        <header className="mx-auto max-w-3xl text-center">
-          <h1 className="text-[clamp(2.2rem,1.3rem+3.4vw,4.2rem)] font-medium leading-[1.02] tracking-[-0.04em] text-ivory">
+        <header className="mx-auto max-w-5xl text-center">
+          <h1 className="text-[clamp(2.4rem,1.2rem+4.4vw,5.2rem)] font-medium leading-[1.02] tracking-[-0.04em] text-ivory">
             <span className="hero-line">
-              <span style={{ "--i": 1 } as React.CSSProperties}>{title}</span>
+              <span style={{ "--i": 1 } as React.CSSProperties}>
+                <RichText text={title} />
+              </span>
             </span>
           </h1>
           <p

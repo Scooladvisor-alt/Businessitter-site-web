@@ -20,6 +20,7 @@ import { PageHero } from "@/components/pages/PageHero";
 import { CtaBand } from "@/components/pages/CtaBand";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
+import { RichText } from "@/components/ui/RichText";
 import { ButtonLink } from "@/components/ui/Button";
 
 export const metadata: Metadata = pageMetadata({
@@ -62,7 +63,7 @@ export default function SolutionsPage() {
       <JsonLd
         data={[breadcrumbJsonLd([{ name: "Solutions", path: "/solutions" }]), servicesJsonLd]}
       />
-      <PageHero id="solutions" title={page.title} lead={page.lead} />
+      <PageHero id="solutions" title={page.title} />
 
       <section
         data-backdrop="section"
@@ -73,7 +74,7 @@ export default function SolutionsPage() {
           <SplitHeading
             id="domaines-title"
             text={page.domainsTitle}
-            className="mx-auto max-w-3xl text-center text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
+            className="mx-auto max-w-5xl text-center text-[clamp(2.2rem,1.1rem+3.6vw,4.4rem)] font-medium leading-[1.03] tracking-[-0.038em] text-ivory"
           />
           <ul className="mx-auto mt-12 grid max-w-6xl gap-4 md:grid-cols-2 lg:grid-cols-3">
             {page.domains.map((domain, index) => {
@@ -121,12 +122,9 @@ export default function SolutionsPage() {
           </ul>
 
           <Reveal className="surface border-aube relative mx-auto mt-6 flex max-w-6xl flex-col items-center gap-6 overflow-hidden rounded-[var(--radius-panel)] p-7 text-center">
-            <div className="max-w-2xl">
-              <p className="text-[0.95rem] font-medium text-amber">{page.showcase.label}</p>
-              <p className="mt-3 text-[1.02rem] leading-relaxed text-ivory/90">
-                {page.showcase.text}
-              </p>
-            </div>
+            <p className="max-w-3xl text-[clamp(1.4rem,1.1rem+1.2vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.025em] text-ivory">
+              <RichText text={page.showcase.title} />
+            </p>
             <div className="flex shrink-0 flex-wrap justify-center gap-3">
               <ButtonLink href="/#realisation" variant="secondary" size="sm" arrow={false}>
                 SuperCalendar
@@ -145,16 +143,11 @@ export default function SolutionsPage() {
         className="relative py-16 md:py-24"
       >
         <div className="container-x">
-          <div className="mx-auto max-w-3xl text-center">
-            <SplitHeading
-              id="audience-title"
-              text={page.audienceTitle}
-              className="text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
-            />
-            <Reveal as="p" className="mx-auto mt-6 max-w-xl text-lead text-mist">
-              {page.audienceLead}
-            </Reveal>
-          </div>
+          <SplitHeading
+            id="audience-title"
+            text={page.audienceTitle}
+            className="mx-auto max-w-5xl text-center text-[clamp(2.2rem,1.1rem+3.6vw,4.4rem)] font-medium leading-[1.03] tracking-[-0.038em] text-ivory"
+          />
           <Reveal
             as="ul"
             stagger={0.08}
@@ -184,7 +177,7 @@ export default function SolutionsPage() {
           <SplitHeading
             id="criteres-title"
             text={page.criteriaTitle}
-            className="mx-auto max-w-3xl text-center text-[clamp(1.9rem,1.2rem+2.4vw,3.2rem)] font-medium leading-[1.05] tracking-[-0.035em] text-ivory"
+            className="mx-auto max-w-5xl text-center text-[clamp(2.2rem,1.1rem+3.6vw,4.4rem)] font-medium leading-[1.03] tracking-[-0.038em] text-ivory"
           />
           <Reveal
             as="ol"
@@ -214,7 +207,6 @@ export default function SolutionsPage() {
 
       <CtaBand
         title={page.cta.title}
-        text={page.cta.text}
         secondary={{ label: page.cta.secondary, href: "/approche" }}
       />
     </>

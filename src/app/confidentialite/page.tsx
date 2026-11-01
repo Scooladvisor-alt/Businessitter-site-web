@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         ])}
       />
       <LegalPage
-        title={fr("Politique de confidentialité")}
+        title={fr("Politique de *confidentialité*")}
         updated={info.lastUpdated}
         intro={
           <p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BellRing,
   CalendarClock,
@@ -19,6 +19,8 @@ import {
 import { problem, type TaskIcon } from "@/content/home";
 import { gsap, MEDIA, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { cn } from "@/lib/cn";
+import { RichText } from "@/components/ui/RichText";
+import { RichWords } from "@/components/ui/RichWords";
 
 const ICONS: Record<TaskIcon, LucideIcon> = {
   phone: PhoneMissed,
@@ -77,23 +79,6 @@ const ROWS: Row[] = [
   { y: 0.19, rot: 9, scale: 0.92, alpha: 0.7, duration: 58, reverse: true, start: 2, late: false },
   { y: 0.36, rot: -7, scale: 1, alpha: 0.62, duration: 66, reverse: false, start: 6, late: true },
 ];
-
-/** Découpe une phrase en mots animables (les espaces insécables sont conservés). */
-function Words({ text }: { text: string }) {
-  const words = text.split(" ");
-  return (
-    <>
-      {words.map((word, index) => (
-        <Fragment key={index}>
-          <span data-word className="inline-block">
-            {word}
-          </span>
-          {index < words.length - 1 ? " " : null}
-        </Fragment>
-      ))}
-    </>
-  );
-}
 
 function NoisePill({ icon, label }: { icon: TaskIcon; label: string }) {
   const Icon = ICONS[icon];
@@ -473,11 +458,10 @@ export function ProblemSection() {
 
           {/* 1. Le constat. */}
           <div data-slot="center" className="container-x relative">
-            <div data-text-a className="mx-auto max-w-4xl text-center">
+            <div data-text-a className="mx-auto max-w-6xl text-center">
               <h2 id="constat-title" className="text-headline font-medium text-ivory">
-                {problem.title}
+                <RichText text={problem.title} />
               </h2>
-              <p className="mx-auto mt-5 max-w-xl text-lead text-mist">{problem.lead}</p>
             </div>
           </div>
 
@@ -485,20 +469,20 @@ export function ProblemSection() {
           <div data-slot="question" data-motion-only className="container-x">
             <p
               data-question
-              className="mx-auto max-w-4xl text-center text-[clamp(2rem,1.2rem+3.4vw,4.4rem)] font-medium leading-[1.04] tracking-[-0.04em] text-ivory"
+              className="mx-auto max-w-6xl text-center text-headline font-medium text-ivory"
             >
-              <Words text={problem.transition} />
+              <RichWords text={problem.transition} />
             </p>
           </div>
 
           {/* 3. La réponse. */}
           <div data-slot="top" className="container-x relative">
-            <div className="mx-auto max-w-4xl text-center text-[clamp(1.75rem,1.1rem+2.6vw,3.4rem)] font-medium leading-[1.06] tracking-[-0.035em]">
+            <div className="mx-auto max-w-6xl text-center text-[clamp(1.9rem,1.1rem+3vw,4rem)] font-medium leading-[1.04] tracking-[-0.038em]">
               <p data-text-b className="text-ivory">
-                <Words text={problem.resolved} />
+                <RichWords text={problem.resolved} />
               </p>
-              <p data-text-b2 className="text-amber">
-                <Words text={problem.resolvedAccent} />
+              <p data-text-b2 className="text-ivory">
+                <RichWords text={problem.resolvedAccent} />
               </p>
             </div>
           </div>

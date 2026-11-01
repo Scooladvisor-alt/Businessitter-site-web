@@ -19,7 +19,7 @@ export default function CookiesPage() {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd([{ name: fr("Gestion des cookies"), path: "/cookies" }])} />
-      <LegalPage title={fr("Gestion des cookies")} updated={legalInfo.lastUpdated}>
+      <LegalPage title={fr("Gestion des *cookies*")} updated={legalInfo.lastUpdated}>
         <LegalSection title={fr("Qu'est-ce qu'un traceur ?")}>
           <p>
             {fr(

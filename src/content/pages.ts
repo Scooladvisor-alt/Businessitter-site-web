@@ -8,9 +8,8 @@ export const approachPage = frDeep({
     description:
       "Comprendre, identifier, recommander, construire : découvrez la démarche Businessister pour intégrer l'intelligence artificielle dans votre entreprise, à partir d'un audit gratuit et sans engagement.",
   },
-  title: "Comprendre avant de construire.",
-  lead: "Une solution d'intelligence artificielle n'a de valeur que si elle répond à un vrai besoin. Tout commence donc par un audit gratuit.",
-  principlesTitle: "Ce qui guide notre travail",
+  title: "Comprendre avant de *construire*.",
+  principlesTitle: "Nos *principes*",
   principles: [
     {
       title: "Le problème avant la technologie",
@@ -33,7 +32,7 @@ export const approachPage = frDeep({
       text: "Les décisions importantes restent les vôtres. Des validations humaines sont prévues là où elles sont nécessaires.",
     },
   ],
-  stepsTitle: "Quatre étapes, de la première conversation à l'intégration",
+  stepsTitle: "De l'audit à l'*intégration*",
   stepLabels: {
     does: "Ce que nous faisons",
     gets: "Ce que vous obtenez",
@@ -42,7 +41,6 @@ export const approachPage = frDeep({
   steps: [
     {
       number: "01",
-      label: "Comprendre",
       title: "Audit gratuit de votre entreprise",
       does: "Un échange pour découvrir votre activité, vos clients, vos méthodes de travail, vos outils numériques, vos difficultés, vos tâches répétitives et vos priorités.",
       gets: "Une vision partagée de votre fonctionnement et de vos attentes.",
@@ -50,7 +48,6 @@ export const approachPage = frDeep({
     },
     {
       number: "02",
-      label: "Identifier",
       title: "Détecter les opportunités concrètes",
       does: "L'analyse de vos processus pour repérer les tâches qui pourraient être simplifiées, automatisées ou assistées par l'IA, puis l'évaluation de leur faisabilité, de leur intérêt économique et de leurs contraintes.",
       gets: "Une liste d'opportunités concrètes et hiérarchisées.",
@@ -58,7 +55,6 @@ export const approachPage = frDeep({
     },
     {
       number: "03",
-      label: "Recommander",
       title: "Un rapport d'audit et une proposition personnalisée",
       does: "La synthèse des opportunités identifiées dans un rapport d'audit gratuit et, lorsque cela est pertinent, une proposition de projet adaptée à votre entreprise.",
       gets: "Un rapport clair et, le cas échéant, une proposition détaillant le fonctionnement envisagé, les outils concernés, les bénéfices attendus, les limites et conditions de réussite, les coûts estimés et les étapes de réalisation.",
@@ -66,16 +62,13 @@ export const approachPage = frDeep({
     },
     {
       number: "04",
-      label: "Construire et accompagner",
       title: "De l'idée à son intégration",
       does: "La conception, le développement, les tests et l'intégration de la solution dans votre environnement, puis l'accompagnement à sa prise en main.",
       gets: "Une solution opérationnelle, intégrée à vos outils, et des modalités de suivi définies avec vous.",
       you: "Votre validation aux étapes clés du projet.",
     },
   ],
-  reportTitle: "Ce que contient le rapport d'audit",
-  reportLead:
-    "Un document lisible, sans jargon, qui vous permet de prendre une décision éclairée — que vous donniez suite ou non.",
+  reportTitle: "Le rapport d'*audit*",
   reportItems: [
     "Une synthèse de votre fonctionnement actuel",
     "Les tâches et processus qui pourraient être simplifiés",
@@ -85,7 +78,7 @@ export const approachPage = frDeep({
   ],
   estimateNote:
     "Les bénéfices sont présentés comme des estimations argumentées, jamais comme des résultats garantis.",
-  faqTitle: "Questions fréquentes",
+  faqTitle: "Questions *fréquentes*",
   faq: [
     {
       question: "L'audit est-il vraiment gratuit ?",
@@ -119,8 +112,7 @@ export const approachPage = frDeep({
     },
   ],
   cta: {
-    title: "Commençons par comprendre votre entreprise.",
-    text: "Un premier échange, gratuit et sans engagement, pour identifier ce qui pourrait réellement changer.",
+    title: "Commençons par *votre entreprise*.",
     secondary: "Découvrir nos solutions",
   },
 });
@@ -131,9 +123,8 @@ export const solutionsPage = frDeep({
     description:
       "Agents IA, agents téléphoniques et conversationnels, automatisation des processus, intégration de l'IA à vos logiciels et outils sur mesure : les domaines d'intervention de Businessister.",
   },
-  title: "Des solutions pensées pour votre entreprise. Pas l'inverse.",
-  lead: "Pas de produits figés : des domaines d'intervention, et des solutions conçues à partir de votre situation réelle.",
-  domainsTitle: "Nos domaines d'intervention",
+  title: "Des solutions d'IA *sur mesure*.",
+  domainsTitle: "Nos domaines d'*intervention*",
   examplesLabel: "Exemples d'applications",
   domains: [
     {
@@ -204,12 +195,10 @@ export const solutionsPage = frDeep({
     },
   ] as { icon: string; title: string; text: string; examples: string[] }[],
   showcase: {
-    label: "Exemple de réalisation",
-    text: "SuperCalendar, une solution de gestion des rendez-vous et de suivi client conçue pour les professionnels du ramonage, illustre notre capacité à concevoir des outils opérationnels.",
+    title: "SuperCalendar, notre logiciel déjà adopté par des *ramoneurs*.",
     link: "Découvrir SuperCalendar",
   },
-  audienceTitle: "Pour quelles entreprises ?",
-  audienceLead: "Notre démarche s'adapte à la taille et à la réalité de chaque structure.",
+  audienceTitle: "Pour quelles *entreprises* ?",
   audiences: [
     {
       title: "Artisans et TPE",
@@ -228,7 +217,7 @@ export const solutionsPage = frDeep({
       text: "Des projets ciblés, intégrés à votre système d'information et à vos contraintes.",
     },
   ],
-  criteriaTitle: "Comment nous choisissons la bonne solution",
+  criteriaTitle: "Comment nous choisissons la *bonne solution*",
   criteria: [
     { title: "Utile", text: "Elle répond à un problème réel, identifié avec vous." },
     { title: "Réaliste", text: "Elle est faisable avec vos outils et vos contraintes." },
@@ -236,8 +225,7 @@ export const solutionsPage = frDeep({
     { title: "Maîtrisée", text: "Vous gardez la main sur les décisions importantes." },
   ],
   cta: {
-    title: "Une idée, une difficulté, une tâche qui vous pèse ? Parlons-en.",
-    text: "L'audit gratuit nous permet d'étudier ensemble ce que la technologie peut réellement changer pour vous.",
+    title: "Une tâche qui vous pèse ? *Parlons-en.*",
     secondary: "Découvrir notre approche",
   },
 });
@@ -248,21 +236,19 @@ export const contactPage = frDeep({
     description:
       "Demandez votre audit gratuit et sans engagement : un premier échange pour comprendre vos besoins, identifier des opportunités et envisager des solutions d'IA concrètes.",
   },
-  title: "Parlons de votre entreprise.",
-  lead: "Un premier échange, gratuit et sans engagement, pour comprendre vos besoins et envisager des solutions concrètes.",
-  formTitle: "Demande d'audit gratuit",
+  title: "Parlons de *votre entreprise*.",
+  formTitle: "Demande d'audit *gratuit*",
   directTitle: "Nous écrire directement",
-  nextTitle: "Après votre demande",
+  nextTitle: "Après votre *demande*",
   assurances: ["Gratuit et sans engagement", "Aucune obligation de donner suite"],
   next: [
-    "Nous prenons connaissance de votre demande et revenons vers vous pour convenir d'un premier échange.",
-    "Nous échangeons sur votre activité, vos outils et les tâches que vous aimeriez simplifier.",
-    "Vous recevez un rapport d'audit gratuit et, lorsque c'est pertinent, une proposition personnalisée.",
+    "Nous revenons vers vous.",
+    "Nous échangeons sur votre activité.",
+    "Vous recevez votre rapport d'audit.",
   ],
 });
 
 export const notFoundPage = frDeep({
-  title: "Cette page s'est égarée.",
-  text: "La page que vous cherchez n'existe pas ou a été déplacée. Reprenons depuis un point connu.",
+  title: "Cette page s'est *égarée*.",
   home: "Retour à l'accueil",
 });

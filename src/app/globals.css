@@ -33,7 +33,7 @@
   --text-display: clamp(2.5rem, min(1.05rem + 5.5vw, 10.6vh), 6.4rem);
   --text-display--line-height: 0.98;
   --text-display--letter-spacing: -0.045em;
-  --text-headline: clamp(2.1rem, 1.25rem + 3.45vw, 4.6rem);
+  --text-headline: clamp(2.3rem, 1.1rem + 4.4vw, 5.6rem);
   --text-headline--line-height: 1.02;
   --text-headline--letter-spacing: -0.038em;
   --text-title: clamp(1.45rem, 1.15rem + 1.1vw, 2.15rem);
@@ -217,6 +217,25 @@
   color: transparent;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+}
+
+/* Boutons principaux : le dégradé « aube » de la direction artistique,
+   qui glisse au survol. Texte sombre : contraste AA sur toute la largeur. */
+@utility btn-aube {
+  background-image: linear-gradient(
+    100deg,
+    #ffc88f 0%,
+    #f6aaa8 24%,
+    #bdb6f2 50%,
+    #86e6da 76%,
+    #ffc88f 100%
+  );
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+
+  &:hover {
+    background-position: 100% 50%;
+  }
 }
 
 @utility accent-serif {

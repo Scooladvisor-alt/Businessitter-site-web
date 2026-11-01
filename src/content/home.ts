@@ -2,9 +2,9 @@ import { frDeep } from "@/lib/typography";
 
 /**
  * Contenus de la page d'accueil.
- * Convention : un segment entouré d'astérisques (*mot*) est mis en valeur
- * (réservé au titre principal) ; chaque entrée de `titleLines` est une
- * ligne animée du titre d'ouverture.
+ * Convention : dans chaque titre, un segment entouré d'astérisques (*mot*)
+ * est mis en valeur (italique à empattements, dégradé « aube ») ; chaque
+ * entrée de `titleLines` est une ligne animée du titre d'ouverture.
  */
 
 export type SceneKey = "phone" | "mail" | "docs" | "ops" | "journey" | "custom";
@@ -22,21 +22,14 @@ export type TaskIcon =
 export type TaskStatus = "auto" | "review";
 
 export const hero = frDeep({
-  titleLines: [
-    "Et si votre entreprise",
-    "pouvait faire *bien plus*,",
-    "avec moins de contraintes ?",
-  ],
-  subtitle:
-    "Des solutions d'intelligence artificielle sur mesure, pour libérer votre temps et simplifier vos opérations.",
+  titleLines: ["Intégrez l'IA", "à votre entreprise.", "Faites *bien plus*."],
 });
 
 export const problem = frDeep({
-  title: "Votre entreprise mérite mieux que des tâches répétitives.",
-  lead: "Appels, e-mails, devis, relances... Chaque jour, des heures disparaissent.",
-  transition: "Et si tout cela pouvait fonctionner autrement ?",
+  title: "Votre entreprise mérite *mieux* que des tâches répétitives.",
+  transition: "Et si tout cela pouvait fonctionner *autrement* ?",
   resolved: "Le répétitif est pris en charge.",
-  resolvedAccent: "Les décisions restent les vôtres.",
+  resolvedAccent: "Les décisions restent *les vôtres*.",
   legend: { auto: "Pris en charge", review: "À valider par vous" },
   summary:
     "Illustration : un appel manqué devient une demande qualifiée, les e-mails sont triés, les données synchronisées, les rendez-vous confirmés et les relances envoyées. Les devis et les factures restent à valider par vous.",
@@ -68,52 +61,18 @@ export const problem = frDeep({
 });
 
 export const possibilities = frDeep({
-  title: "Imaginez. Nous étudions comment le rendre possible.",
-  subtitle: "Chaque entreprise est différente. Ses possibilités aussi.",
+  title: "Ce que l'IA peut faire *pour vous*.",
   caption: "Illustration",
   useCases: [
-    {
-      key: "mail",
-      tab: "E-mails",
-      title: "Gestion intelligente des e-mails",
-      description:
-        "Les messages triés, les demandes identifiées, les réponses préparées selon vos règles.",
-    },
-    {
-      key: "docs",
-      tab: "Devis",
-      title: "Devis et documents",
-      description:
-        "Les informations collectées, le document généré, puis soumis à votre validation.",
-    },
-    {
-      key: "ops",
-      tab: "Opérations",
-      title: "Automatisation des opérations",
-      description: "Vos logiciels synchronisés, vos données à jour, sans double saisie.",
-    },
-    {
-      key: "journey",
-      tab: "Relation client",
-      title: "Relation client",
-      description: "Confirmations, rappels, suivis et relances envoyés au bon moment.",
-    },
-    {
-      key: "phone",
-      tab: "Téléphone",
-      title: "Accueil téléphonique",
-      description: "Les appels pris en charge, les demandes qualifiées, les rendez-vous proposés.",
-    },
-    {
-      key: "custom",
-      tab: "Sur mesure",
-      title: "Outils métiers sur mesure",
-      description:
-        "Une application pensée pour un besoin que les logiciels existants couvrent mal.",
-    },
-  ] as { key: SceneKey; tab: string; title: string; description: string }[],
+    { key: "mail", tab: "E-mails", title: "Vos e-mails, *triés* et préparés." },
+    { key: "docs", tab: "Devis", title: "Vos devis, *prêts* à valider." },
+    { key: "ops", tab: "Opérations", title: "Vos outils, *enfin* connectés." },
+    { key: "journey", tab: "Relation client", title: "Vos clients, suivis *sans oubli*." },
+    { key: "phone", tab: "Téléphone", title: "Vos appels, *pris en charge*." },
+    { key: "custom", tab: "Sur mesure", title: "Un outil *pensé* pour votre métier." },
+  ] as { key: SceneKey; tab: string; title: string }[],
   prompt: {
-    title: "Et vous, qu'aimeriez-vous automatiser ?",
+    title: "Et vous, qu'aimeriez\u2011vous *automatiser* ?",
     label: "Décrivez la tâche que vous aimeriez automatiser",
     placeholder: "J'aimerais automatiser...",
     suggestionsLabel: "Exemples",
@@ -124,11 +83,10 @@ export const possibilities = frDeep({
       "La création de documents",
     ],
     submit: "Ajouter à ma demande d'audit",
-    note: "Nous l'étudierons avec vous lors de l'audit gratuit.",
     empty: "Décrivez d'abord une tâche, ou choisissez un exemple.",
     success: "C'est noté : votre besoin a été ajouté à votre demande d'audit.",
   },
-  conclusion: "Votre entreprise est unique. Votre solution doit l'être aussi.",
+  conclusion: "Votre entreprise est unique.\nVotre solution *aussi*.",
 });
 
 export const scenes = frDeep({
@@ -210,31 +168,18 @@ export const scenes = frDeep({
 });
 
 export const approach = frDeep({
-  title: "Nous ne commençons pas par une solution. Nous commençons par vous.",
-  subtitle: "Avant de parler de technologie, nous prenons le temps de comprendre votre activité.",
+  title: "Nous commençons par *vous*.",
   steps: [
-    {
-      title: "Comprendre",
-      text: "Un audit gratuit de votre activité, de vos outils et de vos priorités.",
-    },
-    {
-      title: "Identifier",
-      text: "Les tâches qui peuvent être simplifiées, automatisées ou assistées.",
-    },
-    {
-      title: "Recommander",
-      text: "Un rapport clair, des estimations argumentées et, si c'est pertinent, une proposition sur mesure.",
-    },
-    {
-      title: "Construire",
-      text: "Conception, intégration, tests, puis accompagnement à la prise en main.",
-    },
+    { title: "Comprendre", text: "Un audit gratuit de votre activité." },
+    { title: "Identifier", text: "Les tâches à simplifier." },
+    { title: "Recommander", text: "Un rapport clair, une proposition." },
+    { title: "Construire", text: "Intégration et accompagnement." },
   ],
-  conclusion: "Une technologie adaptée à votre entreprise. Jamais l'inverse.",
+  conclusion: "Vous gardez la main,\n*à chaque étape*.",
 });
 
 export const transformation = frDeep({
-  title: "Moins d'opérations manuelles. Plus de temps pour avancer.",
+  title: "Moins de tâches manuelles.\n*Plus de temps.*",
   days: ["Lun", "Mar", "Mer", "Jeu", "Ven"],
   labels: {
     mail: "E-mails",
@@ -257,59 +202,42 @@ export const transformation = frDeep({
 });
 
 export const realisation = frDeep({
-  title: "Des idées qui deviennent des outils.",
+  title: "Notre logiciel, déjà adopté par des *ramoneurs* en France.",
   name: "SuperCalendar",
-  description:
-    "Notre solution de gestion des rendez-vous et de suivi client pour le ramonage, déjà utilisée par plusieurs professionnels en France.",
   link: "Découvrir SuperCalendar",
 });
 
 export const trust = frDeep({
-  title: "L'innovation n'a de valeur que lorsqu'elle inspire confiance.",
+  title: "Une IA qui inspire *confiance*.",
   core: "Vos données",
   items: [
     {
       key: "confidentialite",
       title: "Confidentialité",
       layer: "Accès maîtrisés",
-      description: "Des mesures de protection adaptées à la sensibilité de vos données.",
     },
     {
       key: "rgpd",
-      title: "RGPD",
+      title: "Démarche RGPD",
       layer: "Traitements définis",
-      description: "La protection des données intégrée dès la conception de chaque projet.",
     },
     {
       key: "controle",
       title: "Contrôle humain",
       layer: "Validation humaine",
-      description: "Des validations humaines là où les décisions le nécessitent.",
     },
     {
       key: "fiabilite",
       title: "Fiabilité",
       layer: "Supervision",
-      description: "Des automatisations testées, supervisées et adaptées à votre réalité.",
     },
   ],
 });
 
 export const vision = frDeep({
-  title: "Votre prochaine évolution commence peut-être par une simple idée.",
-  paragraphs: [
-    "Une tâche qui vous fait perdre du temps. Un processus trop complexe. Une idée jamais concrétisée.",
-    "Parlons-en.",
-  ],
+  title: "Votre prochaine évolution commence peut-être par une *simple idée*.",
 });
 
 export const audit = frDeep({
-  title: "Et si nous parlions de votre entreprise ?",
-  subtitle:
-    "Un premier échange, gratuit et sans engagement, pour identifier ce qui peut réellement changer.",
-  steps: [
-    "Vous présentez votre activité",
-    "Nous analysons vos processus",
-    "Vous recevez votre rapport d'audit",
-  ],
+  title: "Demandez votre audit *gratuit*.",
 });

@@ -109,8 +109,12 @@ assets/fonts/                Polices (licence OFL) utilisées pour l'image Open 
 
 Tous les textes visibles se trouvent dans `src/content/`. Il suffit de modifier ces fichiers :
 
-- **Mise en valeur** : un segment entouré d'astérisques, par exemple `"pouvait faire *bien plus*,"`,
-  s'affiche en italique à empattements avec le dégradé de la marque (réservé au titre principal).
+- **Mise en valeur** : dans chaque titre, un segment entouré d'astérisques, par exemple
+  `"Faites *bien plus*."`, s'affiche en italique à empattements avec le dégradé « aube » de la
+  marque — le même dégradé que les boutons principaux. Un `\n` marque un retour à la ligne voulu
+  sur les écrans larges (`"Moins de tâches manuelles.\n*Plus de temps.*"`).
+- **Pas de sous-titres** : chaque section tient en un titre court et direct ; le détail est
+  porté par les visuels, les cartes et les pages intérieures.
 - **Typographie française** : les contenus passent par `fr()` / `frDeep()` (`src/lib/typography.ts`),
   qui posent automatiquement les espaces insécables (avant `: ; ! ?`, dans les guillemets) et
   l'apostrophe typographique. Écrivez simplement `"Et si … ?"`.

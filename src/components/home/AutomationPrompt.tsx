@@ -9,6 +9,7 @@ import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 import { scrollToTarget } from "@/lib/scroll";
 import { fr } from "@/lib/typography";
 import { Button } from "@/components/ui/Button";
+import { RichText } from "@/components/ui/RichText";
 
 const copy = possibilities.prompt;
 const PREFIX = fr("J'aimerais automatiser");
@@ -71,7 +72,6 @@ export function AutomationPrompt() {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const inputId = useId();
-  const noteId = useId();
   const statusId = useId();
 
   useEffect(() => {
@@ -114,7 +114,9 @@ export function AutomationPrompt() {
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-0 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgb(186_181_242/0.18),transparent)]"
       />
-      <h3 className="relative text-title font-medium text-ivory">{copy.title}</h3>
+      <h3 className="relative text-[clamp(1.7rem,1.2rem+1.8vw,2.8rem)] font-medium leading-[1.06] tracking-[-0.032em] text-ivory">
+        <RichText text={copy.title} />
+      </h3>
 
       <form onSubmit={submit} className="relative mt-8" noValidate>
         <label htmlFor={inputId} className="sr-only">
@@ -134,7 +136,7 @@ export function AutomationPrompt() {
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             placeholder={focused || reduced ? copy.placeholder : ""}
-            aria-describedby={`${noteId} ${statusId}`}
+            aria-describedby={statusId}
             aria-invalid={status === "empty" || undefined}
             className="block w-full resize-none rounded-[1.4rem] bg-transparent px-5 py-4 text-[1.05rem] leading-relaxed text-ivory placeholder:text-dim focus:outline-none"
           />
@@ -178,9 +180,6 @@ export function AutomationPrompt() {
           <Button type="submit" size="md" arrow>
             {copy.submit}
           </Button>
-          <p id={noteId} className="text-sm text-dim">
-            {copy.note}
-          </p>
           <div id={statusId} role="status" aria-live="polite" className="min-h-6 text-sm">
             <AnimatePresence mode="wait">
               {status === "added" ? (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cta, footerNav, legalNav, site } from "@/content/site";
 import { Logo } from "@/components/ui/Logo";
+import { RichText } from "@/components/ui/RichText";
 import { ButtonLink } from "@/components/ui/Button";
 import { CurrentYear } from "./CurrentYear";
 import { CookiePreferencesButton } from "@/components/consent/CookiePreferencesButton";
@@ -19,7 +20,9 @@ export function Footer() {
         <Link href="/" aria-label="Businessister — Accueil" className="inline-flex rounded-lg">
           <Logo idSuffix="footer" />
         </Link>
-        <p className="mt-5 max-w-md text-[0.98rem] leading-relaxed text-mist">{site.tagline}</p>
+        <p className="mt-6 max-w-2xl text-[clamp(1.4rem,1.1rem+1.2vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.025em] text-ivory">
+          <RichText text={site.footerTagline} />
+        </p>
         <ButtonLink href="/contact" size="md" className="mt-8">
           {cta.primary}
         </ButtonLink>
