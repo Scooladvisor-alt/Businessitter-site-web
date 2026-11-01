@@ -13,9 +13,9 @@ export function Footer() {
         <Link
           href="/"
           aria-label="Businessister — Accueil"
-          className="glass-light inline-flex rounded-full py-2 pl-3 pr-5"
+          className="glass-light inline-flex rounded-full px-6 py-3.5"
         >
-          <Logo idSuffix="footer" />
+          <Logo idSuffix="footer" className="h-9" />
         </Link>
         <p className="mt-6 max-w-2xl text-[clamp(1.4rem,1.1rem+1.2vw,2.1rem)] font-medium leading-[1.15] tracking-[-0.025em] text-ivory">
           <RichText text={site.footerTagline} />

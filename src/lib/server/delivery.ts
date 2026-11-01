@@ -102,8 +102,12 @@ function emailChannel(): Channel | null {
   };
 }
 
+/** Webhook n8n de Businessister : notifié à chaque demande d'audit. */
+const DEFAULT_WEBHOOK_URL =
+  "https://n8n.srv1896400.hstgr.cloud/webhook/369d2a3c-3097-4be4-85aa-a16f25175bdf";
+
 function webhookChannel(): Channel | null {
-  const url = process.env.AUDIT_WEBHOOK_URL;
+  const url = process.env.AUDIT_WEBHOOK_URL?.trim() || DEFAULT_WEBHOOK_URL;
   if (!url) return null;
   const secret = process.env.AUDIT_WEBHOOK_SECRET;
 

@@ -1,5 +1,16 @@
 import { cn } from "@/lib/cn";
-import { LOGO_B_PATH, LOGO_STAR_GRADIENT, LOGO_STAR_PATH, LOGO_VIEWBOX } from "./logo-paths";
+import {
+  LOGO_B_PATH,
+  LOGO_STAR_GRADIENT,
+  LOGO_STAR_PATH,
+  LOGO_VIEWBOX,
+  WORDMARK_ACCENT_GRADIENT,
+  WORDMARK_ACCENT_PATH,
+  WORDMARK_INK_PATH,
+  WORDMARK_STAR_GRADIENT,
+  WORDMARK_STAR_PATH,
+  WORDMARK_VIEWBOX,
+} from "./logo-paths";
 
 type LogoMarkProps = {
   className?: string;
@@ -44,18 +55,48 @@ export function LogoMark({ className, idSuffix = "main" }: LogoMarkProps) {
 type LogoProps = {
   className?: string;
   idSuffix?: string;
-  showWordmark?: boolean;
 };
 
-/** Logo et nom, en noir : à poser sur une surface claire (verre clair). */
-export function Logo({ className, idSuffix, showWordmark = true }: LogoProps) {
+/**
+ * Logotype horizontal (« B », « usines » en noir, « sitter » au dégradé) :
+ * à poser sur une surface claire (verre clair).
+ */
+export function Logo({ className, idSuffix = "main" }: LogoProps) {
+  const star = `bsr-wm-star-${idSuffix}`;
+  const accent = `bsr-wm-accent-${idSuffix}`;
   return (
-    <span className={cn("inline-flex items-center gap-2.5 text-ink-950", className)}>
-      <LogoMark idSuffix={idSuffix} className="h-9 text-current" />
-      {showWordmark ? (
-        <span className="text-[1.08rem] font-semibold tracking-[-0.035em]">Businessister</span>
-      ) : null}
-    </span>
+    <svg
+      viewBox={WORDMARK_VIEWBOX}
+      aria-hidden="true"
+      focusable="false"
+      className={cn("h-8 w-auto shrink-0", className)}
+    >
+      <defs>
+        {(
+          [
+            [star, WORDMARK_STAR_GRADIENT],
+            [accent, WORDMARK_ACCENT_GRADIENT],
+          ] as const
+        ).map(([id, gradient]) => (
+          <linearGradient
+            key={id}
+            id={id}
+            gradientUnits="userSpaceOnUse"
+            x1={gradient.x1}
+            y1="0"
+            x2={gradient.x2}
+            y2="0"
+          >
+            {gradient.stops.map(([offset, color]) => (
+              <stop key={offset} offset={offset} stopColor={color} />
+            ))}
+          </linearGradient>
+        ))}
+      </defs>
+      <path d={WORDMARK_STAR_PATH} fill={`url(#${star})`} fillRule="evenodd" />
+      <path d={WORDMARK_INK_PATH} fill="#0a0a0b" fillRule="evenodd" />
+      <path d={WORDMARK_ACCENT_PATH} fill={`url(#${accent})`} fillRule="evenodd" />
+    </svg>
   );
 }
 

@@ -67,7 +67,7 @@ export function Header() {
             aria-label="Businessister — Accueil"
             onClick={() => close()}
           >
-            <Logo idSuffix="header" />
+            <Logo idSuffix="header" className="h-7 sm:h-8" />
           </Link>
 
           <nav aria-label="Navigation principale" className="hidden lg:block">

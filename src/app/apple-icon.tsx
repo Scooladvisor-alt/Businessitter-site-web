@@ -12,12 +12,18 @@ export default function AppleIcon() {
         width: "100%",
         height: "100%",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        position: "relative",
         backgroundColor: "#f6f4ef",
       }}
     >
-      <img src={logo} alt="" width={96} height={128} />
+      {/* Centré sur la lettre « B » (l'étoile déborde en haut à droite). */}
+      <img
+        src={logo}
+        alt=""
+        width={119}
+        height={158}
+        style={{ position: "absolute", left: 45, top: -4 }}
+      />
     </div>,
     size,
   );

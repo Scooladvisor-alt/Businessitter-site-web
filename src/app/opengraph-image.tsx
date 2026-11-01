@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { posterSvg } from "@/components/system/poster-geometry";
-import { logoSvg } from "@/components/ui/logo-paths";
+import { wordmarkSvg } from "@/components/ui/logo-paths";
 import { fr } from "@/lib/typography";
 
 export const alt = fr(
@@ -17,7 +17,7 @@ const instrumentSerif = readFileSync(join(fontsDir, "InstrumentSerif-Italic.ttf"
 
 export default function OpengraphImage() {
   const network = `data:image/svg+xml;base64,${Buffer.from(posterSvg("order", 0.9)).toString("base64")}`;
-  const logo = `data:image/svg+xml;base64,${Buffer.from(logoSvg()).toString("base64")}`;
+  const logo = `data:image/svg+xml;base64,${Buffer.from(wordmarkSvg()).toString("base64")}`;
 
   return new ImageResponse(
     <div
@@ -55,14 +55,13 @@ export default function OpengraphImage() {
             alignItems: "center",
             gap: 14,
             alignSelf: "flex-start",
-            padding: "12px 26px 12px 18px",
+            padding: "16px 28px",
             borderRadius: 999,
             backgroundColor: "#f6f4ef",
             color: "#0a0a0b",
           }}
         >
-          <img src={logo} alt="" width={34} height={45} />
-          <span style={{ fontSize: 30, letterSpacing: "-0.035em" }}>Businessister</span>
+          <img src={logo} alt="" width={198} height={48} />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>

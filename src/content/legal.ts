@@ -42,14 +42,14 @@ export type LegalInfo = {
   lastUpdated: string;
 };
 
-const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "antonin@supercalendar.fr";
 const contactPhone = process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null;
 
 export const legalInfo: LegalInfo = {
   companyName: "Antonin Silandre",
   legalForm: "Entrepreneur individuel (EI)",
   shareCapital: null,
-  address: "77330 Ozoir-la-Ferrière, France",
+  address: "57 avenue Édouard Gourdon, 77330 Ozoir-la-Ferrière, France",
   registration: "Inscrit au Registre national des entreprises (RNE) — SIREN 988 933 537",
   vatNumber: process.env.NEXT_PUBLIC_VAT_NUMBER?.trim() || null,
   publicationDirector: "Antonin Silandre",
