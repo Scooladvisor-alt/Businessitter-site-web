@@ -9,7 +9,7 @@ import { LegalPage, LegalSection } from "@/components/pages/Legal";
 export const metadata: Metadata = pageMetadata({
   title: fr("Conditions générales d'utilisation"),
   description: fr(
-    "Conditions générales d'utilisation du site businessister.com : accès au site, demande d'audit, propriété intellectuelle, responsabilité et droit applicable.",
+    "Conditions générales d'utilisation du site businessitter.com : accès au site, demande d'audit, propriété intellectuelle, responsabilité et droit applicable.",
   ),
   path: "/cgu",
 });
@@ -25,7 +25,7 @@ export default function TermsPage() {
         <LegalSection title={fr("1. Objet")}>
           <p>
             {fr(
-              `Les présentes conditions générales d'utilisation (CGU) définissent les règles d'accès et d'utilisation du site ${site.domain}, édité par ${info.companyName}, entrepreneur individuel exerçant sous le nom commercial Businessister (SIREN 988 933 537). Les informations relatives à l'éditeur figurent dans les `,
+              `Les présentes conditions générales d'utilisation (CGU) définissent les règles d'accès et d'utilisation du site ${site.domain}, édité par ${info.companyName}, entrepreneur individuel exerçant sous le nom commercial Businessitter (SIREN 988 933 537). Les informations relatives à l'éditeur figurent dans les `,
             )}
             <Link href="/mentions-legales">{fr("mentions légales")}</Link>.
           </p>
@@ -52,7 +52,7 @@ export default function TermsPage() {
         <LegalSection title={fr("3. Services proposés")}>
           <p>
             {fr(
-              "Le site présente l'activité de Businessister : conseil, conception, développement et intégration de solutions d'intelligence artificielle et d'outils numériques pour les entreprises. Il permet de demander un audit gratuit et sans engagement au moyen d'un formulaire.",
+              "Le site présente l'activité de Businessitter : conseil, conception, développement et intégration de solutions d'intelligence artificielle et d'outils numériques pour les entreprises. Il permet de demander un audit gratuit et sans engagement au moyen d'un formulaire.",
             )}
           </p>
           <p>

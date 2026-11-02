@@ -8,20 +8,20 @@ import { fr, frDeep } from "@/lib/typography";
 
 function normalizeUrl(value: string | undefined): string {
   const url = (value ?? "").trim().replace(/\/+$/, "");
-  return url || "https://businessister.com";
+  return url || "https://businessitter.com";
 }
 
 export const site = {
-  name: "Businessister",
-  domain: "businessister.com",
+  name: "Businessitter",
+  domain: "businessitter.com",
   url: normalizeUrl(process.env.NEXT_PUBLIC_SITE_URL),
   locale: "fr_FR",
   language: "fr-FR",
   title: fr(
-    "Businessister — Intégration d'intelligence artificielle sur mesure pour les entreprises",
+    "Businessitter — Intégration d'intelligence artificielle sur mesure pour les entreprises",
   ),
   description: fr(
-    "Businessister imagine, développe et intègre des solutions d'intelligence artificielle sur mesure : agents IA, agents téléphoniques, automatisation des processus et outils métiers. Audit gratuit et sans engagement.",
+    "Businessitter imagine, développe et intègre des solutions d'intelligence artificielle sur mesure : agents IA, agents téléphoniques, automatisation des processus et outils métiers. Audit gratuit et sans engagement.",
   ),
   tagline: fr("L'intelligence artificielle doit s'adapter à votre entreprise. Pas l'inverse."),
   /** Version affichée en pied de page (segment mis en valeur entre astérisques). */
@@ -42,6 +42,7 @@ export const mainNav: readonly NavItem[] = frDeep([
   { label: "Notre approche", href: "/approche" },
   { label: "Solutions", href: "/solutions" },
   { label: "Réalisation", href: "/#realisation" },
+  { label: "À propos", href: "/#a-propos" },
   { label: "Contact", href: "/contact" },
 ]);
 
@@ -57,6 +58,7 @@ export const footerNav: readonly NavItem[] = frDeep([
   { label: "Notre approche", href: "/approche" },
   { label: "Solutions", href: "/solutions" },
   { label: "Réalisation", href: "/#realisation" },
+  { label: "À propos", href: "/#a-propos" },
   { label: "Contact", href: "/contact" },
 ]);
 
@@ -74,6 +76,7 @@ export const chapters = frDeep([
   { id: "approche", label: "Notre approche" },
   { id: "transformation", label: "La transformation" },
   { id: "realisation", label: "Réalisation" },
+  { id: "a-propos", label: "À propos" },
   { id: "confiance", label: "Confiance" },
   { id: "vision", label: "Vision" },
   { id: "audit", label: "Audit gratuit" },

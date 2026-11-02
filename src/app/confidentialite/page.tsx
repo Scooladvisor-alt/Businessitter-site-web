@@ -9,7 +9,7 @@ import { LegalPage, LegalSection, Value } from "@/components/pages/Legal";
 export const metadata: Metadata = pageMetadata({
   title: fr("Politique de confidentialité"),
   description: fr(
-    "Comment Businessister traite les données personnelles collectées sur son site : finalités, bases légales, destinataires, durées de conservation et droits des personnes.",
+    "Comment Businessitter traite les données personnelles collectées sur son site : finalités, bases légales, destinataires, durées de conservation et droits des personnes.",
   ),
   path: "/confidentialite",
 });

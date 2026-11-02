@@ -1,5 +1,5 @@
 /**
- * Tracés du logo Businessister (vectorisés depuis le fichier fourni) :
+ * Tracés du logo Businessitter (vectorisés depuis le fichier fourni) :
  * un « B » noir et une étoile à quatre branches au dégradé « aube »,
  * placée derrière la lettre.
  */

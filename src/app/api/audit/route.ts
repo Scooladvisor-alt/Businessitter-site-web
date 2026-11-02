@@ -107,7 +107,7 @@ export async function POST(request: Request) {
 
   const { delivered } = await deliverAuditRequest(result.data, {
     submittedAt: new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" }),
-    source: request.headers.get("referer") ?? "businessister.com",
+    source: request.headers.get("referer") ?? "businessitter.com",
   });
 
   if (delivered === 0) return fail(502, "delivery_failed", { contactEmail });

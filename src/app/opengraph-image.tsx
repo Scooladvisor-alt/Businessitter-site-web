@@ -6,7 +6,7 @@ import { wordmarkSvg } from "@/components/ui/logo-paths";
 import { fr } from "@/lib/typography";
 
 export const alt = fr(
-  "Businessister — Intégration d'intelligence artificielle sur mesure pour les entreprises",
+  "Businessitter — Intégration d'intelligence artificielle sur mesure pour les entreprises",
 );
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -111,7 +111,7 @@ export default function OpengraphImage() {
             <div style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: "#84e4d9" }} />
             {fr("Audit gratuit et sans engagement")}
           </div>
-          <span style={{ fontSize: 24, color: "#8b91a1" }}>businessister.com</span>
+          <span style={{ fontSize: 24, color: "#8b91a1" }}>businessitter.com</span>
         </div>
       </div>
     </div>,

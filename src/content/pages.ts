@@ -6,7 +6,7 @@ export const approachPage = frDeep({
   meta: {
     title: "Notre approche : de l'audit gratuit à l'intégration de l'IA",
     description:
-      "Comprendre, identifier, recommander, construire : découvrez la démarche Businessister pour intégrer l'intelligence artificielle dans votre entreprise, à partir d'un audit gratuit et sans engagement.",
+      "Comprendre, identifier, recommander, construire : découvrez la démarche Businessitter pour intégrer l'intelligence artificielle dans votre entreprise, à partir d'un audit gratuit et sans engagement.",
   },
   title: "Comprendre avant de *construire*.",
   principlesTitle: "Nos *principes*",
@@ -121,7 +121,7 @@ export const solutionsPage = frDeep({
   meta: {
     title: "Solutions d'intelligence artificielle pour les entreprises",
     description:
-      "Agents IA, agents téléphoniques et conversationnels, automatisation des processus, intégration de l'IA à vos logiciels et outils sur mesure : les domaines d'intervention de Businessister.",
+      "Agents IA, agents téléphoniques et conversationnels, automatisation des processus, intégration de l'IA à vos logiciels et outils sur mesure : les domaines d'intervention de Businessitter.",
   },
   title: "Des solutions d'IA *sur mesure*.",
   domainsTitle: "Nos domaines d'*intervention*",

@@ -9,7 +9,7 @@ import { LegalPage, LegalSection, Value } from "@/components/pages/Legal";
 export const metadata: Metadata = pageMetadata({
   title: "Mentions légales",
   description: fr(
-    "Mentions légales du site businessister.com : éditeur, hébergement, propriété intellectuelle et responsabilité.",
+    "Mentions légales du site businessitter.com : éditeur, hébergement, propriété intellectuelle et responsabilité.",
   ),
   path: "/mentions-legales",
 });
@@ -27,7 +27,7 @@ export default function LegalNoticePage() {
               <dt>{fr("Éditeur")}</dt>
               <dd>
                 <Value value={info.companyName} label={fr("nom de l'éditeur")} />
-                {fr(", exerçant sous le nom commercial Businessister")}
+                {fr(", exerçant sous le nom commercial Businessitter")}
               </dd>
             </div>
             <div>
@@ -124,7 +124,7 @@ export default function LegalNoticePage() {
           </p>
           <p>
             {fr(
-              "Le nom Businessister, son logo et le nom SuperCalendar sont la propriété de l'éditeur. Les polices de caractères Inter Tight et Instrument Serif sont distribuées sous licence SIL Open Font License ; les icônes proviennent de la bibliothèque Lucide, distribuée sous licence ISC.",
+              "Le nom Businessitter, son logo et le nom SuperCalendar sont la propriété de l'éditeur. Les polices de caractères Inter Tight et Instrument Serif sont distribuées sous licence SIL Open Font License ; les icônes proviennent de la bibliothèque Lucide, distribuée sous licence ISC.",
             )}
           </p>
         </LegalSection>

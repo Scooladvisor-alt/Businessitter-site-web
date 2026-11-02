@@ -1,6 +1,6 @@
-# Businessister — site web
+# Businessitter — site web
 
-Site vitrine immersif de **Businessister** (conseil, intégration et développement de solutions
+Site vitrine immersif de **Businessitter** (conseil, intégration et développement de solutions
 d'intelligence artificielle pour les entreprises), conçu comme une expérience narrative pilotée
 par le défilement, avec un objectif de conversion unique : **la demande d'audit gratuit**.
 
@@ -68,6 +68,7 @@ intérieures utilisent `page-hero`, `section` (une formation différente par sec
 | 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée                  |
 | 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)            |
 | 6   | Réalisation (`#realisation`)          | Une carte compacte : SuperCalendar, déjà utilisé par des professionnels, et un lien discret                 |
+| 6b  | À propos (`#a-propos`)                | Le jeu de mots « sitter », puis le fondateur (texte et portrait)                                            |
 | 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                             |
 | 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                     |
 | 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                               |
@@ -119,7 +120,7 @@ Tous les textes visibles se trouvent dans `src/content/`. Il suffit de modifier 
 ### Logo et matières
 
 - **Logo** : le « B » noir et son étoile au dégradé « aube », vectorisés depuis le fichier
-  fourni : `public/brand/businessister-logo.svg` (fichier autonome) et
+  fourni : `public/brand/businessitter-logo.svg` (fichier autonome) et
   `src/components/ui/logo-paths.ts` (tracés utilisés par le composant `Logo`, les icônes et
   l'image de partage). La lettre étant noire, elle est toujours posée sur une surface claire.
 - **« Liquid glass »** (`src/app/globals.css`) : `glass-light` (verre clair : en-tête flottant,
@@ -141,7 +142,7 @@ qui les **valide côté serveur** puis les transmet par un ou plusieurs canaux :
 | Canal   | Variables                                                | Remarques                                                                                     |
 | ------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | E-mail  | `RESEND_API_KEY`, `AUDIT_EMAIL_TO`, `AUDIT_EMAIL_FROM`   | Via l'API [Resend](https://resend.com). L'expéditeur doit appartenir à un domaine vérifié.    |
-| Webhook | `AUDIT_WEBHOOK_URL`, `AUDIT_WEBHOOK_SECRET` (facultatif) | JSON en POST (Make, Zapier, n8n, CRM…). Signature `X-Businessister-Signature: sha256=<HMAC>`. |
+| Webhook | `AUDIT_WEBHOOK_URL`, `AUDIT_WEBHOOK_SECRET` (facultatif) | JSON en POST (Make, Zapier, n8n, CRM…). Signature `X-Businessitter-Signature: sha256=<HMAC>`. |
 
 Comportement garanti :
 
@@ -161,7 +162,7 @@ Exemple de charge utile reçue par le webhook :
 {
   "type": "audit_request",
   "submittedAt": "31/10/2026 14:05:12",
-  "source": "https://businessister.com/",
+  "source": "https://businessitter.com/",
   "data": {
     "name": "…",
     "company": "…",
@@ -198,12 +199,12 @@ les domaines de Google que dans ce cas.
    (au minimum `NEXT_PUBLIC_SITE_URL` et un canal de réception des demandes), pour les
    environnements _Production_ et _Preview_.
 3. Déployez. Testez le formulaire sur l'URL de prévisualisation.
-4. **Domaine `businessister.com`** : dans **Settings → Domains**, ajoutez `businessister.com`
-   et `www.businessister.com`, choisissez le domaine principal (redirection de l'autre vers
+4. **Domaine `businessitter.com`** : dans **Settings → Domains**, ajoutez `businessitter.com`
+   et `www.businessitter.com`, choisissez le domaine principal (redirection de l'autre vers
    lui), puis créez chez votre registraire les enregistrements DNS indiqués par Vercel —
    généralement un enregistrement `A` pour le domaine racine (`76.76.21.21`) et un `CNAME`
    pour `www` (`cname.vercel-dns.com`). Le certificat HTTPS est émis automatiquement.
-5. Si le domaine principal diffère de `https://businessister.com`, mettez à jour
+5. Si le domaine principal diffère de `https://businessitter.com`, mettez à jour
    `NEXT_PUBLIC_SITE_URL` puis redéployez (les variables publiques sont intégrées au build).
 
 En-têtes de sécurité appliqués (`next.config.ts`) : Content-Security-Policy,
@@ -261,3 +262,8 @@ BreadcrumbList, FAQPage, Service).
 - Icônes Lucide : licence ISC.
 - GSAP : licence standard « no charge » de GreenSock (usage commercial autorisé).
 - Three.js, Lenis, Motion : licence MIT.
+
+### Portrait du fondateur
+
+Déposez la photo dans `public/brand/antonin-silandre.jpg` (format portrait, environ 900 × 1125 px) :
+elle remplace automatiquement le monogramme de la section « À propos » au prochain déploiement.

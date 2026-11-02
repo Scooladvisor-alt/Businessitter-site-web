@@ -37,7 +37,7 @@ function collectAnchors(): BackdropAnchor[] {
 }
 
 /**
- * Arrière-plan WebGL commun à tout le site : le « système » Businessister
+ * Arrière-plan WebGL commun à tout le site : le « système » Businessitter
  * accompagne la lecture de bout en bout, piloté par le défilement (états
  * déclarés par section via `data-backdrop`). Démarré après le premier rendu,
  * jamais chargé en mouvements réduits ou en mode « économie de données » :

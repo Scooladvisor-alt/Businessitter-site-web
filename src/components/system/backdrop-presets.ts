@@ -166,6 +166,9 @@ export const PRESETS: Record<string, Preset> = {
   /** La réalisation : un treillis net, un objet construit. */
   realisation: formation({ shape: "lattice", opacity: 0.62, energy: 0.5, dolly: [0.05, 0.15] }),
 
+  /** À propos : des rubans calmes, une présence humaine. */
+  apropos: formation({ shape: "streams", opacity: 0.55, energy: 0.45, dolly: [0.05, 0.2] }),
+
   /** La confiance : des couches concentriques autour d'un cœur. */
   confiance: formation({
     shape: "shells",

@@ -12,7 +12,7 @@ export function Footer() {
       <div className="container-x relative flex flex-col items-center pb-12 pt-10 text-center md:pb-14 md:pt-16">
         <Link
           href="/"
-          aria-label="Businessister — Accueil"
+          aria-label="Businessitter — Accueil"
           className="glass-light inline-flex rounded-full px-6 py-3.5"
         >
           <Logo idSuffix="footer" className="h-9" />

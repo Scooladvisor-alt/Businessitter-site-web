@@ -19,7 +19,7 @@ type LogoMarkProps = {
 };
 
 /**
- * Logo Businessister : un « B » noir, et l'étoile au dégradé « aube » qui
+ * Logo Businessitter : un « B » noir, et l'étoile au dégradé « aube » qui
  * fait le lien avec toute la direction artistique. La lettre suit la
  * couleur du texte (noir par défaut, à poser sur un fond clair).
  */

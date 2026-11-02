@@ -1,5 +1,5 @@
 /**
- * Données du « système » Businessister — générées de façon déterministe
+ * Données du « système » Businessitter — générées de façon déterministe
  * (même graine → même structure côté serveur et navigateur).
  *
  * Deux états pour chaque nœud :

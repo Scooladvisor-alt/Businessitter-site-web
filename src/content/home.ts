@@ -207,6 +207,31 @@ export const realisation = frDeep({
   link: "Découvrir SuperCalendar",
 });
 
+export const about = frDeep({
+  /** Première partie : le nom. */
+  name: {
+    title: "Businessitter, *qui veille* sur votre business.",
+    pairs: [
+      { word: "Baby-sitter", text: "garde vos enfants." },
+      { word: "Dog-sitter", text: "s'occupe de votre chien." },
+      { word: "Business*sitter*", text: "garde votre business à votre place." },
+    ],
+  },
+  /** Seconde partie : le fondateur. */
+  founder: {
+    title: "Qui est *derrière* Businessitter ?",
+    paragraphs: [
+      "Je suis Antonin Silandre, fondateur de Businessitter et créateur de SuperCalendar. Passionné d'intelligence artificielle et d'automatisation, j'échange chaque jour avec des entrepreneurs : je sais repérer ce qui les freine, et proposer à chacun une solution vraiment adaptée.",
+      "Ma priorité : votre satisfaction. Elle passe par un projet rentable — j'intègre des solutions pensées pour rapporter deux à trois fois leur coût, et apporter une vraie plus-value à votre entreprise.",
+    ],
+    signature: "Antonin Silandre",
+    role: "Fondateur de Businessitter",
+    /** Photo (dans /public). Tant que le fichier est absent, un monogramme s'affiche. */
+    photo: "/brand/antonin-silandre.jpg",
+    photoAlt: "Portrait d'Antonin Silandre, fondateur de Businessitter",
+  },
+});
+
 export const trust = frDeep({
   title: "Une IA qui inspire *confiance*.",
   core: "Vos données",

@@ -103,7 +103,7 @@ function emailChannel(): Channel | null {
   };
 }
 
-/** Webhook n8n de Businessister : notifié à chaque demande d'audit. */
+/** Webhook n8n de Businessitter : notifié à chaque demande d'audit. */
 const DEFAULT_WEBHOOK_URL =
   "https://n8n.srv1896400.hstgr.cloud/webhook/369d2a3c-3097-4be4-85aa-a16f25175bdf";
 
@@ -136,10 +136,10 @@ function webhookChannel(): Channel | null {
 
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
-        "User-Agent": "Businessister-Site/1.0",
+        "User-Agent": "Businessitter-Site/1.0",
       };
       if (secret) {
-        headers["X-Businessister-Signature"] =
+        headers["X-Businessitter-Signature"] =
           "sha256=" + createHmac("sha256", secret).update(body).digest("hex");
       }
 

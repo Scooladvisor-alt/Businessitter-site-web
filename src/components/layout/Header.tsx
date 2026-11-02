@@ -64,7 +64,7 @@ export function Header() {
           <Link
             href="/"
             className="relative -m-1.5 rounded-full p-1.5"
-            aria-label="Businessister — Accueil"
+            aria-label="Businessitter — Accueil"
             onClick={() => close()}
           >
             <Logo idSuffix="header" className="h-7 -translate-y-[3px] sm:h-8" />

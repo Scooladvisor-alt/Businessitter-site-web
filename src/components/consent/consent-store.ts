@@ -12,7 +12,7 @@ export type ConsentChoice = {
   version: 1;
 };
 
-const STORAGE_KEY = "businessister:consent";
+const STORAGE_KEY = "businessitter:consent";
 const MAX_AGE_MS = 1000 * 60 * 60 * 24 * 182;
 
 type Listener = () => void;

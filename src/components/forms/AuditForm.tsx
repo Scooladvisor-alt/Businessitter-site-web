@@ -39,7 +39,7 @@ const copy = {
   },
   draftAdded: fr("Votre besoin a été ajouté à votre message."),
   consent: fr(
-    "J'accepte que Businessister utilise ces informations pour répondre à ma demande d'audit. Elles ne sont utilisées pour aucune autre finalité.",
+    "J'accepte que Businessitter utilise ces informations pour répondre à ma demande d'audit. Elles ne sont utilisées pour aucune autre finalité.",
   ),
   privacy: fr("Consulter la politique de confidentialité"),
   submit: fr("Demander mon audit gratuit"),

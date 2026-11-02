@@ -5,7 +5,7 @@
  * Persistance : sessionStorage (durée de l'onglet uniquement).
  */
 
-const STORAGE_KEY = "businessister:audit-draft";
+const STORAGE_KEY = "businessitter:audit-draft";
 
 type Listener = (value: string) => void;
 

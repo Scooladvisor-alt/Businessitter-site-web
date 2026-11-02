@@ -7,7 +7,7 @@ import { RichText } from "@/components/ui/RichText";
 
 /**
  * Séquence 6 — Réalisation. Une preuve concrète, en une seule carte :
- * SuperCalendar, conçu par Businessister et déjà utilisé sur le terrain.
+ * SuperCalendar, conçu par Businessitter et déjà utilisé sur le terrain.
  */
 export function SuperCalendarSection() {
   return (

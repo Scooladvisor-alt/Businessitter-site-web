@@ -10,7 +10,7 @@ import { LegalPage, LegalSection } from "@/components/pages/Legal";
 export const metadata: Metadata = pageMetadata({
   title: fr("Gestion des cookies"),
   description: fr(
-    "Les cookies et traceurs utilisés sur businessister.com, et la manière de gérer vos préférences.",
+    "Les cookies et traceurs utilisés sur businessitter.com, et la manière de gérer vos préférences.",
   ),
   path: "/cookies",
 });
@@ -52,7 +52,7 @@ export default function CookiesPage() {
             </thead>
             <tbody>
               <tr>
-                <td>businessister:audit-draft</td>
+                <td>businessitter:audit-draft</td>
                 <td>
                   {fr(
                     "Conserver le besoin saisi dans « Et vous, qu'aimeriez-vous automatiser ? » pour pré-remplir le formulaire (stockage de session, indispensable).",
@@ -63,7 +63,7 @@ export default function CookiesPage() {
               {analyticsId ? (
                 <>
                   <tr>
-                    <td>businessister:consent</td>
+                    <td>businessitter:consent</td>
                     <td>
                       {fr(
                         "Mémoriser votre choix concernant la mesure d'audience (stockage local, indispensable).",
