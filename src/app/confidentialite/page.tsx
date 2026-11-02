@@ -109,6 +109,12 @@ export default function PrivacyPage() {
                 ", notamment la protection contre les envois abusifs : intérêt légitime (article 6, paragraphe 1, f du RGPD).",
               )}
             </li>
+            <li>
+              <strong>{fr("Mesurer la fréquentation du site de façon anonyme")}</strong>
+              {fr(
+                " (Vercel Web Analytics : pages vues, page de provenance, type d'appareil et pays, sans cookie ni identifiant persistant) : intérêt légitime à améliorer le site (article 6, paragraphe 1, f du RGPD).",
+              )}
+            </li>
             {analyticsId ? (
               <li>
                 <strong>{fr("Mesurer l'audience du site")}</strong>
@@ -132,7 +138,11 @@ export default function PrivacyPage() {
             )}
           </p>
           <ul>
-            <li>{fr(`${info.host.name}, pour l'hébergement du site ;`)}</li>
+            <li>
+              {fr(
+                `${info.host.name}, pour l'hébergement du site et la mesure anonyme de fréquentation (Vercel Web Analytics) ;`,
+              )}
+            </li>
             <li>
               {fr(
                 "le service de messagerie ou d'automatisation utilisé pour acheminer les demandes envoyées depuis le formulaire (par exemple Resend pour l'envoi d'e-mails) ;",

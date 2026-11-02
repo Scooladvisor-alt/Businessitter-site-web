@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ConsentManager } from "@/components/consent/ConsentManager";
 import { SystemBackdrop } from "@/components/system/SystemBackdrop";
+import { Analytics } from "@vercel/analytics/next";
 import { motionBootScript } from "@/lib/reveal";
 import "./globals.css";
 
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <ConsentManager />
         </Providers>
         <div className="grain" aria-hidden="true" />
+        <Analytics />
       </body>
     </html>
   );

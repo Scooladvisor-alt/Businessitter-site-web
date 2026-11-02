@@ -14,6 +14,9 @@ const scriptSrc = [
   "'self'",
   "'unsafe-inline'",
   isDev ? "'unsafe-eval'" : "",
+  // Vercel Web Analytics : servi par le site lui-même en production
+  // (/_vercel/insights/script.js) ; script de débogage externe en développement.
+  isDev ? "https://va.vercel-scripts.com" : "",
   analyticsEnabled ? "https://www.googletagmanager.com" : "",
   isPreview ? "https://vercel.live" : "",
 ];

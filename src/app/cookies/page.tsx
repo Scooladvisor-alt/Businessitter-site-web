@@ -32,13 +32,13 @@ export default function CookiesPage() {
           {analyticsId ? (
             <p>
               {fr(
-                "Ce site n'utilise aucun traceur publicitaire. Un outil de mesure d'audience peut être activé, uniquement si vous l'acceptez : rien n'est déposé avant votre choix.",
+                "Ce site n'utilise aucun traceur publicitaire. Une mesure d'audience anonyme (Vercel Web Analytics) fonctionne sans cookie. Un second outil de mesure d'audience peut être activé, uniquement si vous l'acceptez : rien n'est déposé avant votre choix.",
               )}
             </p>
           ) : (
             <p>
               {fr(
-                "Ce site n'utilise aucun cookie publicitaire ni aucun traceur de mesure d'audience. C'est pourquoi aucun bandeau de consentement ne vous est présenté.",
+                "Ce site n'utilise aucun cookie, publicitaire ou de mesure d'audience. Le nombre de visites est mesuré de façon anonyme par Vercel Web Analytics, sans cookie ni identifiant conservé d'un jour à l'autre, et sans recoupement avec d'autres sites. C'est pourquoi aucun bandeau de consentement ne vous est présenté.",
               )}
             </p>
           )}
