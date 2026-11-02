@@ -68,7 +68,6 @@ intérieures utilisent `page-hero`, `section` (une formation différente par sec
 | 4   | Notre approche (`#approche`)          | Quatre étapes reliées par une ligne lumineuse, chacune avec une petite illustration animée                  |
 | 5   | La transformation (`#transformation`) | Une semaine type : les tâches répétitives se réduisent, le temps utile s'élargit (sans chiffres)            |
 | 6   | Réalisation (`#realisation`)          | Une carte compacte : SuperCalendar, déjà utilisé par des professionnels, et un lien discret                 |
-| 6b  | À propos (`#a-propos`)                | Le jeu de mots « sitter », puis le fondateur (texte et portrait)                                            |
 | 7   | Confiance (`#confiance`)              | Infrastructure en couches (accès, traitements, validation humaine, supervision)                             |
 | 8   | Vision (`#vision`)                    | Le système de l'ouverture réapparaît, organisé ; texte révélé mot à mot                                     |
 | 9   | Audit gratuit (`#audit`)              | Formulaire de demande d'audit                                                                               |
@@ -266,4 +265,4 @@ BreadcrumbList, FAQPage, Service).
 ### Portrait du fondateur
 
 Déposez la photo dans `public/brand/antonin-silandre.jpg` (format portrait, environ 900 × 1125 px) :
-elle remplace automatiquement le monogramme de la section « À propos » au prochain déploiement.
+elle remplace automatiquement le monogramme de la page « À propos » (/a-propos) au prochain déploiement.

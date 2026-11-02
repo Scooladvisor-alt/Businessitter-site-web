@@ -8,7 +8,6 @@ import { ApproachSection } from "@/components/home/ApproachSection";
 import { TransformationSection } from "@/components/home/TransformationSection";
 import { SuperCalendarSection } from "@/components/home/SuperCalendarSection";
 import { TrustSection } from "@/components/home/TrustSection";
-import { AboutSection } from "@/components/home/AboutSection";
 import { VisionSection } from "@/components/home/VisionSection";
 import { AuditSection } from "@/components/home/AuditSection";
 import { ChapterNav } from "@/components/layout/ChapterNav";
@@ -39,7 +38,6 @@ export default function HomePage() {
       <Suspense>
         <SuperCalendarSection />
       </Suspense>
-      <AboutSection />
       <Suspense>
         <TrustSection />
       </Suspense>

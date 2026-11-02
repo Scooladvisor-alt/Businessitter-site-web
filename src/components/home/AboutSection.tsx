@@ -20,13 +20,14 @@ export function AboutSection() {
       id="a-propos"
       data-backdrop="apropos"
       aria-labelledby="a-propos-title"
-      className="relative py-24 md:py-36"
+      className="relative pb-16 pt-[calc(var(--header-height)+4rem)] md:pb-24 md:pt-[calc(var(--header-height)+6rem)]"
     >
       <div className="container-x">
         {/* 1. Le nom */}
         <header className="mx-auto max-w-6xl text-center">
           <SplitHeading
             id="a-propos-title"
+            as="h1"
             text={name.title}
             className="text-headline font-medium text-ivory"
           />

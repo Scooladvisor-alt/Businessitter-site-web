@@ -42,7 +42,7 @@ export const mainNav: readonly NavItem[] = frDeep([
   { label: "Notre approche", href: "/approche" },
   { label: "Solutions", href: "/solutions" },
   { label: "Réalisation", href: "/#realisation" },
-  { label: "À propos", href: "/#a-propos" },
+  { label: "À propos", href: "/a-propos" },
   { label: "Contact", href: "/contact" },
 ]);
 
@@ -58,7 +58,7 @@ export const footerNav: readonly NavItem[] = frDeep([
   { label: "Notre approche", href: "/approche" },
   { label: "Solutions", href: "/solutions" },
   { label: "Réalisation", href: "/#realisation" },
-  { label: "À propos", href: "/#a-propos" },
+  { label: "À propos", href: "/a-propos" },
   { label: "Contact", href: "/contact" },
 ]);
 
@@ -76,7 +76,6 @@ export const chapters = frDeep([
   { id: "approche", label: "Notre approche" },
   { id: "transformation", label: "La transformation" },
   { id: "realisation", label: "Réalisation" },
-  { id: "a-propos", label: "À propos" },
   { id: "confiance", label: "Confiance" },
   { id: "vision", label: "Vision" },
   { id: "audit", label: "Audit gratuit" },
