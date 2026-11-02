@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cn } from "@/lib/cn";
 import { Check, ChevronDown } from "lucide-react";
 import { approachPage } from "@/content/pages";
 import { cta } from "@/content/site";
@@ -118,26 +119,34 @@ export default function ApproachPage() {
       >
         <div className="container-x">
           <SplitHeading id="rapport-title" text={page.reportTitle} className={sectionTitle} />
-          <Reveal as="ul" stagger={0.07} className="mx-auto mt-12 max-w-2xl space-y-3">
-            {page.reportItems.map((item) => (
-              <li
-                key={item}
-                className="flex items-start gap-3 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4"
-              >
-                <Check
-                  className="mt-0.5 size-4 shrink-0 text-aqua"
-                  strokeWidth={2.2}
-                  aria-hidden="true"
-                />
-                <span className="text-ivory/90">{item}</span>
-              </li>
-            ))}
-          </Reveal>
           <Reveal
-            as="p"
-            className="mx-auto mt-6 max-w-2xl text-center text-[0.95rem] text-lilac/90"
+            className="surface-raised mx-auto mt-12 max-w-4xl rounded-[var(--radius-stage)] p-3 sm:p-4"
+            y={40}
           >
-            {page.estimateNote}
+            <ol className="grid gap-3 sm:grid-cols-2">
+              {page.reportItems.map((item, index) => (
+                <li
+                  key={item}
+                  className={cn(
+                    "flex items-start gap-4 rounded-[1.4rem] bg-ink-950/70 p-5 shadow-[inset_0_1px_0_rgb(255_255_255/0.06)]",
+                    index === page.reportItems.length - 1 && "sm:col-span-2",
+                  )}
+                >
+                  <span className="btn-aube flex size-9 shrink-0 items-center justify-center rounded-full text-[0.9rem] font-semibold tabular-nums text-ink-950">
+                    {index + 1}
+                  </span>
+                  <span className="pt-1.5 text-[1.02rem] leading-relaxed text-ivory">{item}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-3 flex items-start gap-3 rounded-[1.4rem] bg-lilac/[0.09] px-5 py-4 text-[0.95rem] leading-relaxed text-ivory/90 shadow-[inset_0_0_0_1px_rgb(186_181_242/0.22)]">
+              <Check
+                className="mt-1 size-4 shrink-0 text-lilac"
+                strokeWidth={2.2}
+                aria-hidden="true"
+              />
+              {page.estimateNote}
+            </p>
           </Reveal>
         </div>
       </section>
@@ -154,7 +163,7 @@ export default function ApproachPage() {
             {page.faq.map((item) => (
               <details
                 key={item.question}
-                className="surface group mb-3 rounded-[1.4rem] px-5 py-1 sm:px-6"
+                className="surface-raised group mb-3 rounded-[1.4rem] px-5 py-1 sm:px-6"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 rounded-lg py-4 text-[1.08rem] font-medium tracking-[-0.01em] text-ivory [&::-webkit-details-marker]:hidden">
                   {item.question}

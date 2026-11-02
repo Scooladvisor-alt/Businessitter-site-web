@@ -221,8 +221,8 @@ export const about = frDeep({
   founder: {
     title: "Qui est *derrière* Businessitter ?",
     paragraphs: [
-      "Je suis Antonin Silandre, fondateur de Businessitter et créateur de SuperCalendar. Passionné d'intelligence artificielle et d'automatisation, j'échange chaque jour avec des entrepreneurs : je sais repérer ce qui les freine, et proposer à chacun une solution vraiment adaptée.",
-      "Ma priorité : votre satisfaction. Elle passe par un projet rentable — j'intègre des solutions pensées pour rapporter deux à trois fois leur coût, et apporter une vraie plus-value à votre entreprise.",
+      "Je suis Antonin Silandre, fondateur de Businessitter et créateur de SuperCalendar. Spécialisé en intelligence artificielle et en automatisation, j'accompagne au quotidien des dirigeants d'entreprise. Mon rôle consiste à identifier précisément ce qui freine leur activité, puis à y répondre par des solutions adaptées à leur réalité.",
+      "La satisfaction de mes clients est ma priorité. Elle repose sur un principe simple : chaque solution doit être rentable. Je ne propose que des projets conçus pour rapporter deux à trois fois leur coût, afin d'apporter une réelle valeur ajoutée à votre entreprise.",
     ],
     signature: "Antonin Silandre",
     role: "Fondateur de Businessitter",
