@@ -9,20 +9,11 @@ import { frDeep } from "@/lib/typography";
 
 export type SceneKey = "phone" | "mail" | "docs" | "ops" | "journey" | "custom";
 export type TaskIcon =
-  | "phone"
-  | "mail"
-  | "file"
-  | "copy"
-  | "calendar"
-  | "bell"
-  | "voicemail"
-  | "receipt"
-  | "user"
-  | "cart";
+  "phone" | "mail" | "file" | "copy" | "calendar" | "bell" | "voicemail" | "receipt" | "user";
 export type TaskStatus = "auto" | "review";
 
 export const hero = frDeep({
-  titleLines: ["Intégrez l'IA dans votre entreprise.", "Faites *plus avec moins*."],
+  titleLines: ["Professionnels de terrain, intégrez l'IA.", "Faites *plus avec moins*."],
 });
 
 export const problem = frDeep({
@@ -44,7 +35,7 @@ export const problem = frDeep({
     { icon: "voicemail", label: "Nouveau message vocal" },
     { icon: "receipt", label: "Facture à envoyer" },
     { icon: "user", label: "Fiche client à compléter" },
-    { icon: "cart", label: "Commande à confirmer" },
+    { icon: "file", label: "Compte rendu d'intervention" },
     { icon: "mail", label: "Pièce jointe manquante" },
     { icon: "calendar", label: "Planning à refaire" },
   ] as { icon: TaskIcon; label: string }[],
@@ -80,13 +71,13 @@ export const possibilities = frDeep({
       "La prise de rendez-vous",
       "Les réponses aux demandes clients",
       "Les relances de devis",
-      "La création de documents",
+      "Les comptes rendus d'intervention",
     ],
     submit: "Ajouter à ma demande d'audit",
     empty: "Décrivez d'abord une tâche, ou choisissez un exemple.",
     success: "C'est noté : votre besoin a été ajouté à votre demande d'audit.",
   },
-  conclusion: "Votre entreprise est unique.\nVotre solution *aussi*.",
+  conclusion: "Votre métier est unique.\nVotre solution *aussi*.",
 });
 
 export const scenes = frDeep({
@@ -179,7 +170,7 @@ export const approach = frDeep({
 });
 
 export const transformation = frDeep({
-  title: "Moins de tâches manuelles.\n*Plus de temps.*",
+  title: "Moins d'administratif.\n*Plus de terrain.*",
   days: ["Lun", "Mar", "Mer", "Jeu", "Ven"],
   labels: {
     mail: "E-mails",
@@ -221,7 +212,7 @@ export const about = frDeep({
   founder: {
     title: "Qui est *derrière* Businessitter ?",
     paragraphs: [
-      "Je suis Antonin Silandre, fondateur de Businessitter et créateur de SuperCalendar. Spécialisé en intelligence artificielle et en automatisation, j'accompagne au quotidien des dirigeants d'entreprise. Mon rôle consiste à identifier précisément ce qui freine leur activité, puis à y répondre par des solutions adaptées à leur réalité.",
+      "Je suis Antonin Silandre, fondateur de Businessitter et créateur de SuperCalendar. Spécialisé en intelligence artificielle et en automatisation, j'accompagne au quotidien des artisans et des dirigeants de petites entreprises. Mon rôle consiste à identifier précisément ce qui freine leur activité, puis à y répondre par des solutions adaptées à leur réalité.",
       "La satisfaction de mes clients est ma priorité. Elle repose sur un principe simple : chaque solution doit être rentable. Je ne propose que des projets conçus pour rapporter deux à trois fois leur coût, afin d'apporter une réelle valeur ajoutée à votre entreprise.",
     ],
     signature: "Antonin Silandre",

@@ -17,15 +17,13 @@ export const site = {
   url: normalizeUrl(process.env.NEXT_PUBLIC_SITE_URL),
   locale: "fr_FR",
   language: "fr-FR",
-  title: fr(
-    "Businessitter — Intégration d'intelligence artificielle sur mesure pour les entreprises",
-  ),
+  title: fr("Businessitter — L'IA pour les artisans et les professionnels de terrain"),
   description: fr(
-    "Businessitter imagine, développe et intègre des solutions d'intelligence artificielle sur mesure : agents IA, agents téléphoniques, automatisation des processus et outils métiers. Audit gratuit et sans engagement.",
+    "Businessitter intègre l'intelligence artificielle et l'automatisation chez les artisans, les entreprises de services et les géomètres-experts : appels, devis, relances, rendez-vous et outils métiers sur mesure. Audit gratuit et sans engagement.",
   ),
-  tagline: fr("L'intelligence artificielle doit s'adapter à votre entreprise. Pas l'inverse."),
+  tagline: fr("L'intelligence artificielle doit s'adapter à votre métier. Pas l'inverse."),
   /** Version affichée en pied de page (segment mis en valeur entre astérisques). */
-  footerTagline: fr("L'IA doit s'adapter à votre entreprise. *Pas l'inverse.*"),
+  footerTagline: fr("L'IA doit s'adapter à votre métier. *Pas l'inverse.*"),
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "antonin.silandre@businessitter.com",
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null,

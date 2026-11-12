@@ -44,6 +44,7 @@ export function organizationJsonLd(): JsonLdObject {
     knowsAbout: [
       "Intelligence artificielle",
       "Intégration de l'IA en entreprise",
+      "IA pour les artisans et les métiers de terrain",
       "Agents IA",
       "Agents conversationnels et téléphoniques",
       "Automatisation des processus métiers",

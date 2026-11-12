@@ -41,6 +41,20 @@ Le site est alors disponible sur http://localhost:3000.
 
 ---
 
+## Positionnement
+
+Businessitter s'adresse d'abord aux **professionnels de terrain** : artisans, entreprises de
+services (entretien, dépannage, nettoyage…) et géomètres-experts. Ce ciblage est porté par les
+textes, pas par la structure du site :
+
+- titre d'accueil, titres « métier » et signature : `src/content/home.ts`, `src/content/site.ts` ;
+- bloc « Pour quels métiers ? » et FAQ : `src/content/pages.ts` (la dernière carte et la dernière
+  question laissent la porte ouverte aux autres activités) ;
+- secteurs proposés dans le formulaire : `src/lib/audit.ts`.
+
+Pour viser un autre métier, il suffit d'adapter ces textes ; aucun client ni résultat n'est
+revendiqué en dehors de SuperCalendar.
+
 ## Parcours de la page d'accueil
 
 La page d'accueil raconte une transformation en neuf séquences :

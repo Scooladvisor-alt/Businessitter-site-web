@@ -108,7 +108,12 @@ export const approachPage = frDeep({
     {
       question: "Mon entreprise est-elle trop petite pour ce type de démarche ?",
       answer:
-        "Non. Notre démarche s'adresse aussi bien aux artisans et aux PME qu'aux structures plus importantes. Ce qui compte, c'est l'intérêt concret d'une solution pour votre activité.",
+        "Non. Notre démarche est pensée d'abord pour les artisans, les indépendants et les petites entreprises de terrain. Ce qui compte, c'est l'intérêt concret d'une solution pour votre activité.",
+    },
+    {
+      question: "Mon activité n'est pas un métier de terrain. Pouvez-vous m'aider ?",
+      answer:
+        "Oui. Les métiers de terrain sont notre spécialité, mais l'audit gratuit est ouvert à toute entreprise : il permet de vérifier si une solution est pertinente pour vous.",
     },
   ],
   cta: {
@@ -119,11 +124,11 @@ export const approachPage = frDeep({
 
 export const solutionsPage = frDeep({
   meta: {
-    title: "Solutions d'intelligence artificielle pour les entreprises",
+    title: "Solutions d'IA pour les artisans et les professionnels de terrain",
     description:
-      "Agents IA, agents téléphoniques et conversationnels, automatisation des processus, intégration de l'IA à vos logiciels et outils sur mesure : les domaines d'intervention de Businessitter.",
+      "Accueil téléphonique, devis, relances, rendez-vous, automatisation et outils sur mesure : les solutions d'IA de Businessitter pour les artisans, les entreprises de services et les géomètres-experts.",
   },
-  title: "Des solutions d'IA *sur mesure*.",
+  title: "Des solutions d'IA pour les *métiers de terrain*.",
   domainsTitle: "Nos domaines d'*intervention*",
   examplesLabel: "Exemples d'applications",
   domains: [
@@ -198,23 +203,23 @@ export const solutionsPage = frDeep({
     title: "SuperCalendar, notre logiciel déjà adopté par des *ramoneurs*.",
     link: "Découvrir SuperCalendar",
   },
-  audienceTitle: "Pour quelles *entreprises* ?",
+  audienceTitle: "Pour quels *métiers* ?",
   audiences: [
     {
-      title: "Artisans et TPE",
-      text: "Moins de temps au téléphone et dans l'administratif, plus de temps sur le terrain.",
+      title: "Artisans",
+      text: "Appels, devis et relances pris en charge pendant que vous êtes en intervention.",
     },
     {
-      title: "PME",
-      text: "Des processus plus fluides entre vos équipes, vos outils et vos clients.",
+      title: "Entreprises de services",
+      text: "Entretien, dépannage, nettoyage : plannings, rappels et suivis clients automatisés.",
     },
     {
-      title: "Professions libérales",
-      text: "Une organisation allégée pour vous concentrer sur votre expertise.",
+      title: "Géomètres-experts",
+      text: "Devis, suivi des dossiers, rendez-vous : moins d'administratif entre le terrain et le bureau.",
     },
     {
-      title: "Entreprises plus importantes",
-      text: "Des projets ciblés, intégrés à votre système d'information et à vos contraintes.",
+      title: "Une autre activité ?",
+      text: "L'audit gratuit permet de voir ce qui est possible pour vous.",
     },
   ],
   criteriaTitle: "Comment nous choisissons la *bonne solution*",

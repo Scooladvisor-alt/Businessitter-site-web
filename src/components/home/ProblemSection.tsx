@@ -10,7 +10,6 @@ import {
   Mail,
   PhoneMissed,
   Receipt,
-  ShoppingBag,
   UserCheck,
   UserRound,
   Voicemail,
@@ -32,7 +31,6 @@ const ICONS: Record<TaskIcon, LucideIcon> = {
   voicemail: Voicemail,
   receipt: Receipt,
   user: UserRound,
-  cart: ShoppingBag,
 };
 
 type Row = {

@@ -68,7 +68,7 @@ export default function ContactPage() {
           </Reveal>
 
           {email || phone ? (
-            <Reveal className="mx-auto mt-14 max-w-md rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.02] p-6 text-center">
+            <Reveal className="surface-raised mx-auto mt-14 max-w-md rounded-[var(--radius-panel)] p-6 text-center">
               <h2 className="text-[1.1rem] font-medium text-ivory">{page.directTitle}</h2>
               <ul className="mt-5 space-y-3">
                 {email ? (

@@ -156,7 +156,7 @@ export default function SolutionsPage() {
             {page.audiences.map((audience) => (
               <li
                 key={audience.title}
-                className="rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.02] p-6 text-center"
+                className="surface-raised rounded-[var(--radius-panel)] p-6 text-center"
               >
                 <h3 className="text-[1.15rem] font-medium tracking-[-0.02em] text-ivory">
                   {audience.title}

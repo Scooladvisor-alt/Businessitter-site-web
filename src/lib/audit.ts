@@ -7,11 +7,13 @@ import { fr } from "./typography";
 
 export const SECTORS = [
   "Artisanat et bâtiment",
-  "Commerce et distribution",
+  "Entretien, dépannage et services à domicile",
+  "Géomètre-expert et topographie",
   "Services aux entreprises",
+  "Commerce et distribution",
   "Professions libérales",
-  "Santé et bien-être",
   "Immobilier",
+  "Santé et bien-être",
   "Industrie et production",
   "Transport et logistique",
   "Hôtellerie et restauration",
