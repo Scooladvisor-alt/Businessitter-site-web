@@ -17,7 +17,7 @@ export const site = {
   url: normalizeUrl(process.env.NEXT_PUBLIC_SITE_URL),
   locale: "fr_FR",
   language: "fr-FR",
-  title: fr("Businessitter — L'IA pour les artisans et les professionnels de terrain"),
+  title: fr("Businessitter — L'IA pour les artisans et les professionnels du terrain"),
   description: fr(
     "Businessitter intègre l'intelligence artificielle et l'automatisation chez les artisans, les entreprises de services et les géomètres-experts : appels, devis, relances, rendez-vous et outils métiers sur mesure. Audit gratuit et sans engagement.",
   ),

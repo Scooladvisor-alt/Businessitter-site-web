@@ -43,7 +43,7 @@ Le site est alors disponible sur http://localhost:3000.
 
 ## Positionnement
 
-Businessitter s'adresse d'abord aux **professionnels de terrain** : artisans, entreprises de
+Businessitter s'adresse d'abord aux **professionnels du terrain** : artisans, entreprises de
 services (entretien, dépannage, nettoyage…) et géomètres-experts. Ce ciblage est porté par les
 textes, pas par la structure du site :
 

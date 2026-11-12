@@ -5,7 +5,7 @@ import { posterSvg } from "@/components/system/poster-geometry";
 import { wordmarkSvg } from "@/components/ui/logo-paths";
 import { fr } from "@/lib/typography";
 
-export const alt = fr("Businessitter — L'IA pour les artisans et les professionnels de terrain");
+export const alt = fr("Businessitter — L'IA pour les artisans et les professionnels du terrain");
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -72,7 +72,7 @@ export default function OpengraphImage() {
               letterSpacing: "-0.045em",
             }}
           >
-            <span>{fr("Professionnels de terrain, intégrez l'IA.")}</span>
+            <span>{fr("Professionnels du terrain, intégrez l'IA.")}</span>
             <div style={{ display: "flex", alignItems: "baseline" }}>
               <span>Faites</span>
               <span

@@ -108,12 +108,12 @@ export const approachPage = frDeep({
     {
       question: "Mon entreprise est-elle trop petite pour ce type de démarche ?",
       answer:
-        "Non. Notre démarche est pensée d'abord pour les artisans, les indépendants et les petites entreprises de terrain. Ce qui compte, c'est l'intérêt concret d'une solution pour votre activité.",
+        "Non. Notre démarche est pensée d'abord pour les artisans, les indépendants et les petites entreprises du terrain. Ce qui compte, c'est l'intérêt concret d'une solution pour votre activité.",
     },
     {
-      question: "Mon activité n'est pas un métier de terrain. Pouvez-vous m'aider ?",
+      question: "Mon activité n'est pas un métier du terrain. Pouvez-vous m'aider ?",
       answer:
-        "Oui. Les métiers de terrain sont notre spécialité, mais l'audit gratuit est ouvert à toute entreprise : il permet de vérifier si une solution est pertinente pour vous.",
+        "Oui. Les métiers du terrain sont notre spécialité, mais l'audit gratuit est ouvert à toute entreprise : il permet de vérifier si une solution est pertinente pour vous.",
     },
   ],
   cta: {
@@ -124,11 +124,11 @@ export const approachPage = frDeep({
 
 export const solutionsPage = frDeep({
   meta: {
-    title: "Solutions d'IA pour les artisans et les professionnels de terrain",
+    title: "Solutions d'IA pour les artisans et les professionnels du terrain",
     description:
       "Accueil téléphonique, devis, relances, rendez-vous, automatisation et outils sur mesure : les solutions d'IA de Businessitter pour les artisans, les entreprises de services et les géomètres-experts.",
   },
-  title: "Des solutions d'IA pour les *métiers de terrain*.",
+  title: "Des solutions d'IA pour les *métiers du terrain*.",
   domainsTitle: "Nos domaines d'*intervention*",
   examplesLabel: "Exemples d'applications",
   domains: [

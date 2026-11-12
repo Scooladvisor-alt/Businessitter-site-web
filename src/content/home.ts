@@ -13,7 +13,7 @@ export type TaskIcon =
 export type TaskStatus = "auto" | "review";
 
 export const hero = frDeep({
-  titleLines: ["Professionnels de terrain, intégrez l'IA.", "Faites *plus avec moins*."],
+  titleLines: ["Professionnels du terrain, intégrez l'IA.", "Faites *plus avec moins*."],
 });
 
 export const problem = frDeep({
